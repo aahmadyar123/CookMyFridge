@@ -2,17 +2,15 @@ import React from 'react'
 import{useState} from 'react'
 import styled from 'styled-components'
 import {AiOutlineSearch, AiOutlineClose} from 'react-icons/ai'
-import './Searchbar.css'
 
 const SearchContainer = styled.div`
     position: relative;
     width: ${(props) => (props.isSearching ? 360 : 48)}px;
     height: 40px;
     top: 25.06px;
-    background: #f2f2f2;
+    background: #F2F4F8;
     border-radius: ${(props) => (props.isSearching ? 0 : 200)}%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     padding-left: 5px;
     translate: all 0.3s ease;
@@ -40,6 +38,7 @@ const IconButton = styled.button`
     position: relative;
     height: 36px;
     width: 36px;
+    top: 3px;
     border: none;
     z-index: 1;
     cursor: pointer;

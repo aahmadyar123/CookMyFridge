@@ -9,7 +9,7 @@ import {
 } from './NavbarElements';
 
 import Searchbar from './Searchbar';
-import './Nav.css'
+import '../../css/Nav.css'
 
 const Navbar = () => {
   return (
