@@ -2,7 +2,7 @@ import React from 'react'
 import{useState} from 'react'
 import styled from 'styled-components'
 import {AiOutlineSearch} from 'react-icons/ai'
-import "../css/bottomSearch.css"
+import "../../css/bottomSearch.css"
 import {Box, TextField, MenuItem} from '@mui/material';
 
 export const SearchNav = styled.nav`
@@ -48,6 +48,7 @@ const SearchInput = styled.input`
 `;
 
 const IconButton = styled.button`
+    top: 3px;
     position: relative;
     height: 36px;
     width: 36px;
@@ -69,7 +70,7 @@ export const Button = styled.button`
   height: 55px;
   right: 185px;
   top: 5px;
-  border-radius: 4px;
+  border-radius: 8px;
   background: #000;
   color: #fff;
   outline: none;
@@ -109,7 +110,7 @@ export default function BottomSearchbar() {
                 <IconButton > 
                         <AiOutlineSearch size={25}/>
                 </IconButton>
-                <SearchInput/>
+                <SearchInput placeholder="Food Ingredients" size="100px"/>
                 </SearchContainer>
                 <Select id="Select"/>
                 <ButtonBox>

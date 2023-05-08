@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import "../css/home.css";
-import BottomSearchbar from '../components/bottomSearch';
+import BottomSearchbar from '../components/Home/bottomSearch';
+import HomeWidgets from '../components/Home/home_widgets';
 
 const Box = styled.div`
     display: block;
@@ -17,6 +18,7 @@ const Home = () => {
             <img src={require('../images/bread.png')} id="Bread" alt="bread"/>
         </Box>
         <BottomSearchbar id="Search"/>
+        <HomeWidgets> </HomeWidgets>
     </>
         
     );
