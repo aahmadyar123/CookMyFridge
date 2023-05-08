@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre&display=swap');
+
+#logo {
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+
+    position: absolute;
+    width: 10%;
+    height: 10%;
+}
+
+#Search {
+    position: absolute;
+    width: 40.09px;
+    height: 40.09px;
+    left: 1007.26px;
+}
+
+#register {
+    position: relative;
+    height: 40.09px;
+    top: -4px;
+    left: 50px;
+    padding-left: 90px;
+    padding-right: 90px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+} 
+
+#link {
+    font-family: 'Abhaya Libre', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
