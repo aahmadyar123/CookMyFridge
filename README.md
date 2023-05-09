@@ -7,3 +7,8 @@ https://www.figma.com/file/aiMV0RDdwZRwe6ndwtWHBT/CookMyFridge-StoryBoard?node-i
 
 ### URL to Project Board
 https://github.com/users/luisdavidgarcia/projects/1/views/1
+
+### Style Guidelines
+1. Install the `prettier` extension on VS Code
+2. Adhere to these rules for `prettier`: https://blog.yogeshchavan.dev/automatically-format-code-on-file-save-in-visual-studio-code-using-prettier
+3. Then follow the react/javascript rules here: https://airbnb.io/javascript/react/
