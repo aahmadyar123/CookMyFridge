@@ -1,8 +1,9 @@
 import React from 'react'
+import RecipeWidget from '../components/Services/recipe_widget';
 
 const SaveRecipe = () => {
     return (
-        <h1> Save Recipe</h1>
+        <RecipeWidget />
     );
 }
 
