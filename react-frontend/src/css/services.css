@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre&display=swap');
+
+#Recipe {
+    font-family: 'Abhaya Libre', serif;
+    font-style: 'normal';
+    font-weight: 600;;
+    font-size: 24.1px;
+    line-height: 10px;
+}
+
+#Ingredients {
+    font-family: 'Abhaya Libre', serif;
+    font-style: 'normal';
+    font-weight: 600;;
+    font-size: 24.1px;
+    line-height: 10px;
+    padding-left: 100px;
+
+}

@@ -101,8 +101,6 @@ export function Select() {
 }
 
 export default function BottomSearchbar() {
-    const [isActive, setIsActive] = useState(false);
-
     return (
         <>
             <SearchNav>
