@@ -8,5 +8,11 @@ const userServices = require("./models/user-services");
 const app = express();
 const port = 8000;
 
-apps.use(cors());
+app.use(cors());
 app.use(express.json());
+
+
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
