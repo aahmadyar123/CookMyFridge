@@ -8,6 +8,7 @@ import Services from "./pages/services";
 import ContactUs from "./pages/contact_us";
 import SaveRecipe from "./pages/save_recipe";
 import SaveIngredient from "./pages/save_ingredients";
+import LoginForm from "./pages/LoginForm"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/About' element={<About/>} /> 
         <Route path='/Services' element={<Services/>} /> 
         <Route path='/ContactUs' element={<ContactUs/>} /> 
+        <Route path='/Login' element={<LoginForm/>} /> 
         <Route path='/SaveRecipe' element={<> 
                                               <Services />
                                               <SaveRecipe/>

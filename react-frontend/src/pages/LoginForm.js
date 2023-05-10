@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import backgroundImage from './images/bowtiepasta.jpg';
-import logo from './images/Logo.png';
+import backgroundImage from '../images/bowtiepasta.jpg';
+import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import "../css/login.css"
 
 
 const useStyles = makeStyles((theme) => ({
