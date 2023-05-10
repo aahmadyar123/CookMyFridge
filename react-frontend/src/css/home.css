@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre&display=swap');
+
+#Bread {
+    width: 100%;
+    height: 10%;
+    max-height: 300px;
+}
+
+#Recipe {
+    opacity: .9;
+    max-width: 290px;
+    max-height: 365px;
+    z-index: 0;
+}
+
+#Button {
+    font-family: 'Abhaya Libre';
+    font-style: normal;
+    font-weight: 100;
+    font-size: 20px;
+    line-height: 33px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+.Terms {
+    margin-top: auto;
+}
