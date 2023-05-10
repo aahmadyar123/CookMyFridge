@@ -14,18 +14,18 @@ const Navbar = () => {
   return (
     <>
       <Nav>
-        <NavLink to='/Home'>
+        <NavLink to='/'>
           <img src={require('../../images/logo.png')} id='logo' alt="logo" />
         </NavLink>
 
         <NavMenu>
-          <NavLink id="link" to='/Home' activeStyle>
+          <NavLink id="link" to='/' activeStyle>
             Home
           </NavLink>
           <NavLink id="link" to='/About' activeStyle>
             About
           </NavLink>
-          <NavLink id="link" to='/Services' activeStyle>
+          <NavLink id="link" to='/SaveRecipe' activeStyle>
             Services
           </NavLink>
           <NavLink id="link" to='/ContactUs' activeStyle>
