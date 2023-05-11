@@ -16,5 +16,7 @@ https://github.com/users/luisdavidgarcia/projects/1/views/1
 
 ### Frontend (w/ Yarn)
 ```npm install --global yarn```
+
 ```yarn install```
+
 ```export NODE_OPTIONS=--openssl-legacy-provider```
