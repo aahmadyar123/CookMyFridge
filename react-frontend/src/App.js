@@ -11,6 +11,7 @@ import SaveIngredient from "./pages/save_ingredients";
 import LoginForm from "./pages/LoginForm"
 
 function App() {
+      //cool beans
   return (
     <Router> 
       <NavBar />
