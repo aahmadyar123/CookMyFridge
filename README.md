@@ -9,11 +9,13 @@ https://www.figma.com/file/aiMV0RDdwZRwe6ndwtWHBT/CookMyFridge-StoryBoard?node-i
 https://github.com/users/luisdavidgarcia/projects/1/views/1
 
 ### Style Guidelines
-1. Install the `prettier` extension on VS Code
-2. Adhere to these rules for `prettier`: https://blog.yogeshchavan.dev/automatically-format-code-on-file-save-in-visual-studio-code-using-prettier
-3. Then follow the react/javascript rules here: https://airbnb.io/javascript/react/
-
+1. Install the `prettier` extension on VS Code to follow styling for CookMyFridge.
+  -  For how to use `prettier` here is a guid: https://blog.yogeshchavan.dev/automatically-format-code-on-file-save-in-visual-studio-code-using-prettier
+2. For any questions regaring react/javascript rules follow these here: https://airbnb.io/javascript/react/
 
 ### Frontend (w/ Yarn)
 ```npm install --global yarn```
+
 ```yarn install```
+
+```export NODE_OPTIONS=--openssl-legacy-provider```
