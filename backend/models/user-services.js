@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-mongoose.set("debug", DEBUG);
+mongoose.set("debug", process.env.DEBUG);
 
 mongoose
   .connect(
@@ -24,3 +24,6 @@ mongoose
     }
   )
   .catch((error) => console.log(error));
+
+
+console.log("Connected to MongoDB.");

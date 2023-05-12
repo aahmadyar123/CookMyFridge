@@ -16,13 +16,13 @@ const UserSchema = new mongoose.Schema(
       }, // would throw database exception with pword length < 8, needs to be caught in try/catch
     },
     ingredients: [{
-      type: MongoDb.Schema.Types.ObjectId, // array of ingredient ids (references)
+      type: mongoose.Schema.Types.ObjectId, // array of ingredient ids (references)
       ref: "Ingredient",
       required: false,
       trim: true,
     }],
     recipes: [{
-      type: MongoDb.Schema.Types.ObjectId, // array of recipe ids (references)
+      type: mongoose.Schema.Types.ObjectId, // array of recipe ids (references)
       ref: "Recipe",
       required: false,
       trim: true,
