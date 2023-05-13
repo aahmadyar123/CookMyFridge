@@ -46,15 +46,17 @@ export default function RecipeWidgets() {
     return (
     <>
         <WidgetBox>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank" rel="noopener noreferrer">
                 <WidgetContainer>
                     <BlackBox>
-                        <img src={require('../../images/sample.png')} id="Sample" alt="sample"/>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank" rel="noopener noreferrer">
+                            <img src={require('../../images/sample.png')} id="Sample" alt="sample"/>
+                        </a>
                         <TextBox id="Text">Spicy Seafood Noodles</TextBox>
-                        <Rating name="read-only" value={5} size="large" sx={{fontSize: "3rem"}} readOnly />
-                    </BlackBox>
+                        <a href="/rating_form">
+                            <Rating name="read-only" value={5} size="large" sx={{fontSize: "3rem"}} readOnly />
+                        </a>
+                        </BlackBox>
                 </WidgetContainer>
-            </a>
             
             <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank" rel="noopener noreferrer">
                 <WidgetContainer>

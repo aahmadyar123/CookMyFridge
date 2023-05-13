@@ -9,6 +9,7 @@ import ContactUs from "./pages/contact_us";
 import SaveRecipe from "./pages/save_recipe";
 import SaveIngredient from "./pages/save_ingredients";
 import LoginForm from "./pages/LoginForm";
+import ReviewPage from "./pages/rating_form";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             </>
           }
         />
+        <Route path="/rating_form" element={<ReviewPage />} />
       </Routes>
     </Router>
   );
