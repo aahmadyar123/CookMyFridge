@@ -15,11 +15,11 @@ https://github.com/users/luisdavidgarcia/projects/1/views/1
 
 ### Frontend (w/ Yarn)
 1. Use fronted branch
-  ```git checkout frontend```
+  - ```git checkout frontend```
 
-2. If yarn not installed then install it along with dependencies below:
-```npm install --global yarn```
+2. If yarn is not installed then install it along with dependencies, using the commands below:
+  - ```npm install --global yarn```
 
-```yarn install```
+  - ```yarn install```
 
-```export NODE_OPTIONS=--openssl-legacy-provider```
+  - ```export NODE_OPTIONS=--openssl-legacy-provider```
