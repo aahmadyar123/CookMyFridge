@@ -14,6 +14,10 @@ https://github.com/users/luisdavidgarcia/projects/1/views/1
 2. For any questions regaring react/javascript rules follow these here: https://airbnb.io/javascript/react/
 
 ### Frontend (w/ Yarn)
+1. Use fronted branch
+  ```git checkout frontend```
+
+2. If yarn not installed then install it along with dependencies below:
 ```npm install --global yarn```
 
 ```yarn install```
