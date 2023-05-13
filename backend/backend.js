@@ -97,15 +97,13 @@ app.get("/users/:id", async (req, res) => {
 // INGREDIENT ENDPOINTS
 // --------------------------------------------------
 // Get all ingredients endpoint:
-//  [X] get all ingredients from database filtering by name,
-//      type
+//  [X] get all ingredients from database filtering by name
 //  [ ] filter by recipeId (out of scope)
 //  [ ] filter by userId (out of scope)
 app.get("/ingredients", async (req, res) => {
   const name = req.query["name"];
-  const type = req.query["type"];
   try {
-    const result = await ingredientServices.getIngredients(name, type);
+    const result = await ingredientServices.getIngredients(name);
     res.send({ ingredients_list: result }); // can be empty array (no error if nothing found)
   } catch (error) {
     console.log(error);
@@ -152,6 +150,22 @@ app.post("/ingredients", async (req, res) => {
 
 // Update ingredient endpoint:
 
+// Delete ingredient by name:
+app.delete("/ingredients", async (req, res) => {
+  const name = req.query["name"];
+  try {
+    const result = await ingredientServices.deleteIngredientByName(name);
+    if (result) {
+      res.status(204).end();
+    } else {
+      res.status(404).send("Resource not found.");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // Delete ingredient by id endpoint:
 app.delete("/ingredients/:id", async (req, res) => {
   const id = req.params.id;
@@ -171,6 +185,6 @@ app.delete("/ingredients/:id", async (req, res) => {
 
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
-    console.log(`REST API is listening on port: ${process.env.PORT}.`);
-  } else console.log(`REST API is listening on port: ${port}.`);
+    console.log(`REST API is listening on: http://localhost:${process.env.PORT}.`);
+  } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });

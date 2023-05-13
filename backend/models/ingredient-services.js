@@ -29,16 +29,12 @@ mongoose
 
 
 // get Ingredients by name or type or both (type can be NULL)
-async function getIngredients(name, type) {
+async function getIngredients(name) {
     let result;
-    if (name === undefined && type === undefined) {
+    if (name === undefined) {
         result = await ingredientModel.find();
-    } else if (name && !type) {
+    } else if (name) {
         result = await findIngredientByName(name);
-    } else if (!name && type) {
-        result = await findIngredientByType(type);
-    } else if (name && type) {
-        result = await findIngredientByNameType(name, type);
     }
     return result;
 }
@@ -77,6 +73,17 @@ async function deleteIngredientById(id) {
     }
 }
 
+// remove an ingredient by name (boolean  return)
+async function deleteIngredientByName(name) {
+    try {
+        await ingredientModel.findOneAndRemove({name: name});
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 
 
 // --------------------------------------------------
@@ -84,14 +91,6 @@ async function deleteIngredientById(id) {
 // --------------------------------------------------
 async function findIngredientByName(name) {
     return await ingredientModel.find({name: name});
-}
-
-async function findIngredientByType(type) {
-    return await ingredientModel.find({type: type});
-}
-
-async function findIngredientByNameType(name, type) {
-    return await ingredientModel.find({name: name, type: type});
 }
 
 
@@ -103,4 +102,5 @@ module.exports = {
     getIngredientById,
     createIngredient,
     deleteIngredientById,
+    deleteIngredientByName
 };
