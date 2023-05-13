@@ -16,7 +16,8 @@ mongoose
       process.env.MONGO_CLUSTER +
       "/" +
       process.env.MONGO_DB +
-      "?retryWrites=true&w=majority",
+      "?retryWrites=true&w=majority&authSource="+
+        process.env.MONGO_AUTH_DB,
     // "mongodb://localhost:27017/users",
     {
       useNewUrlParser: true, //useFindAndModify: false,
