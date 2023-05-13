@@ -4,6 +4,7 @@ const cors = require("cors");
 
 // Add mongdb user services
 const userServices = require("./models/user-services");
+const ingredientServices = require("./models/ingredient-services");
 
 const app = express();
 const port = 8000;
@@ -56,7 +57,10 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// get user using a specific id
+// --------------------------------------------------
+// USER ENDPOINTS
+// --------------------------------------------------
+// Get User by Id endpoint:
 app.get("/users/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -73,6 +77,100 @@ app.get("/users/:id", async (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+// --------------------------------------------------
+// RECIPE ENDPOINTS
+// --------------------------------------------------
+// Get all recipes endpoint:
+
+// Get recipe by Id endpoint:
+
+// Get recipes by user Id endpoint:
+
+// Create recipe endpoint:
+
+// Update recipe endpoint:
+
+// Delete recipe endpoint:
+
+
+// --------------------------------------------------
+// INGREDIENT ENDPOINTS
+// --------------------------------------------------
+// Get all ingredients endpoint:
+//  [X] get all ingredients from database filtering by name,
+//      type
+//  [ ] filter by recipeId (out of scope)
+//  [ ] filter by userId (out of scope)
+app.get("/ingredients", async (req, res) => {
+  const name = req.query["name"];
+  const type = req.query["type"];
+  try {
+    const result = await ingredientServices.getIngredients(name, type);
+    res.send({ ingredients_list: result }); // can be empty array (no error if nothing found)
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Get ingredient by Id endpoint:
+app.get("/ingredients/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await ingredientServices.getIngredientById(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ ingredients_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Get ingredients by recipe Id endpoint:
+
+// Get ingredients by user Id endpoint:
+
+// Create ingredient endpoint:
+app.post("/ingredients", async (req, res) => {
+  const ingredientToAdd = req.body;
+  try {
+    const savedIngredient = await ingredientServices.createIngredient(ingredientToAdd);
+    if (savedIngredient) {
+      res.status(201).send(savedIngredient).end();
+    }
+    else {
+      res.status(400).send("Bad Request.");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Update ingredient endpoint:
+
+// Delete ingredient by id endpoint:
+app.delete("/ingredients/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await ingredientServices.deleteIngredientById(id);
+    if (result) {
+      res.status(204).end();
+    } else {
+      res.status(404).send("Resource not found.");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+
+app.listen(process.env.PORT || port, () => {
+  if (process.env.PORT) {
+    console.log(`REST API is listening on port: ${process.env.PORT}.`);
+  } else console.log(`REST API is listening on port: ${port}.`);
 });
