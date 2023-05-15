@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
+import "../css/rating_form.css"
+
 import {
   Typography,
   Divider,
@@ -15,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(4),
   },
+  
   inner: {
     maxWidth: 800,
     margin: "0 auto",
@@ -92,6 +95,7 @@ function ReviewPage() {
                     className={classes.textField}
                 />
             </div>
+
             <div>
                 <TextField
                     required
@@ -100,12 +104,11 @@ function ReviewPage() {
                     value={formData.userReview}
                     onChange={handleInputChange}
                     multiline
-                    rows={4}
                     className={classes.textField}
                 />
             </div>
 
-            <div>
+            <div class="submit_btn">
                 <Button
                     type="submit"
                     variant="contained"
@@ -115,6 +118,7 @@ function ReviewPage() {
                 Submit
                 </Button>
             </div>
+
         </form>
         );
     };
