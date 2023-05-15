@@ -36,7 +36,7 @@ const Navbar = () => {
         <Searchbar id="Search"/>
 
         <NavBtn>
-          <NavBtnLink to='/Login' id="register" > Register </NavBtnLink>
+          <NavBtnLink to='/Login' id="register" > Login </NavBtnLink>
         </NavBtn>
       </Nav>
     </>
