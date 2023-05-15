@@ -42,8 +42,10 @@ async function register(user) {
 
   try {
     //create new user model and add to database
-    const user = new userModel(user);
-    const savedUser = await user.save();
+    user.password = await bcrypt.hash(password, 10);
+
+    const userToAdd = new userModel(user);
+    const savedUser = await userToAdd.save();
     return savedUser
   }
   catch (error) {
@@ -61,7 +63,7 @@ async function login(login) {
   */
   try {
   //get user
-  const user = userModel.findOne({username: login.username})
+  const user = await userModel.findOne({username: login.username})
 
   //invalid username (user does not exist)
   if (!user)
