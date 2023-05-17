@@ -134,9 +134,10 @@ async function deleteUser(login) {
 }
 
 
-
-exports.register = register;
-exports.login = login;
-exports.findUserById = findUserById;
-exports.deleteUser = deleteUser;
+module.exports = {
+    register,
+    login,
+    findUserById,
+    deleteUser
+};
 
