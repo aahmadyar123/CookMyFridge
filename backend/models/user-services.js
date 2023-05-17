@@ -37,20 +37,24 @@ async function register(user) {
   Args:
     user: user to add to db
   Return:
-    user that is added or false if not added
+    JSON of user if created
   */
 
   try {
+    //check if duplicate username
+    duplicate = await userModel.findOne({username: user.username});
+    if (duplicate)
+      return undefined
+
     //create new user model and add to database
     user.password = await bcrypt.hash(password, 10);
-
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();
     return savedUser
   }
   catch (error) {
     console.log(error);
-    return false;
+    return undefined;
   }
 }
 
@@ -99,7 +103,40 @@ async function findUserById(id) {
 }
 
 
+async function deleteUser(login) {
+  /*
+  This function deletes a user from the database
+  Args:
+    login(JSON): login information to confirm deletion of account
+  Return:
+    boolean: true if deleted, false otherwise
+  */
+  try {
+  //get user
+  const user = await userModel.findOne({username: login.username})
+
+  //invalid username (user does not exist)
+  if (!user)
+    return false
+
+  //compare entered password to one retreieved from DB
+  const validPwd = await bcrypt.compare(login.password, user.password);
+  if (validPwd) {
+    return await userModel.findByIdAndDelete(user.id) !== null;
+  }
+  else
+    return false
+  }
+  catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+
+
 exports.register = register;
 exports.login = login;
 exports.findUserById = findUserById;
+exports.deleteUser = deleteUser;
 
