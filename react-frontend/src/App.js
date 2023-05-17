@@ -8,7 +8,9 @@ import Services from "./pages/services";
 import ContactUs from "./pages/contact_us";
 import SaveRecipe from "./pages/save_recipe";
 import SaveIngredient from "./pages/save_ingredients";
-import LoginForm from "./pages/LoginForm";
+import LoginForm from "./pages/login_form";
+import RegisterForm from "./pages/register_form";
+import ReviewPage from "./pages/rating_form";
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/Services" element={<Services />} />
         <Route path="/ContactUs" element={<ContactUs />} />
         <Route path="/Login" element={<LoginForm />} />
+        <Route path="/Register" element={<RegisterForm />} />
         <Route
           path="/SaveRecipe"
           element={
@@ -38,6 +41,7 @@ function App() {
             </>
           }
         />
+        <Route path="/rating_form" element={<ReviewPage />} />
       </Routes>
     </Router>
   );

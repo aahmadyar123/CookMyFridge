@@ -6,8 +6,8 @@ import backgroundImage from '../images/bowtiepasta.jpg';
 import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useForm } from "react-hook-form";
 import "../css/login.css"
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,69 +91,64 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginForm() {
-  const classes = useStyles();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isRegister, setIsRegister] = useState(false); // add new state variable
+function RegisterForm() {
+    const classes = useStyles();
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = async data => {
+      await sleep(2000);
+      if (data.email === "cool") {
+        console.log(data);
+        alert(JSON.stringify(data));
+      } else {
+        alert("There is an error");
+      }
+    };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(`Username: ${username} Password: ${password}`);
-  };
-
-  return (
-    <div className={classes.root}>
-      <form className={classes.form}>
-        <a href="/">
-          <img className={classes.logo} src={logo} alt="Logo" />
-        </a>
-        {isRegister ? ( // use ternary operator to switch between login and register form
-          <div>
+    return (
+      <div className={classes.root}>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}> 
+          <a href="/">
+            <img className={classes.logo} src={logo} alt="Logo" />
+          </a>
+          <div className={classes.inputIcon}>
+            <MailOutlineIcon />
+            <TextField label="Email" variant="outlined" inputProps={{ 
+              style: { paddingLeft: '12px' } }} />
+          </div>
             <div className={classes.inputIcon}>
-              <MailOutlineIcon />
-              <TextField label="Email" variant="outlined" inputProps={{ style: { paddingLeft: '12px' } }} />
+              <LockOutlinedIcon />
+              <TextField 
+                label="Password" 
+                type="password" 
+                variant="outlined" 
+                inputProps={{ style: { paddingLeft: '12px' } }} 
+              />
             </div>
             <div className={classes.inputIcon}>
               <LockOutlinedIcon />
-              <TextField label="Password" type="password" variant="outlined" inputProps={{ style: { paddingLeft: '12px' } }} />
+              <TextField 
+                label="Confirm Password" 
+                type="password" 
+                variant="outlined" 
+                inputProps={{ style: { paddingLeft: '12px' } }} 
+              />
             </div>
-            <div className={classes.inputIcon}>
-              <LockOutlinedIcon />
-              <TextField label="Confirm Password" type="password" variant="outlined" inputProps={{ style: { paddingLeft: '12px' } }} />
-            </div>
-            <Button variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary">
               Register
             </Button>
-            <div className="forgot-password" onClick={() => setIsRegister(false)}>Already have an account? Log in</div>
-          </div>
-        ) : (
-          <div>
-            <div className={classes.inputIcon}>
-              <MailOutlineIcon />
-              <TextField label="Email" variant="outlined" inputProps={{ style: { paddingLeft: '12px' } }} />
+            <div className="forgot-password">
+                <a href="/Login" style={{ color: "black" }}>
+                    Already have an account? Log in
+                </a>
             </div>
-            <div className={classes.inputIcon}>
-              <LockOutlinedIcon />
-              <TextField label="Password" type="password" variant="outlined" inputProps={{ style: { paddingLeft: '12px' } }} />
-            </div>
-            <div className="forgot-password">Forgot Password?</div>
-            <Button variant="contained" color="primary">
-              Log in
-            </Button>
-            <div className="forgot-password" onClick={() => setIsRegister(true)}>Don't have an account? Register</div>
+          </form>
+          <div className={classes.footer}>
+            <a href="#">Terms and Conditions</a>
+            <a href="#">Privacy Policy</a>
           </div>
-        )}
-      </form>
-      <div className={classes.footer}>
-        <a href="#">Terms and Conditions</a>
-        <a href="#">Privacy Policy</a>
-      </div>
-    </div>
-  );
-}
+       </div>
+    );
+  }
 
-export default LoginForm;
-
-
-
+  export default RegisterForm;
