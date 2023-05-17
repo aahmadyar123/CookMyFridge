@@ -130,6 +130,20 @@ app.get("/ingredients/:id", async (req, res) => {
 // Get ingredients by recipe Id endpoint:
 
 // Get ingredients by user Id endpoint:
+app.get("/ingredients/users/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await ingredientServices.getIngredientsByUserId(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ ingredients_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
 // Create ingredient endpoint:
 app.post("/ingredients", async (req, res) => {
