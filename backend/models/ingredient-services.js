@@ -84,6 +84,16 @@ async function deleteIngredientByName(name) {
     }
 }
 
+// get ingredient by user id
+async function getIngredientByUserId(userId) {
+    try {
+        return await ingredientModel.findOne({userId: userId});
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+
 
 
 // --------------------------------------------------
@@ -102,5 +112,6 @@ module.exports = {
     getIngredientById,
     createIngredient,
     deleteIngredientById,
-    deleteIngredientByName
+    deleteIngredientByName,
+    getIngredientByUserId
 };
