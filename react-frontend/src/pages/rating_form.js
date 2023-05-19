@@ -39,9 +39,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'aboslute',
   },
   form: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(3),
     position: 'aboslute',
-    maxHeight: '500px',
+    maxHeight: '450px',
     height: '100%',
     alignItems: 'center',
     fontFamily: 'Abhaya Libre, sans-serif',
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: theme.spacing(2), // Adjust the padding to prevent overflow
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0),
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
