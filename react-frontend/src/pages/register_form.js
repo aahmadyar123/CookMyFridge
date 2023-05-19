@@ -8,6 +8,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useForm } from "react-hook-form";
 import "../css/login.css"
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,17 +94,62 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterForm() {
     const classes = useStyles();
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = async data => {
-      await sleep(2000);
-      if (data.email === "cool") {
-        console.log(data);
-        alert(JSON.stringify(data));
-      } else {
-        alert("There is an error");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    const [user, setUser] = useState(
+      {
+        email: "",
+        password: "",
+        confirm: ""
       }
+    );
+
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const {register, handleSubmit, formState: { errors } } = useForm();
+
+
+
+    const onSubmit = async data => {
+      try {
+        if (user.password == user.confirm) {
+            console.log("On submit: ", user);
+            const response = await axios.post("http://localhost:8000/register", user);
+            return response;
+        }
+        else
+          console.log("not matched");
+      }
+
+      catch (error) {
+        console.log("ERROR WITH REQUEST")
+        console.log(error);
+        return false;
+
+      }
+      // await sleep(2000);
+      // if (data.email === "cool") {
+      //   console.log(data);
+      //   alert(JSON.stringify(data));
+      // } else {
+      //   alert("There is an error");
+      // }
     };
+
+    const handleChange = event => {
+        const {name, value} = event.target;
+        if (name === "email") {
+          setUser({email: value, password: user['password'], confirm: user['confirm']})
+        }
+
+        else if (name === "password") {
+          setUser({email: user['email'], password: value, confirm: user['confirm']})
+        }
+        
+        else {
+          setUser({email: user['email'], password: user['password'], confirm: value})
+        }
+    }
+    
 
     return (
       <div className={classes.root}>
@@ -113,30 +159,41 @@ function RegisterForm() {
           </a>
           <div className={classes.inputIcon}>
             <MailOutlineIcon />
-            <TextField label="Email" variant="outlined" inputProps={{ 
-              style: { paddingLeft: '12px' } }} />
+            <TextField 
+              label="Email" 
+              name="email" 
+              variant="outlined" 
+              inputProps={{style: { paddingLeft: '12px' } }}
+              onChange={handleChange} 
+              />
           </div>
             <div className={classes.inputIcon}>
               <LockOutlinedIcon />
               <TextField 
                 label="Password" 
+                name="password"
                 type="password" 
                 variant="outlined" 
                 inputProps={{ style: { paddingLeft: '12px' } }} 
+                onChange={handleChange} 
               />
             </div>
             <div className={classes.inputIcon}>
               <LockOutlinedIcon />
               <TextField 
-                label="Confirm Password" 
+                label="Confirm Password"
+                name="confirm"
                 type="password" 
                 variant="outlined" 
                 inputProps={{ style: { paddingLeft: '12px' } }} 
+                onChange={handleChange} 
               />
             </div>
+
             <Button type="submit" variant="contained" color="primary">
               Register
             </Button>
+
             <div className="forgot-password">
                 <a href="/Login" style={{ color: "black" }}>
                     Already have an account? Log in

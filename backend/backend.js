@@ -43,8 +43,9 @@ app.post("/login", async (req, res) => {
 //  userServices.register() which adds the user to the database
 //  after using bcrypt to hash the password
 app.post("/register", async (req, res) => {
-  const user = req.body;
   try {
+    const user = req.body;
+    console.log("In Register:", user);
     const result = await userServices.register(user);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");

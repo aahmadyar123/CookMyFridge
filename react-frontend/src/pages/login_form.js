@@ -142,7 +142,7 @@ function LoginForm() {
             Log in
           </Button>
           <div className="forgot-password" onClick={() => setIsRegister(true)}>
-            <a href="/Login" style={{ color: "black" }}>                
+            <a href="/register" style={{ color: "black" }}>                
               Don't have an account? Register
             </a>
           </div>
