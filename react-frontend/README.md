@@ -68,3 +68,25 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# INSTALL THESE:
+
+1695  yarn add @material-ui/core@next\n
+ 1696  yarn  i @material-ui/core
+ 1697  yarn add @material-ui/core
+ 1698  npm install --force
+ 1699  ls
+ 1700  ps -aux
+ 1701  ps -a
+ 1702  ps -a | grep react
+ 1703  ps -a | grep react-scripts
+ 1704  yarn add @material-ui/core@next
+ 1705  ls
+ 1706  pbcopy < src/pages/rating_form.js
+ 1707  ls
+ 1708* clear
+ 1709* ls
+ 1710* npm install @material-ui/core@latest
+ 1711* npm install @material-ui/core@latest --force
+ 1712* yarn start
