@@ -43,8 +43,9 @@ async function register(user) {
   try {
     //check if duplicate email
     duplicate = await userModel.findOne({email: user.email});
-    if (duplicate)
+    if (duplicate) {
       return undefined
+    }
 
     //create new user model and add to database
     user.password = await bcrypt.hash(user.password, 10);

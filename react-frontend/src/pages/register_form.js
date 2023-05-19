@@ -94,8 +94,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterForm() {
     const classes = useStyles();
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
+    const [confirmed, setConfirmed] = useState(false);
     const [user, setUser] = useState(
       {
         email: "",
@@ -103,16 +102,13 @@ function RegisterForm() {
         confirm: ""
       }
     );
-
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    const {register, handleSubmit, formState: { errors } } = useForm();
+    //const {handleSubmit, formState: { errors } } = useForm();
 
 
 
-    const onSubmit = async data => {
+    async function onSubmit() {
       try {
-        if (user.password == user.confirm) {
-            console.log("On submit: ", user);
+        if (confirmed) {
             const response = await axios.post("http://localhost:8000/register", user);
             return response;
         }
@@ -121,39 +117,40 @@ function RegisterForm() {
       }
 
       catch (error) {
-        console.log("ERROR WITH REQUEST")
         console.log(error);
         return false;
-
       }
-      // await sleep(2000);
-      // if (data.email === "cool") {
-      //   console.log(data);
-      //   alert(JSON.stringify(data));
-      // } else {
-      //   alert("There is an error");
-      // }
     };
 
     const handleChange = event => {
-        const {name, value} = event.target;
-        if (name === "email") {
-          setUser({email: value, password: user['password'], confirm: user['confirm']})
-        }
+      const {name, value} = event.target;
+      if (name === "email") {
+        setUser({email: value, password: user['password'], confirm: user['confirm']})
+      }
 
-        else if (name === "password") {
-          setUser({email: user['email'], password: value, confirm: user['confirm']})
-        }
+      else if (name === "password") {
+        setUser({email: user['email'], password: value, confirm: user['confirm']})
+        if (value == user.confirm)
+            setConfirmed(true);
         
-        else {
-          setUser({email: user['email'], password: user['password'], confirm: value})
-        }
-    }
+        else
+            setConfirmed(false);
+      }
+      
+      else {
+        setUser({email: user['email'], password: user['password'], confirm: value})
+        if (value == user.password)
+            setConfirmed(true);
+        
+        else
+            setConfirmed(false);
+      }
+  };
     
 
     return (
       <div className={classes.root}>
-        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}> 
+        <form className={classes.form} onSubmit={onSubmit}> 
           <a href="/">
             <img className={classes.logo} src={logo} alt="Logo" />
           </a>
@@ -165,7 +162,8 @@ function RegisterForm() {
               variant="outlined" 
               inputProps={{style: { paddingLeft: '12px' } }}
               onChange={handleChange} 
-              />
+            />
+
           </div>
             <div className={classes.inputIcon}>
               <LockOutlinedIcon />
@@ -178,9 +176,11 @@ function RegisterForm() {
                 onChange={handleChange} 
               />
             </div>
+
             <div className={classes.inputIcon}>
               <LockOutlinedIcon />
               <TextField 
+                error={!confirmed}
                 label="Confirm Password"
                 name="confirm"
                 type="password" 
