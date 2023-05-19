@@ -27,7 +27,8 @@
     "styled-components": "^6.0.0-rc.1"
   },
   "scripts": {
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts start",
+    "start":
+      "export NODE_OPTIONS=--openssl-legacy-provider;HTTPS=true SSL_CRT_FILE=./.reactcert/cert.pem SSL_KEY_FILE=./.reactcert/key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

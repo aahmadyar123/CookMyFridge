@@ -1,0 +1,43 @@
+import React from 'react'
+
+function TableHeader()  {
+    return (
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+    );
+  }
+
+function TableBody(props) {
+console.log(props);
+const rows = props.characterData.map((row, index) => {
+    return (
+    <tr key={index}>
+        <td>{row.Food}</td>
+        <td>{row.Quantity}</td>
+        <td>
+          <button onClick={() => props.removeCharacter(index)}>Delete</button>
+        </td>
+    </tr>
+    );
+    }
+);
+return (
+    <tbody>
+        {rows}
+        </tbody>
+    );
+}
+  
+function Table (props) {
+    return (
+      <table>
+        <TableHeader />
+        <TableBody characterData={props.characterData} removeCharacter={props.removeCharacter} />
+      </table>
+    );
+  }
+export default Table;
