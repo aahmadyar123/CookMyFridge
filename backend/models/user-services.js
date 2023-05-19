@@ -41,13 +41,13 @@ async function register(user) {
   */
 
   try {
-    //check if duplicate username
-    duplicate = await userModel.findOne({username: user.username});
+    //check if duplicate email
+    duplicate = await userModel.findOne({email: user.email});
     if (duplicate)
       return undefined
 
     //create new user model and add to database
-    user.password = await bcrypt.hash(password, 10);
+    user.password = await bcrypt.hash(user.password, 10);
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();
     return savedUser
@@ -67,9 +67,9 @@ async function login(login) {
   */
   try {
   //get user
-  const user = await userModel.findOne({username: login.username})
+  const user = await userModel.findOne({email: login.email})
 
-  //invalid username (user does not exist)
+  //invalid email (user does not exist)
   if (!user)
     return undefined
 
@@ -113,9 +113,9 @@ async function deleteUser(login) {
   */
   try {
   //get user
-  const user = await userModel.findOne({username: login.username})
+  const user = await userModel.findOne({email: login.email})
 
-  //invalid username (user does not exist)
+  //invalid email (user does not exist)
   if (!user)
     return false
 
