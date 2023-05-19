@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
+import TextareaAutosize from '@mui/material/TextareaAutosize'; 
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -26,23 +27,22 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   container: {
-    border: 'solid',
-    maxWidth: '600px',
+    fontFamily: 'Abhaya Libre Bold, sans-serif',
+    maxWidth: '500px',
     width: '100%',
-    maxHeight: '1000px',
+    maxHeight: '800px',
     padding: theme.spacing(4),
     backgroundColor: '#fff',
     borderRadius: '20px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
     padding: '30px',
+    position: 'aboslute',
   },
   form: {
-    border: 'solid',
     marginBottom: theme.spacing(4),
+    position: 'aboslute',
     maxHeight: '500px',
     height: '100%',
-    // display: 'flex',
-    // flexDirection: 'column',
     alignItems: 'center',
     fontFamily: 'Abhaya Libre, sans-serif',
     backgroundColor: '#fff',
@@ -53,7 +53,9 @@ const useStyles = makeStyles((theme) => ({
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
-      margin: theme.spacing(2, 0, 1), // Adjust the margins to create space between elements
+    position: 'aboslute',
+      margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
+      width: "100%",
       borderRadius: '70px',
       color: 'white',
       backgroundColor: 'black',
@@ -63,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   reviewSection: {
-    border: 'solid',
+    position: 'aboslute',
     marginBottom: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
@@ -73,7 +75,8 @@ const useStyles = makeStyles((theme) => ({
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
-      margin: theme.spacing(2, 0, 1), // Adjust the margins to create space between elements
+      position: 'aboslute',
+      margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
       borderRadius: '70px',
       color: 'white',
       backgroundColor: 'black',
@@ -81,6 +84,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#1a1a1a',
       },
     },
+  },
+  reviewsContainer: {
+    maxHeight: '250px', // Set the maximum height for scrollable behavior
+    overflowY: 'scroll', // Enable vertical scrolling
+    marginBottom: theme.spacing(1),
   },
   reviewItem: {
     marginBottom: theme.spacing(2),
@@ -155,11 +163,12 @@ function ReviewPage() {
         <div>
           <TextField
             required
-            label="Review"
-            name="comment"
-            value={newRating.comment}
-            onChange={handleInputChange}
+            variant='outlined'
+            placeholder='Write your review here'
             multiline
+            rows={4}
+            rowsMax={4}
+            label="Reciepe Review"
           />
         </div>
         <Button 
@@ -177,26 +186,28 @@ function ReviewPage() {
     const reviewsToShow = showAllReviews ? ratings : ratings.slice(0, 1);
     return (
       <div className={classes.reviewSection}>
-        <Typography variant="h8" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           User Reviews
         </Typography>
-        {reviewsToShow.length === 0 ? (
-          <Typography variant="body1">No reviews yet</Typography>
-        ) : (
-          <List>
-            {reviewsToShow.map((review) => (
-              <React.Fragment key={review.id}>
-                <ListItem alignItems="flex-start" className={classes.reviewItem}>
-                  <ListItemText
-                    primary={`${review.rating}/5 by ${review.user}`}
-                    secondary={review.comment}
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </React.Fragment>
-            ))}
-          </List>
-        )}
+        <div className={classes.reviewsContainer}> {/* Wrap the reviews list in a scrollable container */}
+          {reviewsToShow.length === 0 ? (
+            <Typography variant="body1">No reviews yet</Typography>
+          ) : (
+            <List>
+              {reviewsToShow.map((review) => (
+                <React.Fragment key={review.id}>
+                  <ListItem alignItems="flex-start" className={classes.reviewItem}>
+                    <ListItemText
+                      primary={`${review.rating}/5 by ${review.user}`}
+                      secondary={review.comment}
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </React.Fragment>
+              ))}
+            </List>
+          )}
+        </div>
         {!showAllReviews && ratings.length > 2 && (
           <Button
             variant="outlined"
@@ -209,7 +220,7 @@ function ReviewPage() {
         )}
       </div>
     );
-  };
+  }
 
   return (
     <div className={classes.root}>
