@@ -45,7 +45,6 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const user = req.body;
-    console.log("In Register:", user);
     const result = await userServices.register(user);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");

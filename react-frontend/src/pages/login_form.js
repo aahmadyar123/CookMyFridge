@@ -8,6 +8,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useForm } from "react-hook-form";
 import "../css/login.css"
+import axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -94,21 +95,42 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isRegister, setIsRegister] = useState(false); // add new state variable
+  const {handleSubmit, formState: { errors } } = useForm();
 
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = async data => {
-    await sleep(2000);
-    if (data.email === "cool") {
-      console.log(data);
-      alert(JSON.stringify(data));
-    } else {
-      alert("There is an error");
-    }
-  };
+
+  const [user, setUser] = useState(
+      {
+        email: "",
+        password: "",
+      }
+    );
+
+
+    const handleChange = event => {
+        console.log(user);
+        const {name, value} = event.target;
+        if (name === "email") {
+          setUser({email: value, password: user['password']})
+        }
+
+        else if (name === "password") {
+          setUser({email: user['email'], password: value})
+        }
+
+    };
+  
+    async function onSubmit() {
+      try {
+          console.log(user);
+          const response = await axios.post("http://localhost:8000/login", user);
+          return response;
+      }
+
+      catch (error) {
+        console.log(error);
+        return false;
+      }
+    };
 
 
   return (
@@ -122,26 +144,30 @@ function LoginForm() {
             <MailOutlineIcon />
             <TextField 
               label="Email" 
+              name="email" 
               variant="outlined" 
               inputProps={{ style: { paddingLeft: '12px' } }}
-              {...register("email")} // Register the "email" input
+              //{...register("email")} // Register the "email" input
+              onChange={handleChange} 
             />
           </div>
           <div className={classes.inputIcon}>
             <LockOutlinedIcon />
             <TextField 
               label="Password" 
+              name="password" 
               type="password" 
               variant="outlined" 
               inputProps={{ style: { paddingLeft: '12px' } }} 
-              {...register("password")} // Register the "password" input
+              //{...register("password")} // Register the "password" input
+              onChange={handleChange} 
             />
           </div>
-          <div className="forgot-password">Forgot Password?</div>
+          {/* <div className="forgot-password">Forgot Password?</div> */}
           <Button type="submit" variant="contained" color="primary">
             Log in
           </Button>
-          <div className="forgot-password" onClick={() => setIsRegister(true)}>
+          <div className = "forgot-password">
             <a href="/register" style={{ color: "black" }}>                
               Don't have an account? Register
             </a>
