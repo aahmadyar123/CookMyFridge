@@ -1,173 +1,241 @@
-import React, { useState } from "react";
-import Rating from "@mui/material/Rating";
-import { List, ListItem, ListItemText } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";
-import "../css/rating_form.css"
-
-import {
-  Typography,
-  Divider,
-  Grid,
-  TextField,
-  Button,
-} from "@material-ui/core";
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating';
+import TextField from '@mui/material/TextField';
+import TextareaAutosize from '@mui/material/TextareaAutosize'; 
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import backgroundImage from '../images/bowtiepasta.jpg';
+import "../css/login.css"
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    fontFamily: 'Abhaya Libre Bold, sans-serif',
+    backgroundColor: '#f2f2f2',
+    background: `url(${backgroundImage}) no-repeat center center fixed`,
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed',
+    backgroundPosition: 'absolute',
+    overflow: 'hidden',
+  },
+  container: {
+    fontFamily: 'Abhaya Libre Bold, sans-serif',
+    maxWidth: '500px',
+    width: '100%',
+    maxHeight: '800px',
     padding: theme.spacing(4),
+    backgroundColor: '#fff',
+    borderRadius: '20px',
+    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+    padding: '30px',
+    position: 'aboslute',
   },
-  
-  inner: {
-    maxWidth: 800,
-    margin: "0 auto",
-    flexGrow: 1,
-    padding: theme.spacing(4), 
+  form: {
+    marginBottom: theme.spacing(3),
+    position: 'aboslute',
+    maxHeight: '450px',
+    height: '100%',
+    alignItems: 'center',
+    fontFamily: 'Abhaya Libre, sans-serif',
+    backgroundColor: '#fff',
+    borderRadius: '20px',
+    padding: theme.spacing(2), // Adjust the padding to prevent overflow
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "100%", // Set the width to 100% to occupy the entire space
+    },
+    "& .MuiButton-root": {
+    position: 'aboslute',
+      margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
+      width: "100%",
+      borderRadius: '70px',
+      color: 'white',
+      backgroundColor: 'black',
+      '&:hover': {
+        backgroundColor: '#1a1a1a',
+      },
+    },
   },
-  ratingSection: {
-    marginBottom: theme.spacing(4),
+  reviewSection: {
+    position: 'aboslute',
+    marginBottom: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(2), // Adjust the padding to prevent overflow
+    "& .MuiTextField-root": {
+      margin: theme.spacing(0),
+      width: "100%", // Set the width to 100% to occupy the entire space
+    },
+    "& .MuiButton-root": {
+      position: 'aboslute',
+      margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
+      borderRadius: '70px',
+      color: 'white',
+      backgroundColor: 'black',
+      '&:hover': {
+        backgroundColor: '#1a1a1a',
+      },
+    },
   },
-  formSection: {
-    marginBottom: theme.spacing(4),
-  },
-  olderReviewsSection: {
-    marginTop: theme.spacing(4),
+  reviewsContainer: {
+    maxHeight: '250px', // Set the maximum height for scrollable behavior
+    overflowY: 'scroll', // Enable vertical scrolling
+    marginBottom: theme.spacing(1),
   },
   reviewItem: {
     marginBottom: theme.spacing(2),
+  },
+  loadMoreButton: {
+    margin: theme.spacing(2, 0),
+  },
+  averageRating: {
+    marginBottom: theme.spacing(4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center', // Center align the text
   },
 }));
 
 const initialRatings = [
   { id: 1, user: "John Doe", rating: 4, comment: "Great product!" },
   { id: 2, user: "Jane Smith", rating: 3, comment: "Good but could be better." },
+  { id: 3, user: "Bob Johnson", rating: 5, comment: "Excellent experience!" },
+  { id: 4, user: "Bob Johnson", rating: 5, comment: "Tight experience!" },
 ];
 
 function ReviewPage() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [ratings, setRatings] = useState(initialRatings);
-    const [newRating, setNewRating] = useState({ user: "", rating: "", comment: "" });
+  const [ratings, setRatings] = useState(initialRatings);
+  const [newRating, setNewRating] = useState({ user: "", rating: null, comment: "" });
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
-    const [formData, setFormData] = useState({
-        name: "",
-        rating: 0,
-        review: "",
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newId = ratings.length + 1;
+    const ratingWithId = { ...newRating, id: newId };
+    setRatings([...ratings, ratingWithId]);
+    setNewRating({ user: "", rating: null, comment: "" });
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newId = ratings.length + 1;
-        const ratingWithId = { ...newRating, id: newId };
-        setRatings([...ratings, ratingWithId]);
-        setNewRating({ user: "", rating: "", comment: "" });
-        };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewRating({ ...newRating, [name]: value });
+  };
 
-        const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewRating({ ...newRating, [name]: value });
-    };
+  const handleLoadMoreReviews = () => {
+    setShowAllReviews(true);
+  };
 
-    const averageRating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
+  const averageRating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
 
-    const renderSubmitForm = () => {
-        return (
-        <form onSubmit={handleSubmit}>
-            <Typography variant="h4" gutterBottom>
-            Submit Your Rating
-            </Typography>
-            <div>
-                <Rating
-                    name="userRating"
-                    value={formData.userRating}
-                    onChange={handleInputChange}
-                    precision={0.5}
-                />
-            </div>
-
-            <div>
-                <TextField
-                    required
-                    label="Name"
-                    name="userName"
-                    value={formData.userName}
-                    onChange={handleInputChange}
-                    className={classes.textField}
-                />
-            </div>
-
-            <div>
-                <TextField
-                    required
-                    label="Review"
-                    name="userReview"
-                    value={formData.userReview}
-                    onChange={handleInputChange}
-                    multiline
-                    className={classes.textField}
-                />
-            </div>
-
-            <div class="submit_btn">
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.submitButton}
-                >
-                Submit
-                </Button>
-            </div>
-
-        </form>
-        );
-    };
-
-    const renderUserRatings = () => {
-        return (
-        <React.Fragment>
-        <Divider className={classes.divider} />
-        <Typography variant="h4" gutterBottom>
-        User Ratings
-        </Typography>
-        {ratings.length === 0 ? (
-        <Typography variant="body1">No ratings yet</Typography>
-        ) : (
-        <List>
-        {ratings.map((rating) => (
-            <React.Fragment key={rating.id}>
-            <ListItem alignItems="flex-start">
-                <ListItemText
-                primary={`${rating.rating}/5 by ${rating.user}`}
-                secondary={rating.comment}
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            </React.Fragment>
-        ))}
-        </List>
-        )}
-        </React.Fragment>
-        );
-    };
-
+  const renderSubmitForm = () => {
     return (
-        <div className={classes.root}>
-            <div className={classes.inner}>
-                <Typography variant="h3" gutterBottom>
-                Product Reviews
-                </Typography>
-                <div className={classes.averageRating}>
-                <Typography variant="h5" gutterBottom>
-                Average Rating: {averageRating}/5
-                </Typography>
-                <Rating value={averageRating} readOnly />
-                </div>
-                {renderSubmitForm()}
-                {renderUserRatings()}
-            </div>
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <Typography variant="h6" gutterBottom>
+          Submit Your Rating
+        </Typography>
+        <div>
+          <Rating
+            name="rating"
+            value={newRating.rating}
+            onChange={(event, value) => setNewRating({ ...newRating, rating: value })}
+          />
         </div>
+        <div>
+          <TextField
+            required
+            label="Name"
+            name="user"
+            value={newRating.user}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            variant='outlined'
+            placeholder='Write your review here'
+            multiline
+            rows={4}
+            rowsMax={4}
+            label="Reciepe Review"
+          />
+        </div>
+        <Button 
+          type="submit" 
+          variant="contained"
+          color="primary"
+        >
+          Submit
+        </Button>
+      </form>
     );
+  };
+
+  const renderUserReviews = () => {
+    const reviewsToShow = showAllReviews ? ratings : ratings.slice(0, 1);
+    return (
+      <div className={classes.reviewSection}>
+        <Typography variant="h6" gutterBottom>
+          User Reviews
+        </Typography>
+        <div className={classes.reviewsContainer}> {/* Wrap the reviews list in a scrollable container */}
+          {reviewsToShow.length === 0 ? (
+            <Typography variant="body1">No reviews yet</Typography>
+          ) : (
+            <List>
+              {reviewsToShow.map((review) => (
+                <React.Fragment key={review.id}>
+                  <ListItem alignItems="flex-start" className={classes.reviewItem}>
+                    <ListItemText
+                      primary={`${review.rating}/5 by ${review.user}`}
+                      secondary={review.comment}
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </React.Fragment>
+              ))}
+            </List>
+          )}
+        </div>
+        {!showAllReviews && ratings.length > 2 && (
+          <Button
+            variant="outlined"
+            color="primary"
+            className={classes.loadMoreButton}
+            onClick={handleLoadMoreReviews}
+          >
+            Load More
+          </Button>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.container}>
+        <div className={classes.averageRating}>
+          <Typography variant="h5" gutterBottom>
+            Average Rating: {averageRating.toFixed(1)}/5
+          </Typography>
+          <Rating value={averageRating} readOnly />
+        </div>
+        {renderSubmitForm()}
+        {renderUserReviews()}
+      </div>
+    </div>
+  );
 }
 
 export default ReviewPage;
