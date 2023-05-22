@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReactStars from 'react-stars'
 import Rating from "@mui/material/Rating";
 
 export const WidgetBox = styled.div`

@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const {handleSubmit, formState: { errors } } = useForm();
+  const {handleSubmit} = useForm();
 
 
   const [user, setUser] = useState(

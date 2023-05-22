@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
-import TextareaAutosize from '@mui/material/TextareaAutosize'; 
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -35,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     borderRadius: '20px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-    padding: '30px',
     position: 'aboslute',
   },
   form: {
