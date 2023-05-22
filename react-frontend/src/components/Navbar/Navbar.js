@@ -19,16 +19,16 @@ const Navbar = () => {
         </NavLink>
 
         <NavMenu>
-          <NavLink id="link" to='/' activeStyle>
+          <NavLink id="link" to='/' >
             Home
           </NavLink>
-          <NavLink id="link" to='/About' activeStyle>
+          <NavLink id="link" to='/About' >
             About
           </NavLink>
-          <NavLink id="link" to='/SaveRecipe' activeStyle>
+          <NavLink id="link" to='/SaveRecipe' >
             Services
           </NavLink>
-          <NavLink id="link" to='/ContactUs' activeStyle>
+          <NavLink id="link" to='/ContactUs' >
             Contact Us
           </NavLink>
         </NavMenu>

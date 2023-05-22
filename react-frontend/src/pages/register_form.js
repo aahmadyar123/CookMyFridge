@@ -6,7 +6,6 @@ import backgroundImage from '../images/bowtiepasta.jpg';
 import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useForm } from "react-hook-form";
 import "../css/login.css"
 import axios from 'axios';
 
@@ -130,7 +129,7 @@ function RegisterForm() {
 
       else if (name === "password") {
         setUser({email: user['email'], password: value, confirm: user['confirm']})
-        if (value == user.confirm)
+        if (value === user.confirm)
             setConfirmed(true);
         
         else
@@ -139,7 +138,7 @@ function RegisterForm() {
       
       else {
         setUser({email: user['email'], password: user['password'], confirm: value})
-        if (value == user.password)
+        if (value === user.password)
             setConfirmed(true);
         
         else
@@ -201,8 +200,8 @@ function RegisterForm() {
             </div>
           </form>
           <div className={classes.footer}>
-            <a href="#">Terms and Conditions</a>
-            <a href="#">Privacy Policy</a>
+            <a href="/">Terms and Conditions</a>
+            <a href="/">Privacy Policy</a>
           </div>
        </div>
     );

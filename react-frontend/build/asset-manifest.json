@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4a1592d3.chunk.css",
+    "main.js": "/static/js/main.661fffda.chunk.js",
+    "main.js.map": "/static/js/main.661fffda.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.410dd32f.js",
+    "runtime-main.js.map": "/static/js/runtime-main.410dd32f.js.map",
+    "static/js/2.0d6318b9.chunk.js": "/static/js/2.0d6318b9.chunk.js",
+    "static/js/2.0d6318b9.chunk.js.map": "/static/js/2.0d6318b9.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.76e1284f4bf5875eac609f6e08fd1d43.js": "/precache-manifest.76e1284f4bf5875eac609f6e08fd1d43.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.4a1592d3.chunk.css.map": "/static/css/main.4a1592d3.chunk.css.map",
+    "static/js/2.0d6318b9.chunk.js.LICENSE.txt": "/static/js/2.0d6318b9.chunk.js.LICENSE.txt",
+    "static/js/main.661fffda.chunk.js.LICENSE.txt": "/static/js/main.661fffda.chunk.js.LICENSE.txt",
+    "static/media/bowtiepasta.jpg": "/static/media/bowtiepasta.fbeb4434.jpg",
+    "static/media/bread.png": "/static/media/bread.f840bda8.png",
+    "static/media/cookie.png": "/static/media/cookie.0418d5c4.png",
+    "static/media/sample.png": "/static/media/sample.245bdf72.png",
+    "static/media/soup.png": "/static/media/soup.f27e8ad0.png",
+    "static/media/toast.png": "/static/media/toast.96a0e69f.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.410dd32f.js",
+    "static/js/2.0d6318b9.chunk.js",
+    "static/css/main.4a1592d3.chunk.css",
+    "static/js/main.661fffda.chunk.js"
+  ]
+}
