@@ -75,8 +75,9 @@ Here is all you need to know to setup this repo on your local machine to start d
   - [public](./react-frontend/public/) Assets for frontend
   - [src](./react-frontend/src/) Frontend code - `App.js` Top level React component
     - [components](./react-frontend/src/components/) All React components
-    - [static](./react-frontend/src/static/) Assets for frontend
-    - [styles](./react-frontend/src/styles/) All CSS
+    - [pages](./react-frontend/src/pages/) Pages for frontend
+    - [images](./react-frontend/src/images/) All images for pages
+    - [css](./react-frontend/src/css/) All CSS
 
 ## Contributing
 
