@@ -61,5 +61,6 @@ jobs:
           cache: "npm"
           cache-dependency-path: ./react-frontend/package-lock.json
       - run: yarn install # similar to npm install
+      - run: npm install # necessary for axios?
       - run: yarn test
       - run: yarn run build --if-present
