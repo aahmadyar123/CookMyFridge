@@ -175,8 +175,8 @@ function LoginForm() {
         </div>
       </form>
       <div className={classes.footer}>
-        <a href="#">Terms and Conditions</a>
-        <a href="#">Privacy Policy</a>
+        <a href="/">Terms and Conditions</a>
+        <a href="/">Privacy Policy</a>
       </div>
     </div>
   );
