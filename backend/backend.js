@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 // AUTHENTICATION ENDPOINTS
 // --------------------------------------------------
 // login endpoint:
-//    get username and password from request body and pass to 
+//    get username and password from request body and pass to
 //    userServices.login() which authenticates the user from
 //    the database
 app.post("/login", async (req, res) => {
@@ -76,7 +76,6 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-
 // --------------------------------------------------
 // RECIPE ENDPOINTS
 // --------------------------------------------------
@@ -91,7 +90,6 @@ app.get("/users/:id", async (req, res) => {
 // Update recipe endpoint:
 
 // Delete recipe endpoint:
-
 
 // --------------------------------------------------
 // INGREDIENT ENDPOINTS
@@ -149,11 +147,12 @@ app.get("/ingredients/users/:id", async (req, res) => {
 app.post("/ingredients", async (req, res) => {
   const ingredientToAdd = req.body;
   try {
-    const savedIngredient = await ingredientServices.createIngredient(ingredientToAdd);
+    const savedIngredient = await ingredientServices.createIngredient(
+      ingredientToAdd
+    );
     if (savedIngredient) {
       res.status(201).send(savedIngredient).end();
-    }
-    else {
+    } else {
       res.status(400).send("Bad Request.");
     }
   } catch (error) {
@@ -196,9 +195,10 @@ app.delete("/ingredients/:id", async (req, res) => {
   }
 });
 
-
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
-    console.log(`REST API is listening on: http://localhost:${process.env.PORT}.`);
+    console.log(
+      `REST API is listening on: http://localhost:${process.env.PORT}.`
+    );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });

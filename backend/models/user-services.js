@@ -17,8 +17,8 @@ mongoose
       process.env.MONGO_CLUSTER +
       "/" +
       process.env.MONGO_DB +
-      "?retryWrites=true&w=majority&authSource="+
-        process.env.MONGO_AUTH_DB,
+      "?retryWrites=true&w=majority&authSource=" +
+      process.env.MONGO_AUTH_DB,
     // "mongodb://localhost:27017/users",
     {
       useNewUrlParser: true, //useFindAndModify: false,
@@ -28,8 +28,6 @@ mongoose
   .catch((error) => console.log(error));
 
 console.log("Connected to MongoDB.");
-
-
 
 async function register(user) {
   /*
@@ -42,23 +40,21 @@ async function register(user) {
 
   try {
     //check if duplicate email
-    duplicate = await userModel.findOne({email: user.email});
+    duplicate = await userModel.findOne({ email: user.email });
     if (duplicate) {
-      return undefined
+      return undefined;
     }
 
     //create new user model and add to database
     user.password = await bcrypt.hash(user.password, 10);
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();
-    return savedUser
-  }
-  catch (error) {
+    return savedUser;
+  } catch (error) {
     console.log(error);
     return undefined;
   }
 }
-
 
 async function login(login) {
   /*
@@ -67,26 +63,21 @@ async function login(login) {
     login: JSON data representing user login information
   */
   try {
-  //get user
-  const user = await userModel.findOne({email: login.email})
+    //get user
+    const user = await userModel.findOne({ email: login.email });
 
-  //invalid email (user does not exist)
-  if (!user)
-    return undefined
+    //invalid email (user does not exist)
+    if (!user) return undefined;
 
-  //compare entered password to one retreieved from DB
-  const validPwd = await bcrypt.compare(login.password, user.password);
-  if (validPwd)
-    return user
-  else
-    return undefined
-  }
-  catch (error) {
+    //compare entered password to one retreieved from DB
+    const validPwd = await bcrypt.compare(login.password, user.password);
+    if (validPwd) return user;
+    else return undefined;
+  } catch (error) {
     console.log(error);
     return undefined;
   }
 }
-
 
 async function findUserById(id) {
   /*
@@ -96,13 +87,11 @@ async function findUserById(id) {
   */
   try {
     return await userModel.findById(id);
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
-    return undefined
+    return undefined;
   }
 }
-
 
 async function deleteUser(login) {
   /*
@@ -113,33 +102,26 @@ async function deleteUser(login) {
     boolean: true if deleted, false otherwise
   */
   try {
-  //get user
-  const user = await userModel.findOne({email: login.email})
+    //get user
+    const user = await userModel.findOne({ email: login.email });
 
-  //invalid email (user does not exist)
-  if (!user)
-    return false
+    //invalid email (user does not exist)
+    if (!user) return false;
 
-  //compare entered password to one retreieved from DB
-  const validPwd = await bcrypt.compare(login.password, user.password);
-  if (validPwd) {
-    return await userModel.findByIdAndDelete(user.id) !== null;
-  }
-  else
-    return false
-  }
-  catch (error) {
+    //compare entered password to one retreieved from DB
+    const validPwd = await bcrypt.compare(login.password, user.password);
+    if (validPwd) {
+      return (await userModel.findByIdAndDelete(user.id)) !== null;
+    } else return false;
+  } catch (error) {
     console.log(error);
     return false;
   }
 }
 
-
 module.exports = {
-    register,
-    login,
-    findUserById,
-    deleteUser
+  register,
+  login,
+  findUserById,
+  deleteUser,
 };
-
-
