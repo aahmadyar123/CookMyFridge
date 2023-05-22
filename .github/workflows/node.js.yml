@@ -62,4 +62,5 @@ jobs:
           cache-dependency-path: ./react-frontend/package-lock.json
       - run: yarn install # similar to npm install
       - run: yarn test
+        working-directory: ./react-frontend
       - run: yarn run build --if-present
