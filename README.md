@@ -1,5 +1,7 @@
 # CookMyFridge 🍳🍽️
 
+[![Node.js CI](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/node.js.yml)
+
 A website designed to automate cooking reciepes for ingredients the user has in their fridge at the current momement. View the list site here ➡️ 
 
 ## Table of Contents
