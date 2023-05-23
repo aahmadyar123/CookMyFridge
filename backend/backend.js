@@ -1,3 +1,6 @@
+const https= require("https");
+const fs = require("fs");
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -43,6 +46,8 @@ app.post("/login", async (req, res) => {
 //  userServices.register() which adds the user to the database
 //  after using bcrypt to hash the password
 app.post("/register", async (req, res) => {
+  console.log("RECEIVED REGISTER REQUEST");
+  console.log(req);
   try {
     const user = req.body;
     const result = await userServices.register(user);
@@ -197,8 +202,24 @@ app.delete("/ingredients/:id", async (req, res) => {
 });
 
 
+/*
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
     console.log(`REST API is listening on: http://localhost:${process.env.PORT}.`);
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
+*/
+
+https
+  .createServer(
+		// Provide the private and public key to the server by reading each
+		// file's content with the readFileSync() method.
+    {
+      key: fs.readFileSync("certificates/key.pem"),
+      cert: fs.readFileSync("certificates/cert.pem"),
+    },
+    app
+  )
+  .listen(process.env.PORT, () => {
+    console.log(`Serever is runing at port ${process.env.PORT}`);
+  });
