@@ -115,15 +115,13 @@ function RegisterForm() {
             console.log("RECEIVED BACK STATUS");
             console.log(response);
             console.log("token on submit: ", response.token);
-
             //backend sends back token
-            const tok = response
-            //console.log(tok);
+            const tok = response;
+            console.log('Submit TOKEN: ', tok.data['token']);
             
             //store in cookies
-            //document.cookie = `token=${tok}`;
-
-        //return response;
+            document.cookie = `token=${tok.data['token']}`;
+            console.log("SET COOKIE");
         }
         else
           console.log("not matched");
@@ -222,4 +220,4 @@ function RegisterForm() {
     );
   }
 
-  export default RegisterForm;
+export default RegisterForm;
