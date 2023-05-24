@@ -109,10 +109,11 @@ function RegisterForm() {
     async function onSubmit() {
       try {
         if (confirmed) {
-          console.log("confirmed");
+          alert("SEND POST REQUST TO REGISTER");
             const response = await axios.post("https://localhost:8000/register", user);
-            console.log("TOKEN RECEIVED");
+            alert("RECEIVED BACK STATUS");
             console.log(response);
+            console.log("token on submit: ", response.token);
 
             //backend sends back token
             const tok = response

@@ -39,9 +39,13 @@ app.get("/", (req, res) => {
 // --------------------------------------
 
 function generateAccessToken(id) {
-  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1800s"});
+  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h"});
 };
 
+
+
+//use case
+//app.get(..., authenticateToken, function (req, res) => ...);
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
@@ -98,7 +102,7 @@ app.post("/register", async (req, res) => {
 
     } else {
       const token = generateAccessToken({id : result._id});
-      res.json(token)
+      res.json({token : token}).status(201);
       //res.send({ users_list: result});
     }
   } catch (error) {
@@ -125,6 +129,7 @@ app.get("/users/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
 
 
 // --------------------------------------------------
@@ -253,6 +258,7 @@ app.listen(process.env.PORT || port, () => {
     console.log(`REST API is listening on: http://localhost:${process.env.PORT}.`);
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
+
 */
 
 https
@@ -265,6 +271,9 @@ https
     },
     app
   )
-  .listen(process.env.PORT, () => {
-    console.log(`Serever is runing at port ${process.env.PORT}`);
-  });
+  .listen(process.env.PORT || port, () => {
+  if (process.env.PORT) 
+    console.log(`REST API is listening on: https://localhost:${process.env.PORT}`);
+  else
+    console.log(`REST API is listening on: http://localhost:${port}.`); 
+});
