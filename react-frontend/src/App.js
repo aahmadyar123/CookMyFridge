@@ -16,21 +16,6 @@ import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import { AuthProvider, useAuth } from "./components/context/AuthProvider";
 
 function App() {
-  // const [token, setToken] = useState(null);
-  
-  // const handleLogin = () => {
-  //   // const auth = await fakeAuth();
-  //   const auth = '123'
-  //   setToken(auth);
-  //   console.log("auth : ", auth);
-  //   console.log("tok :", token);
-  // };
-
-  // const handleLogout = () => {
-  //   alert("logout");
-  //   setToken(null);
-  // };
-
 
 
   return (

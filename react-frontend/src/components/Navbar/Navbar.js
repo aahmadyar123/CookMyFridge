@@ -18,9 +18,9 @@ const Navbar = () => {
   console.log("token: ", value.token);
 
   {value.token ? (
-    button =  <NavBtnLink to='/About' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
+    button =  <NavBtnLink to='/' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
   ) : (
-    button = <NavBtnLink to='/' id="register" onClick={value.onLogin}> Login </NavBtnLink>
+    button = <NavBtnLink to='/Login' id="register" onClick={value.onLogin}> Login </NavBtnLink>
   )}
 
   return (
