@@ -1,13 +1,24 @@
+//https
 const https= require("https");
 const fs = require("fs");
 
+//express js
 const express = require("express");
-const mongoose = require("mongoose");
+
+//configure .env file
+const dotenv = require("dotenv");
+dotenv.config();
+
+//use cors for 
 const cors = require("cors");
 
 // Add mongdb user services
 const userServices = require("./models/user-services");
 const ingredientServices = require("./models/ingredient-services");
+
+//web token for user auth
+const jwt = require("jsonwebtoken");
+const { create } = require("./models/user");
 
 const app = express();
 const port = 8000;
@@ -18,6 +29,36 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+
+
+
+
+// --------------------------------------
+//  Token
+// --------------------------------------
+
+function generateAccessToken(id) {
+  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1800s"});
+};
+
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    console.log(err)
+
+    if (err) return res.sendStatus(403)
+
+    req.user = user
+
+    next()
+  })
+}
 
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
@@ -30,8 +71,10 @@ app.post("/login", async (req, res) => {
   const user = req.body;
   try {
     const result = await userServices.login(user);
+
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
+
     } else {
       res.send({ users_list: result });
     }
@@ -46,15 +89,17 @@ app.post("/login", async (req, res) => {
 //  userServices.register() which adds the user to the database
 //  after using bcrypt to hash the password
 app.post("/register", async (req, res) => {
-  console.log("RECEIVED REGISTER REQUEST");
-  console.log(req);
   try {
     const user = req.body;
     const result = await userServices.register(user);
+
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
+
     } else {
-      res.send({ users_list: result });
+      const token = generateAccessToken({id : result._id});
+      res.json(token)
+      //res.send({ users_list: result});
     }
   } catch (error) {
     console.log(error);

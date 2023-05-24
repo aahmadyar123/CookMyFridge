@@ -109,14 +109,26 @@ function RegisterForm() {
     async function onSubmit() {
       try {
         if (confirmed) {
+          console.log("confirmed");
             const response = await axios.post("https://localhost:8000/register", user);
-            return response;
+            console.log("TOKEN RECEIVED");
+            console.log(response);
+
+            //backend sends back token
+            const tok = response
+            //console.log(tok);
+            
+            //store in cookies
+            //document.cookie = `token=${tok}`;
+
+        //return response;
         }
         else
           console.log("not matched");
       }
 
       catch (error) {
+        alert("ERROR");
         console.log(error);
         return false;
       }
