@@ -7,6 +7,10 @@ import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+import {
+  NavLink
+} from '../components/Navbar/NavbarElements';
 import "../css/login.css"
 import axios from 'axios';
 
@@ -136,9 +140,11 @@ function LoginForm() {
   return (
     <div className={classes.root}>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}> 
-        <a href="/">
+      
+        <NavLink to="/">
           <img className={classes.logo} src={logo} alt="Logo" />
-        </a>
+        </NavLink>
+
         <div>
           <div className={classes.inputIcon}>
             <MailOutlineIcon />
@@ -151,6 +157,7 @@ function LoginForm() {
               onChange={handleChange} 
             />
           </div>
+          
           <div className={classes.inputIcon}>
             <LockOutlinedIcon />
             <TextField 

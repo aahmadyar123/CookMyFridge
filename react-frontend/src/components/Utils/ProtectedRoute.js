@@ -1,11 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
 
-const ProtectedRoute = ({ user, children }) => {
-  if (!user) {
-    return <Navigate to="/landing" replace />;
+export const ProtectedRoute = ({children }) => {
+  const { value } = useAuth();
+  if (!value.token) {
+    return (
+      <>
+        <h1> You do not have Authentication </h1>
+      </>
+    )
   }
   return children;
-}; 
-
-export default ProtectedRoute;
+};
