@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          cache-dependency-path: ./react-frontend/package-lock.json
+          cache-dependency-path: ./react-frontend/yarn.lock
       - run: yarn install # similar to npm install
       - run: yarn test
         working-directory: ./react-frontend
