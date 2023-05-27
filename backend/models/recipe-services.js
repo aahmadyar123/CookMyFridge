@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const recipeModel = require("./recipe");
 const dotenv = require("dotenv");
 
+// utility functions
+const { findDocByName, findDocByField, populateField, createDoc } = require("../utility/utility");
+
 dotenv.config();
 
 mongoose.set("debug", process.env.DEBUG);
@@ -36,19 +39,18 @@ async function getRecipes(name) {
     if (name === undefined) {
         result = await recipeModel.find();
     } else if (name) {
-        result = await findRecipeByName(name);
+        result = await findDocByName(recipeModel, name);
+        // result = await findRecipeByName(name);
     }
     return result;
 }
 
 // create a new recipe
 async function createRecipe(recipe) {
-    try {
-        const recipeToAdd = new recipeModel(recipe);
-        const savedRecipe = await recipeToAdd.save();
+    const savedRecipe = await createDoc(recipeModel, recipe);
+    if (savedRecipe) {
         return savedRecipe;
-    } catch (error) {
-        console.log(error);
+    } else {
         return false;
     }
 }
