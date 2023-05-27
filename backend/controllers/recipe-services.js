@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const recipeModel = require("./recipe");
+const recipeModel = require("../models/recipe");
 const dotenv = require("dotenv");
 
 // utility functions

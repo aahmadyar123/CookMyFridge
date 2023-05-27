@@ -13,13 +13,13 @@ dotenv.config();
 const cors = require("cors");
 
 // Add mongdb user services
-const userServices = require("./models/user-services");
-const ingredientServices = require("./models/ingredient-services");
-const recipeServices = require("./models/recipe-services");
+const userServices = require("./controllers/user-services");
+const ingredientServices = require("./controllers/ingredient-services");
+const recipeServices = require("./controllers/recipe-services");
 
 //web token for user auth
 const jwt = require("jsonwebtoken");
-const { create } = require("./models/user");
+// const { create } = require("./models/user");
 
 const app = express();
 const port = 8000;
@@ -89,6 +89,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
 // register endpoint:
 //  get username and password from request body and pass to
 //  userServices.register() which adds the user to the database
@@ -115,6 +116,18 @@ app.post("/register", async (req, res) => {
 // --------------------------------------------------
 // USER ENDPOINTS
 // --------------------------------------------------
+// Get users endpoint:
+app.get("/users", async (req, res) => {
+  const name = req.query["name"];
+  try {
+    const result = await userServices.getUsers(name);
+    res.send({ users_list: result }); // can be empty array (no error if nothing found)
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // Get User by Id endpoint:
 app.get("/users/:id", async (req, res) => {
   const id = req.params.id;
@@ -124,6 +137,49 @@ app.get("/users/:id", async (req, res) => {
       res.status(404).send("Resource not found.");
     } else {
       res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Post a new recipe to user's recipe list endpoint:
+app.post("/users/:id/recipes", async (req, res) => {
+
+  const id = req.params.id;
+  const recipe = req.body;
+  const recipeId = recipe._id;
+  try {
+    const user = await userServices.findUserById(id);
+    const result = await userServices.addRecipe(user, recipeId);
+    if (result) {
+      res.status(201).send("Created Recipe for User.");
+    } else {
+      res.status(404).send("Resource not found.");
+    }
+    // if (result === undefined || result.length === 0) {
+    //   res.status(404).send("Resource not found.");
+    // } else {
+    //   res.send({ users_list: result });
+    // }
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// get user document with recipes populated
+app.get("/users/:id/recipes", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await userServices.findUserById(id);
+    const populatedUser = await userServices.getRecipes(user);
+    if (populatedUser === undefined) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: populatedUser });
     }
   } catch (error) {
     console.log(error);
@@ -166,6 +222,20 @@ app.post("/recipes", async (req, res) => {
 });
 
 // Get recipe by Id endpoint:
+app.get("/recipes/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await recipeServices.getRecipeById(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ recipes_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
 // Get recipes by user Id endpoint:
 
