@@ -145,6 +145,8 @@ app.get("/users/:id", async (req, res) => {
 });
 
 // Post a new recipe to user's recipe list endpoint:
+// - this endpoint posts to a user's recipe list, nested in the 
+//   user document
 app.post("/users/:id/recipes", async (req, res) => {
 
   const id = req.params.id;
@@ -171,6 +173,7 @@ app.post("/users/:id/recipes", async (req, res) => {
 });
 
 // get user document with recipes populated
+// - this endpoint uses populate() in the controller
 app.get("/users/:id/recipes", async (req, res) => {
   const id = req.params.id;
   try {
