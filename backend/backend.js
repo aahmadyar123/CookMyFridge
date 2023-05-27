@@ -15,6 +15,7 @@ const cors = require("cors");
 // Add mongdb user services
 const userServices = require("./models/user-services");
 const ingredientServices = require("./models/ingredient-services");
+const recipeServices = require("./models/recipe-services");
 
 //web token for user auth
 const jwt = require("jsonwebtoken");
@@ -135,7 +136,34 @@ app.get("/users/:id", async (req, res) => {
 // --------------------------------------------------
 // RECIPE ENDPOINTS
 // --------------------------------------------------
-// Get all recipes endpoint:
+// Get recipes
+app.get("/recipes", async (req, res) => {
+  const name = req.query["name"];
+  try {
+    const result = await recipeServices.getRecipes(name);
+    res.send({ recipes_list: result }); // can be empty array (no error if nothing found)
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Create recipe endpoint:
+app.post("/recipes", async (req, res) => {
+  const recipeToAdd = req.body;
+  try {
+    const savedRecipe = await recipeServices.createRecipe(recipeToAdd);
+    if (savedRecipe) {
+      res.status(201).send(savedRecipe).end();
+    }
+    else {
+      res.status(400).send("Bad Request.");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
 // Get recipe by Id endpoint:
 

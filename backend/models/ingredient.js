@@ -13,12 +13,12 @@ const IngredientSchema = new mongoose.Schema(
             trim: true,
         },
         // don't know if we need the following
-        recipes: [{
-            type: mongoose.Schema.Types.ObjectId, // array of recipe ids (references)
-            ref: "Recipe",
-            required: false,
-            trim: true,
-        }],
+        // recipes: [{
+        //     type: mongoose.Schema.Types.ObjectId, // array of recipe ids (references)
+        //     ref: "Recipe",
+        //     required: false,
+        //     trim: true,
+        // }],
         // ex types: "vegetable", "fruit", "meat", "dairy", "grain", "spice", "condiment", "other"
         type: {
             type: String,
