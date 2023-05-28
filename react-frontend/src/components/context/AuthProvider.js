@@ -1,16 +1,15 @@
 import React from 'react'
 import { createContext, useContext, useState } from "react";
-import { fakeAuth } from "../Utils/Auth";
-import { useNavigate } from 'react-router-dom';
+import { Auth } from "../Utils/Auth";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [token, setToken] = useState(null);
 
   const handleLogin = async () => {
-    const token = await fakeAuth();
+    const token = await Auth();
+    // const token = '123'
     setToken(token);
   };
 

@@ -6,7 +6,6 @@ import backgroundImage from '../images/bowtiepasta.jpg';
 import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useForm } from "react-hook-form";
 import "../css/login.css"
 import axios from 'axios';
 
@@ -102,9 +101,7 @@ function RegisterForm() {
         confirm: ""
       }
     );
-    //const {handleSubmit, formState: { errors } } = useForm();
-
-
+    // const {handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = async (e) => {
       e.preventDefault();
@@ -123,6 +120,7 @@ function RegisterForm() {
             document.cookie = `token=${tok.data['token']}`;
             console.log("SET COOKIE");
         }
+        
         else
           console.log("not matched");
       }
@@ -220,4 +218,4 @@ function RegisterForm() {
     );
   }
 
-export default RegisterForm;
+  export default RegisterForm;
