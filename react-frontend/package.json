@@ -34,7 +34,7 @@
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts start",
     "wind": "react-scripts start --openssl-legacy-provider test",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts build",
+    "build": "react-scripts build",
     "build-internal": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts --openssl-legacy-provider test",
     "eject": "react-scripts eject"
