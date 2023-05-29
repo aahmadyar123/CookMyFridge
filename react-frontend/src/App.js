@@ -42,7 +42,7 @@ function App() {
           <Route path="/Register" element={<RegisterForm />} />
 
           <Route
-            path="/SaveRecipe"
+            path="/services/recipes"
               element={
                 <ProtectedRoute> 
                   <Services />
@@ -52,7 +52,7 @@ function App() {
           />
 
           <Route
-            path="/SaveIngredient"
+            path="/services/ingredients"
             element={
               <>
                 <Services />

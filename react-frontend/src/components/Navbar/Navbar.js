@@ -37,7 +37,7 @@ const Navbar = () => {
           <NavLink id="link" to='/About'>
             About
           </NavLink>
-          <NavLink id="link" to='/SaveRecipe'>
+          <NavLink id="link" to='/services/recipes'>
             Services
           </NavLink>
           <NavLink id="link" to='/ContactUs'>
