@@ -51,8 +51,8 @@ function generateAccessToken(id) {
 //app.get(..., authenticateToken, function (req, res) => ...);
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  console.log("In authenticate Token");
+  token = req.body['token']
 
   if (token == null) return res.sendStatus(401);
 
@@ -66,6 +66,7 @@ async function authenticateToken(req, res, next) {
     next();
   })
 }
+
 
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
@@ -134,6 +135,32 @@ app.get("/users/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+
+
+// -------------------------------------------------------
+// Services Endpoints (Protected Routes)
+// -------------------------------------------------------
+
+app.post("/serivces/recipes", async (req, res) => {
+  try{
+    const id = req._id;
+    const user = await userServices.findUserById(id);
+    res.send({ingredients : "apple"}).status(200);
+
+  }
+  catch (e) {
+    console.log(error);
+    res.status(500).send("BAD AUTH /services/recipes");
+  }
+});
+
+
+
+
+
+
+
 
 
 
