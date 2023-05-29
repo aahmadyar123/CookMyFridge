@@ -7,6 +7,7 @@ import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useAuth } from '../components/context/AuthProvider';
+import { Auth } from '../components/Utils/Auth';
 import "../css/login.css"
 
 const useStyles = makeStyles((theme) => ({
@@ -102,14 +103,13 @@ function RegisterForm() {
       }
     );
     const {value} = useAuth();
-    // const {handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = async (e) => {
       e.preventDefault();
       try {
         if (confirmed) {
             console.log("SEND POST REQUST TO REGISTER");
-            await value.onLogin(user);
+            await value.onRegister(user);
             // const response = await axios.post("http://localhost:8000/register", user);
         }
         

@@ -1,8 +1,7 @@
 import React from 'react'
 import { createContext, useContext, useState } from "react";
-import { Auth } from "../Utils/Auth";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const AuthContext = createContext({});
@@ -11,8 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogin = async (user) => {
-    console.log("in login: ", user);
+  const handleRegister = async (user) => {
     const response = await axios.post("http://localhost:8000/register", user);
     const token = response.data['token']
     setToken(token);
@@ -26,6 +24,30 @@ export const AuthProvider = ({ children }) => {
     navigate('/');
   };
 
+  const handleLogin = async (user) => {
+    console.log("In Login");
+    const response = await axios.post("http://localhost:8000/login", user);
+    console.log(response.status)
+
+    if (response.status === 200){
+        const token = response.data['token'];
+        setToken(token);
+    
+        //backend sends back token
+        console.log('Submit TOKEN: ', token);
+        
+        //store in cookies
+        document.cookie = `token=${token}`;
+        console.log("SET COOKIE ", document.cookie);
+        navigate('/');
+        return true;
+    }
+    
+    else{
+      return false;
+    }
+  }
+
   const handleLogout = () => {
     setToken(null);
   };
@@ -34,6 +56,7 @@ export const AuthProvider = ({ children }) => {
     token,
     onLogin: handleLogin,
     onLogout: handleLogout,
+    onRegister: handleRegister
   };
 
   return (

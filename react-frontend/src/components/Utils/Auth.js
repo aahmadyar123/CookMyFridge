@@ -8,7 +8,9 @@ export async function Auth(){
   }
 
   console.log("IN AUTH");
-  const response = await axios.post("http://localhost:8000/services", token);
+  const response = await axios.post("http://localhost:8000/services/recipes", token);
   console.log("user Id in auth: ", response.id);
-  return response.id;
+  console.log(response.status);
+  console.log(response.statusText)
+  return response
 };

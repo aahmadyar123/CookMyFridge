@@ -16,8 +16,6 @@ import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import { AuthProvider, useAuth } from "./components/context/AuthProvider";
 
 function App() {
-
-
   return (
     
     <Router>
