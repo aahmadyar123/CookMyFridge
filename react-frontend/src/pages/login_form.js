@@ -180,7 +180,7 @@ function LoginForm() {
             Log in
           </Button>
           <div className = "forgot-password">
-            <a href="/register" style={{ color: "black" }}>                
+            <a href="/Register" style={{ color: "black" }}>                
               Don't have an account? Register
             </a>
           </div>
