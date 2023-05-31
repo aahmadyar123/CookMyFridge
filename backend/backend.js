@@ -150,7 +150,9 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
+
 // Add a Recipe to a User's Saved Recipes endpoint:
+// - body of the request to this endpoint contains 1 field: recipe_id
 app.post("/users/:id/recipes", async (req, res) => {
   const user_id = req.params.id;
   const user = await userServices.findUserById(user_id);
@@ -168,12 +170,48 @@ app.post("/users/:id/recipes", async (req, res) => {
   }
 });
 
-// Populate the Recipes 
+// Populate the Recipes for a specific User
 app.get("/users/:id/recipes", async (req, res) => {
   const user_id = req.params.id;
   try {
     const user = await userServices.findUserById(user_id);
     const result = await userServices.getRecipes(user);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Add an Ingredient to a User's Saved Ingredients endpoint:
+// - body of the request to this endpoint contains 1 field: ingredient_id
+app.post("/users/:id/ingredients", async (req, res) => {
+  const user_id = req.params.id;
+  const user = await userServices.findUserById(user_id);
+  const ingredient_id = req.body.ingredient_id;
+  try {
+    const result = await userServices.addIngredient(user, ingredient_id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Populate the Ingredients for a specific User
+app.get("/users/:id/ingredients", async (req, res) => {
+  const user_id = req.params.id;
+  try {
+    const user = await userServices.findUserById(user_id);
+    const result = await userServices.getIngredients(user);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {

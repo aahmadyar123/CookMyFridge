@@ -137,14 +137,12 @@ async function addRecipe(user, recipeId) {
   This function adds a recipe to a user's list of recipes
   Args:
     recipeId: id of recipe to add
-    userId: id of user to add recipe to
+    user: user to add recipe to
   Return:
     boolean: true if added, false otherwise
   */
   try {
-    // const user = await userModel.findById(userId);
-    // const user = await findUserById(userId);
-    console.log("user: ", user);
+    // console.log("user: ", user);
 
     user.recipes.push(recipeId);
     await user.save();
@@ -158,7 +156,7 @@ async function addRecipe(user, recipeId) {
 
 async function getRecipes(user) {
   /*
-  This function gets a user's list of recipes
+  This function populates a user's list of recipes
   Args:
     userId: id of user to get recipes from
   Return:
@@ -176,6 +174,48 @@ async function getRecipes(user) {
   }
 }
 
+async function addIngredient(user, ingredientId) {
+  /*
+  This function adds an ingredient to a user's list of ingredients
+  Args:
+    ingredientId: id of ingredient to add
+    user: user to add ingredient to
+  Return:
+    boolean: true if added, false otherwise
+  */
+  try {
+    // console.log("user: ", user);
+
+    user.ingredients.push(ingredientId);
+    await user.save();
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getIngredients(user) {
+  /*
+  This function populates a user's list of ingredients
+  Args:
+    user: user to get recipes from
+  Return:
+    array of recipes
+  */
+  try {
+    // populate without using utility functions
+    let populatedUser = await user.populate('ingredients');
+
+    // const recipes = await populateField(user, "recipes");
+    return populatedUser;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -184,4 +224,6 @@ module.exports = {
   deleteUser,
   addRecipe,
   getRecipes,
+  addIngredient,
+  getIngredients,
 };
