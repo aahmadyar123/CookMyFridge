@@ -78,7 +78,7 @@ app.post("/login", async (req, res) => {
       res.status(404).send("Resource not found.");
     } else {
       const token = generateAccessToken({ id: result._id });
-      res.json({ token: token }).status(201);
+      res.status(201).json({ token: token });
       //res.send({ users_list: result });
     }
   } catch (error) {
