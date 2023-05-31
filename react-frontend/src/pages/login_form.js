@@ -6,7 +6,6 @@ import backgroundImage from '../images/bowtiepasta.jpg';
 import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useForm } from "react-hook-form";
 import {NavLink} from '../components/Navbar/NavbarElements';
 import { useAuth } from '../components/context/AuthProvider';
 import "../css/login.css";
@@ -171,7 +170,7 @@ function LoginForm() {
               name="password" 
               type="password" 
               variant="outlined" 
-              inputProps={{ style: { paddingLeft: '12px' } }} 
+              inputProps={{ style: { paddingLeft: '12px' } }}
               //{...register("password")} // Register the "password" input
               onChange={handleChange} 
             />

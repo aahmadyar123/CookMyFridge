@@ -7,8 +7,8 @@ import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useAuth } from '../components/context/AuthProvider';
-import { Auth } from '../components/Utils/Auth';
 import "../css/login.css"
+// import { Auth } from '../components/Utils/Auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
