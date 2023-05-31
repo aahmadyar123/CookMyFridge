@@ -5,7 +5,6 @@ import "../css/bottomSearch.css";
 import { Box, TextField, MenuItem } from "@mui/material";
 import backgroundImage from "../images/pastaBread.jpg";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 
 export const SearchNav = styled.nav`
   background: #ffffff;
