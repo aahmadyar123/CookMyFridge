@@ -14,8 +14,8 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^1.4.0",
     "material-ui": "^0.20.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^3.11.0",
     "react-native-ratings": "^8.1.0",
@@ -26,11 +26,17 @@
     "react-stars": "^2.2.5",
     "styled-components": "^6.0.0-rc.1"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "scripts": {
     "start":
       "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build-internal": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts --openssl-legacy-provider test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

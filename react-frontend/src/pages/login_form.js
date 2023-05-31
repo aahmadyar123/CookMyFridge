@@ -99,6 +99,7 @@ function LoginForm() {
   const {handleSubmit, formState: { errors } } = useForm();
   const {value} = useAuth();
   const [confirmed, setConfirm] = useState(false)
+
   const [user, setUser] = useState(
       {
         email: "",
@@ -178,8 +179,8 @@ function LoginForm() {
         </div>
       </form>
       <div className={classes.footer}>
-        <a href="#">Terms and Conditions</a>
-        <a href="#">Privacy Policy</a>
+        <a href="/">Terms and Conditions</a>
+        <a href="/">Privacy Policy</a>
       </div>
     </div>
   );

@@ -10,12 +10,14 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.4.0",
-    "mongoose": "^7.1.0"
+    "mongoose": "^7.1.0",
+    "prettier": "^2.8.8"
   },
   "scripts": {
-    "test": "jest",
+    "test": "prettier --check . && jest  --passWithNoTests",
     "dev": "nodemon backend.js",
-    "start": "node backend.js"
+    "start": "node backend.js",
+    "beautify": "npx prettier --write ."
   },
   "author": "",
   "license": "ISC",
