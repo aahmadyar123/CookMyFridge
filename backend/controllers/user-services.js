@@ -164,7 +164,7 @@ async function getRecipes(user) {
   */
   try {
     // populate without using utility functions
-    let populatedUser = await user.populate('recipes');
+    let populatedUser = await user.populate("recipes");
 
     // const recipes = await populateField(user, "recipes");
     return populatedUser;
@@ -206,7 +206,7 @@ async function getIngredients(user) {
   */
   try {
     // populate without using utility functions
-    let populatedUser = await user.populate('ingredients');
+    let populatedUser = await user.populate("ingredients");
 
     // const recipes = await populateField(user, "recipes");
     return populatedUser;

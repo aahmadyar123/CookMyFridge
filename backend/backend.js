@@ -1,5 +1,5 @@
 //https
-const https= require("https");
+const https = require("https");
 const fs = require("fs");
 
 //express js
@@ -9,7 +9,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 
-//use cors for 
+//use cors for
 const cors = require("cors");
 
 // Add mongdb user services
@@ -27,47 +27,40 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
-
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-
 //authenticate JWT for protected routes
 app.use("/services", authenticateToken);
-
 
 // --------------------------------------
 //  Token
 // --------------------------------------
 
 function generateAccessToken(id) {
-  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h"});
-};
-
-
+  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h" });
+}
 
 //use case
 //app.get(..., authenticateToken, function (req, res) => ...);
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   console.log("In authenticate Token");
-  token = req.body['token']
+  token = req.body["token"];
 
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     console.log(err);
 
-    if (err) return res.sendStatus(403)
+    if (err) return res.sendStatus(403);
 
     req._id = user;
 
     next();
-  })
+  });
 }
-
 
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
@@ -83,10 +76,9 @@ app.post("/login", async (req, res) => {
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
-
     } else {
-      const token = generateAccessToken({id: result._id});
-      res.json({token: token}).status(201);
+      const token = generateAccessToken({ id: result._id });
+      res.json({ token: token }).status(201);
       //res.send({ users_list: result });
     }
   } catch (error) {
@@ -94,7 +86,6 @@ app.post("/login", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
 
 // register endpoint:
 //  get username and password from request body and pass to
@@ -107,10 +98,9 @@ app.post("/register", async (req, res) => {
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
-
     } else {
-      const token = generateAccessToken({id : result._id});
-      res.json({token : token}).status(201);
+      const token = generateAccessToken({ id: result._id });
+      res.json({ token: token }).status(201);
       //res.send({ users_list: result});
     }
   } catch (error) {
@@ -149,7 +139,6 @@ app.get("/users/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
 
 // Add a Recipe to a User's Saved Recipes endpoint:
 // - body of the request to this endpoint contains 1 field: recipe_id
@@ -223,25 +212,20 @@ app.get("/users/:id/ingredients", async (req, res) => {
   }
 });
 
-
 // -------------------------------------------------------
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
 
 app.post("/services/recipes", async (req, res) => {
-  try{
+  try {
     const id = req._id;
     const user = await userServices.findUserById(id);
-    res.send({ingredients : "apple"}).status(200);
-
-  }
-  catch (e) {
+    res.send({ ingredients: "apple" }).status(200);
+  } catch (e) {
     console.log(error);
     res.status(500).send("BAD AUTH /services/recipes");
   }
 });
-
-
 
 // --------------------------------------------------
 // RECIPE ENDPOINTS
@@ -265,8 +249,7 @@ app.post("/recipes", async (req, res) => {
     const savedRecipe = await recipeServices.createRecipe(recipeToAdd);
     if (savedRecipe) {
       res.status(201).send(savedRecipe).end();
-    }
-    else {
+    } else {
       res.status(400).send("Bad Request.");
     }
   } catch (error) {
@@ -292,7 +275,6 @@ app.get("/recipes/:id", async (req, res) => {
 });
 
 // Get recipes by user Id endpoint:
-
 
 // Create recipe endpoint:
 
@@ -403,7 +385,6 @@ app.delete("/ingredients/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
 
 ///*
 app.listen(process.env.PORT || port, () => {
