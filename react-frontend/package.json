@@ -34,6 +34,7 @@
   "scripts": {
     "start":
       "export NODE_OPTIONS=--openssl-legacy-provider;HTTPS=false SSL_CRT_FILE=./.reactcert/cert.pem SSL_KEY_FILE=./.reactcert/key.pem react-scripts start",
+      "export HTTPS=true SSL_CRT_FILE=./.reactcert/cert.pem SSL_KEY_FILE=./.reactcert/key.pem react-scripts start --openssl-legacy-provider",
     "build": "react-scripts build",
     "build-internal": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts --openssl-legacy-provider test",
