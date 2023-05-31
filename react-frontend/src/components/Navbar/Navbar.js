@@ -17,11 +17,11 @@ const Navbar = () => {
   let button;
   console.log("token: ", value.token);
 
-  {value.token ? (
+  value.token ? (
     button =  <NavBtnLink to='/' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
   ) : (
     button = <NavBtnLink to='/Login' id="register"> Login </NavBtnLink>
-  )}
+  )
 
   return (
     <>

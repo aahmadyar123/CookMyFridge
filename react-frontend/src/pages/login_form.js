@@ -96,9 +96,9 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const {handleSubmit, formState: { errors } } = useForm();
   const {value} = useAuth();
-  const [confirmed, setConfirm] = useState(false)
+  const [confirmed, setConfirm] = useState(false);
+  const [bad, setBad] = useState("");
 
   const [user, setUser] = useState(
       {
@@ -120,10 +120,18 @@ function LoginForm() {
         }
     };
   
-    async function onSubmit() {
+    async function onSubmit(e) {
+      e.preventDefault();
       try {
-          console.log(user);
-          setConfirm(await value.onLogin(user));
+          console.log("IN LOGIN: ", user);
+          const c = await value.onLogin(user)
+          console.log("Confirmed: ", c);
+          if (c) {
+            setBad("BAD PASSWORD");
+          } else {
+            setBad("");
+          }
+          setConfirm(c);
       }
 
       catch (error) {
@@ -135,7 +143,7 @@ function LoginForm() {
 
   return (
     <div className={classes.root}>
-      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}> 
+      <form className={classes.form} onSubmit={onSubmit}> 
       
         <NavLink to="/">
           <img className={classes.logo} src={logo} alt="Logo" />
@@ -158,6 +166,7 @@ function LoginForm() {
             <LockOutlinedIcon />
             <TextField
               error={confirmed}
+              helperText={bad}
               label="Password" 
               name="password" 
               type="password" 
