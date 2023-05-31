@@ -132,7 +132,7 @@ function RegisterForm() {
 
       else if (name === "password") {
         setUser({email: user['email'], password: value, confirm: user['confirm']})
-        if (value == user.confirm)
+        if (value === user.confirm)
             setConfirmed(true);
         
         else
@@ -141,7 +141,7 @@ function RegisterForm() {
       
       else {
         setUser({email: user['email'], password: user['password'], confirm: value})
-        if (value == user.password)
+        if (value === user.password)
             setConfirmed(true);
         
         else
