@@ -1,6 +1,6 @@
 import React from "react";
-import {useState} from 'react'
-import { Auth } from "./Auth";
+// import {useState} from 'react'
+// import { Auth } from "./Auth";
 
 export const ProtectedRoute = ({children}) => {
 
