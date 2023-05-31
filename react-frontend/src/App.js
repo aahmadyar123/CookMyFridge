@@ -16,15 +16,14 @@ import {AuthProvider} from "./components/context/AuthProvider";
 
 function App() {
   return (
-    
     <Router>
-        <AuthProvider>
+      <AuthProvider>
         <NavBar />
         
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/About" element={<About />} />
-
+          <Route path="/About" element={<About />} /> 
+        {/* 
           <Route 
             path="/Services" 
               element={
@@ -32,7 +31,7 @@ function App() {
                       <Services /> 
                   </ProtectedRoute>
               } 
-          />
+          /> */}
 
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Login" element={<LoginForm />} />
@@ -44,6 +43,7 @@ function App() {
                 <ProtectedRoute> 
                   <Services />
                   <SaveRecipe />
+                  <h1>HI</h1>
                 </ProtectedRoute>
               } 
           />
