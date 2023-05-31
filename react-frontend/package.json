@@ -24,7 +24,8 @@
     "react-scripts": "3.4.3",
     "react-star-rating-component": "^1.4.1",
     "react-stars": "^2.2.5",
-    "styled-components": "^6.0.0-rc.1"
+    "styled-components": "^6.0.0-rc.1",
+    "framer-motion": "^4.1.17"
   },
   "jest": {
     "moduleNameMapper": {
@@ -33,6 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
+    "wind": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "build-internal": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts --openssl-legacy-provider test",
