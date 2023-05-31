@@ -3,6 +3,16 @@ import styled from 'styled-components'
 import {AiOutlineSearch} from 'react-icons/ai'
 import "../../css/bottomSearch.css"
 import {Box, TextField, MenuItem} from '@mui/material';
+import { ingredientData } from './data';
+import {AnimatePresence, motion} from "framer-motion/dist/framer-motion"; 
+
+const Card = ({ingredientInfo}) => {
+    return (
+        <div>
+            <h2>{ingredientInfo.name}</h2>
+        </div>
+    );
+};
 
 export const SearchNav = styled.nav`
   background: #FFFFFF;
@@ -31,7 +41,7 @@ const SearchInput = styled.input`
     padding-left: 48px;
     border: none;
     border-radius: 10px;
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     height: 100%;
@@ -54,6 +64,29 @@ const IconButton = styled.button`
     z-index: 1;
     cursor: pointer;
     background: none;
+
+    &:hover {
+        color: grey;
+        &::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        border-radius: 50%;
+        z-index: -1;
+        background-origin: #000;
+        transition: 0.2s ease;
+        transform: scale(0.6);  
+    }
+
+
 `;
 
 export const ButtonBox = styled.nav`
@@ -112,71 +145,55 @@ const DropdownListItem = styled.li`
 
 export function Select() {
     //const [Category, setCategory] = useState('');
+    // ALL CATEGORIES SEARCH, need to figure out what to do with?
     return (
         <Box width='200px' position="relative" top="22.5px" height="42px" right="90px">
             <TextField id="Select" label="All Categories" select fullWidth>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
+                <MenuItem value='region'> Asian </MenuItem>
+                <MenuItem value='region'> Mexican </MenuItem>
+                <MenuItem value='region'> American </MenuItem>
+                <MenuItem value='region'> Mediterranean </MenuItem>
             </TextField>
         </Box>
     );
 }
 
 export default function BottomSearchbar() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [ingredientList, setIngredientList] = useState([]);
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+    const [tempData, setTempData] = useState(ingredientData);
 
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-        setShowDropdown(true);
-      };
-    
-      const handleAddIngredient = () => {
-        if (searchQuery.trim() !== '') {
-          setIngredientList((prevIngredientList) => [...prevIngredientList, searchQuery]);
-          setSearchQuery('');
-          setShowDropdown(false);
-        }
-      };
+    const _toggleSearch = () => {
+        setIsActive(!isActive);
+    }
 
-      const handleDropdownItemClick = (ingredient) => {
-        setSearchQuery(ingredient);
-        setShowDropdown(false);
-      };    
-
-      const handleConsoleLog = () => {
-        console.log(ingredientList);
-      };
+    const onSearchChange = (value) =>{
+        const newData = ingredientData.filter((ing) => 
+            ing.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+            );
+        setTempData(newData);
+    }
 
     return (
         <>
             <SearchNav>
-                <SearchContainer>
-                    <IconButton > 
-                            <AiOutlineSearch size={25}/>
+                <SearchContainer isSearching={isActive}>
+                    {/* search bar */}
+                    <IconButton onClick={_toggleSearch}>   
+                            <AiOutlineSearch size={25}/> 
                     </IconButton>
-                    <SearchInput 
-                        placeholder="Food Ingredients" 
-                        size="100px"
-                        value={searchQuery}
-                        onChange={handleSearchInputChange}
-                        list="ingredientsList"
-                    />
-                    {showDropdown && searchQuery && (
-                        <DropdownList>
-                        {ingredientList.map((ingredient, index) => (
-                            <DropdownListItem key={index} onClick={() => handleDropdownItemClick(ingredient)}>
-                            {ingredient}
-                            </DropdownListItem>
-                        ))}
-                        </DropdownList>
-                    )}
-                    </SearchContainer>
 
-                <Button onClick={handleAddIngredient}>Add Ingredient</Button>
+                    <SearchInput
+                    type = "search" 
+                    placeholder="Food Ingredients" size="100px"
+                    onChange={(e) => onSearchChange(e.target.value)}
+                    />
+
+                    {tempData.map((ingredient, index) => (
+                        <Card ingredientInfo = {ingredient} key={index}/> ))}
+                    
+                    
+                </SearchContainer>
+
 
                 <Select id="Select"/>
                 <ButtonBox>
