@@ -32,8 +32,8 @@
     }
   },
   "scripts": {
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts start",
-    "wind": "react-scripts start --openssl-legacy-provider test",
+    "start":
+      "export NODE_OPTIONS=--openssl-legacy-provider; react-scripts start",
     "build": "react-scripts build",
     "build-internal": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts --openssl-legacy-provider test",

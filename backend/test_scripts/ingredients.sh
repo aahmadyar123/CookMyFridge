@@ -6,7 +6,7 @@ echo "\n------------------------Done--------------------------"
 
 # Test script for getting all ingredients from database
 echo "\nGetting all ingredients from database..."
-curl http://localhost:8000/ingredients
+curl https://localhost:8000/ingredients
 
 echo "\n------------------------Done--------------------------"
 
@@ -17,18 +17,18 @@ echo "\n------------------------Done--------------------------"
     echo "\n------------------------Done--------------------------"
     # Get id of ingredient and store it in variable
     echo "\nGetting id of ingredient and storing it in a variable..."
-    id=$(curl http://localhost:8000/ingredients\?name=Test | jq -r '.ingredients_list[0]._id')
+    id=$(curl https://localhost:8000/ingredients\?name=Test | jq -r '.ingredients_list[0]._id')
     echo "\n------------------------Done--------------------------"
     # Update ingredient by id
     # echo "Updating ingredient by id..."
     # curl -X PUT -H "Content-Type: application/json" -d '{"name": "Test2", "imageLink": "https://example.com/test2.jpg", "type": "test2"}' http://localhost:8000/ingredients/$id
     # Get ingredient by id
     echo "\nGetting ingredient by id..."
-    curl http://localhost:8000/ingredients/$id
+    curl https://localhost:8000/ingredients/$id
     echo "\n------------------------Done--------------------------"
     # Delete ingredient by id
     echo "\nDeleting ingredient by id..."
-    curl -X DELETE http://localhost:8000/ingredients/$id
+    curl -X DELETE https://localhost:8000/ingredients/$id
     echo "------------------------Done--------------------------"
 
 # More Tests
@@ -36,5 +36,5 @@ echo "\n------------------------Done--------------------------"
 
 # Cleanup
 echo "\nCleaning up..."
-curl -X DELETE http://localhost:8000/ingredients\?name=TomatoTest
+curl -X DELETE https://localhost:8000/ingredients\?name=TomatoTest
 echo "------------------------Done--------------------------"
