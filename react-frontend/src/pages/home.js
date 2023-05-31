@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import "../css/home.css";
-import BottomSearchbar from '../components/Home/bottomSearch';
 import HomeWidgets from '../components/Home/home_widgets';
 
 const Box = styled.div`
