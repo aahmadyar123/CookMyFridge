@@ -7,3 +7,8 @@
     color: #5A5A5A;
     padding-right: 20px;
   }
+
+  .SButton {
+    position: relative;
+    right: 100px;
+  }
