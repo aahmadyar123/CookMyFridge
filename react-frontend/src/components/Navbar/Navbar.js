@@ -20,7 +20,7 @@ const Navbar = () => {
   {value.token ? (
     button =  <NavBtnLink to='/' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
   ) : (
-    button = <NavBtnLink to='/Login' id="register" onClick={value.onLogin}> Login </NavBtnLink>
+    button = <NavBtnLink to='/Login' id="register"> Login </NavBtnLink>
   )}
 
   return (
@@ -37,7 +37,7 @@ const Navbar = () => {
           <NavLink id="link" to='/About' >
             About
           </NavLink>
-          <NavLink id="link" to='/SaveRecipe' >
+          <NavLink id="link" to='/services/recipes'>
             Services
           </NavLink>
           <NavLink id="link" to='/ContactUs' >

@@ -7,12 +7,9 @@ import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
-import {
-  NavLink
-} from '../components/Navbar/NavbarElements';
-import "../css/login.css"
-import axios from 'axios';
+import {NavLink} from '../components/Navbar/NavbarElements';
+import { useAuth } from '../components/context/AuthProvider';
+import "../css/login.css";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,8 +96,9 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const {handleSubmit} = useForm();
-
+  const {handleSubmit, formState: { errors } } = useForm();
+  const {value} = useAuth();
+  const [confirmed, setConfirm] = useState(false)
 
   const [user, setUser] = useState(
       {
@@ -120,14 +118,12 @@ function LoginForm() {
         else if (name === "password") {
           setUser({email: user['email'], password: value})
         }
-
     };
   
     async function onSubmit() {
       try {
           console.log(user);
-          const response = await axios.post("http://localhost:8000/login", user);
-          return response;
+          setConfirm(await value.onLogin(user));
       }
 
       catch (error) {
@@ -160,7 +156,8 @@ function LoginForm() {
           
           <div className={classes.inputIcon}>
             <LockOutlinedIcon />
-            <TextField 
+            <TextField
+              error={confirmed}
               label="Password" 
               name="password" 
               type="password" 

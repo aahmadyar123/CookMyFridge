@@ -6,8 +6,9 @@ import backgroundImage from '../images/bowtiepasta.jpg';
 import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useAuth } from '../components/context/AuthProvider';
+import { Auth } from '../components/Utils/Auth';
 import "../css/login.css"
-import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,27 +102,17 @@ function RegisterForm() {
         confirm: ""
       }
     );
-    //const {handleSubmit, formState: { errors } } = useForm();
-
-
+    const {value} = useAuth();
 
     const onSubmit = async (e) => {
       e.preventDefault();
       try {
         if (confirmed) {
             console.log("SEND POST REQUST TO REGISTER");
-            const response = await axios.post("http://localhost:8000/register", user);
-            console.log("RECEIVED BACK STATUS");
-            console.log(response);
-            console.log("token on submit: ", response.token);
-            //backend sends back token
-            const tok = response;
-            console.log('Submit TOKEN: ', tok.data['token']);
-            
-            //store in cookies
-            document.cookie = `token=${tok.data['token']}`;
-            console.log("SET COOKIE");
+            await value.onRegister(user);
+            // const response = await axios.post("http://localhost:8000/register", user);
         }
+        
         else
           console.log("not matched");
       }
@@ -210,6 +201,7 @@ function RegisterForm() {
                     Already have an account? Log in
                 </a>
             </div>
+
           </form>
           <div className={classes.footer}>
             <a href="/">Terms and Conditions</a>

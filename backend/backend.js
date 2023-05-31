@@ -27,12 +27,15 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
+
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
 
-
+//authenticate JWT for protected routes
+app.use("/services", authenticateToken);
 
 
 // --------------------------------------
@@ -47,23 +50,24 @@ function generateAccessToken(id) {
 
 //use case
 //app.get(..., authenticateToken, function (req, res) => ...);
+//middleware to authenticate token, used for /services and all nested paths
+async function authenticateToken(req, res, next) {
+  console.log("In authenticate Token");
+  token = req.body['token']
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-
-  if (token == null) return res.sendStatus(401)
+  if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err)
+    console.log(err);
 
     if (err) return res.sendStatus(403)
 
-    req.user = user
+    req._id = user;
 
-    next()
+    next();
   })
 }
+
 
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
@@ -81,7 +85,9 @@ app.post("/login", async (req, res) => {
       res.status(404).send("Resource not found.");
 
     } else {
-      res.send({ users_list: result });
+      const token = generateAccessToken({id: result._id});
+      res.json({token: token}).status(201);
+      //res.send({ users_list: result });
     }
   } catch (error) {
     console.log(error);
@@ -143,6 +149,26 @@ app.get("/users/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+
+
+// -------------------------------------------------------
+// Services Endpoints (Protected Routes)
+// -------------------------------------------------------
+
+app.post("/services/recipes", async (req, res) => {
+  try{
+    const id = req._id;
+    const user = await userServices.findUserById(id);
+    res.send({ingredients : "apple"}).status(200);
+
+  }
+  catch (e) {
+    console.log(error);
+    res.status(500).send("BAD AUTH /services/recipes");
+  }
+});
+
 
 
 // --------------------------------------------------
@@ -306,7 +332,7 @@ app.delete("/ingredients/:id", async (req, res) => {
 });
 
 
-/*
+///*
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
     console.log(
@@ -315,8 +341,9 @@ app.listen(process.env.PORT || port, () => {
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
 
-*/
+//*/
 
+/*
 https
   .createServer(
 		// Provide the private and public key to the server by reading each
@@ -333,3 +360,4 @@ https
   else
     console.log(`REST API is listening on: http://localhost:${port}.`); 
 });
+*/

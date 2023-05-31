@@ -1,15 +1,23 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthProvider";
+import {useState} from 'react'
+import { Auth } from "./Auth";
 
-export const ProtectedRoute = ({children }) => {
-  const { value } = useAuth();
-  if (!value.token) {
+export const ProtectedRoute = ({children}) => {
+
+  // console.log("In protect before auth");
+  // const authentication = await Auth();
+  // console.log("In protected: ", authentication.status);
+  // console.log(authentication.data['ingredients']);
+  // if (authentication.status !== 200) {
+  if (true) {
+    console.log("return no access");
     return (
       <>
         <h1> You do not have Authentication </h1>
       </>
     )
   }
-  return children;
+  else 
+    console.log("protected return child");
+    return children;
 };

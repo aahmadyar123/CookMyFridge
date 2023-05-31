@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import {useState} from 'react';
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/Navbar/Navbar";
@@ -13,11 +12,9 @@ import LoginForm from "./pages/login_form";
 import RegisterForm from "./pages/register_form";
 import ReviewPage from "./pages/rating_form";
 import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
-import { AuthProvider, useAuth } from "./components/context/AuthProvider";
+import {AuthProvider} from "./components/context/AuthProvider";
 
 function App() {
-
-
   return (
     
     <Router>
@@ -42,7 +39,7 @@ function App() {
           <Route path="/Register" element={<RegisterForm />} />
 
           <Route
-            path="/SaveRecipe"
+            path="/services/recipes"
               element={
                 <ProtectedRoute> 
                   <Services />
@@ -52,7 +49,7 @@ function App() {
           />
 
           <Route
-            path="/SaveIngredient"
+            path="/services/ingredients"
             element={
               <>
                 <Services />
