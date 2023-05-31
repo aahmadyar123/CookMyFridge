@@ -17,7 +17,7 @@ const Home = () => {
         <Box>
             <img src={require('../images/bread.png')} id="Bread" alt="bread"/>
         </Box>
-        <BottomSearchbar id="Search"/>
+        {/* <BottomSearchbar id="Search"/> */}
         <HomeWidgets> </HomeWidgets>
     </>
         

@@ -129,7 +129,6 @@ export default function BottomSearchbar() {
     const [ingredientList, setIngredientList] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
 
-
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
         setShowDropdown(true);
@@ -177,7 +176,7 @@ export default function BottomSearchbar() {
                     )}
                     </SearchContainer>
 
-                <button onClick={handleAddIngredient}>Add Ingredient</button>
+                <Button onClick={handleAddIngredient}>Add Ingredient</Button>
 
                 <Select id="Select"/>
                 <ButtonBox>
