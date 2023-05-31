@@ -2,9 +2,9 @@
 
 [![Node.js CI](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/node.js.yml)
 [![Build and deploy Node.js app to Azure Web App - CookMyFridge-Backend](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/master_cookmyfridge-backend.yml/badge.svg)](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/master_cookmyfridge-backend.yml)
-[![Azure Static Web Apps CI/CD](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/azure-static-web-apps-orange-pond-0e4be601e.yml/badge.svg)](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/azure-static-web-apps-orange-pond-0e4be601e.yml)
+[![Azure Static Web Apps CI/CD](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/azure-static-web-apps-orange-pond-0e4be601e.yml/badge.svg)](https://github.com/luisdavidgarcia/CookMyFridge/actions/workflows/azure-static-web-apps-orange-pond-0e4be601e.yml) 
 
-A website designed to automate cooking reciepes for ingredients the user has in their fridge at the current momement. View the list site here ➡️ 
+A website designed to automate cooking reciepes for ingredients the user has in their fridge at the current momement. View the list site here ➡️ [CookMyFridge](https://orange-pond-0e4be601e.3.azurestaticapps.net/)
 
 ## Table of Contents
 
