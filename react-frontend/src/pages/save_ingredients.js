@@ -34,7 +34,7 @@ export const SearchContainer = styled.div`
 `;
 
 export const SearchInput = styled.input`
-    padding-left: 48px;
+    padding-left: 10px;
     border: none;
     border-radius: 10px;
     position: relative;
@@ -52,7 +52,8 @@ export const SearchInput = styled.input`
 `;
 
 export const IconButton = styled.button`
-    top: 3px;
+    top: 10px;
+    padding-left: 5px;
     position: relative;
     height: 36px;
     width: 36px;
@@ -163,10 +164,10 @@ export default function BottomSearchbar() {
             <SearchNav>
                 <SearchContainer>
                     <IconButton > 
-                            <AiOutlineSearch size={25}/>
+                            <AiOutlineSearch size={27}/>
                     </IconButton>
                     <SearchInput 
-                        placeholder="Food Ingredients" 
+                        placeholder="       Food Ingredients" 
                         value={searchQuery}
                         onChange={handleSearchInputChange}
                         list="ingredientsList"
