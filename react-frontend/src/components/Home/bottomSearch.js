@@ -1,5 +1,4 @@
 import React from 'react'
-import{useState} from 'react'
 import styled from 'styled-components'
 import {AiOutlineSearch} from 'react-icons/ai'
 import "../../css/bottomSearch.css"
@@ -86,7 +85,7 @@ export const Button = styled.button`
 `;
 
 export function Select() {
-    const [Category, setCategory] = useState('');
+    //const [Category, setCategory] = useState('');
     return (
         <Box width='200px' position="relative" top="22.5px" height="42px" right="90px">
             <TextField id="Select" label="All Categories" select fullWidth>

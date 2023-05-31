@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const {handleSubmit, formState: { errors } } = useForm();
+  const {handleSubmit} = useForm();
 
 
   const [user, setUser] = useState(
@@ -182,8 +182,8 @@ function LoginForm() {
         </div>
       </form>
       <div className={classes.footer}>
-        <a href="#">Terms and Conditions</a>
-        <a href="#">Privacy Policy</a>
+        <a href="/">Terms and Conditions</a>
+        <a href="/">Privacy Policy</a>
       </div>
     </div>
   );

@@ -69,7 +69,7 @@ function authenticateToken(req, res, next) {
 // AUTHENTICATION ENDPOINTS
 // --------------------------------------------------
 // login endpoint:
-//    get username and password from request body and pass to 
+//    get username and password from request body and pass to
 //    userServices.login() which authenticates the user from
 //    the database
 app.post("/login", async (req, res) => {
@@ -144,53 +144,6 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-// Post a new recipe to user's recipe list endpoint:
-// - this endpoint posts to a user's recipe list, nested in the 
-//   user document
-app.post("/users/:id/recipes", async (req, res) => {
-
-  const id = req.params.id;
-  const recipe = req.body;
-  const recipeId = recipe._id;
-  try {
-    const user = await userServices.findUserById(id);
-    const result = await userServices.addRecipe(user, recipeId);
-    if (result) {
-      res.status(201).send("Created Recipe for User.");
-    } else {
-      res.status(404).send("Resource not found.");
-    }
-    // if (result === undefined || result.length === 0) {
-    //   res.status(404).send("Resource not found.");
-    // } else {
-    //   res.send({ users_list: result });
-    // }
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-// get user document with recipes populated
-// - this endpoint uses populate() in the controller
-app.get("/users/:id/recipes", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const user = await userServices.findUserById(id);
-    const populatedUser = await userServices.getRecipes(user);
-    if (populatedUser === undefined) {
-      res.status(404).send("Resource not found.");
-    } else {
-      res.send({ users_list: populatedUser });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-
 
 // --------------------------------------------------
 // RECIPE ENDPOINTS
@@ -248,7 +201,6 @@ app.get("/recipes/:id", async (req, res) => {
 
 // Delete recipe endpoint:
 
-
 // --------------------------------------------------
 // INGREDIENT ENDPOINTS
 // --------------------------------------------------
@@ -305,11 +257,12 @@ app.get("/ingredients/users/:id", async (req, res) => {
 app.post("/ingredients", async (req, res) => {
   const ingredientToAdd = req.body;
   try {
-    const savedIngredient = await ingredientServices.createIngredient(ingredientToAdd);
+    const savedIngredient = await ingredientServices.createIngredient(
+      ingredientToAdd
+    );
     if (savedIngredient) {
       res.status(201).send(savedIngredient).end();
-    }
-    else {
+    } else {
       res.status(400).send("Bad Request.");
     }
   } catch (error) {
@@ -356,7 +309,9 @@ app.delete("/ingredients/:id", async (req, res) => {
 /*
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
-    console.log(`REST API is listening on: http://localhost:${process.env.PORT}.`);
+    console.log(
+      `REST API is listening on: http://localhost:${process.env.PORT}.`
+    );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
 

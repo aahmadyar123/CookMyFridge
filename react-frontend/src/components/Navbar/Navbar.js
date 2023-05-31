@@ -31,16 +31,16 @@ const Navbar = () => {
         </NavLink>
 
         <NavMenu>
-          <NavLink id="link" to='/'>
+          <NavLink id="link" to='/' >
             Home
           </NavLink>
-          <NavLink id="link" to='/About'>
+          <NavLink id="link" to='/About' >
             About
           </NavLink>
-          <NavLink id="link" to='/SaveRecipe'>
+          <NavLink id="link" to='/SaveRecipe' >
             Services
           </NavLink>
-          <NavLink id="link" to='/ContactUs'>
+          <NavLink id="link" to='/ContactUs' >
             Contact Us
           </NavLink>
         </NavMenu>
