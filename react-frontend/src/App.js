@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import {useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/Navbar/Navbar";
@@ -11,38 +12,58 @@ import SaveIngredient from "./pages/save_ingredients";
 import LoginForm from "./pages/login_form";
 import RegisterForm from "./pages/register_form";
 import ReviewPage from "./pages/rating_form";
+import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
+import { AuthProvider, useAuth } from "./components/context/AuthProvider";
 
 function App() {
+
+
   return (
+    
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/Services" element={<Services />} />
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/Login" element={<LoginForm />} />
-        <Route path="/Register" element={<RegisterForm />} />
-        <Route
-          path="/SaveRecipe"
-          element={
-            <>
-              <Services />
-              <SaveRecipe />
-            </>
-          }
-        />
-        <Route
-          path="/SaveIngredient"
-          element={
-            <>
-              <Services />
-              <SaveIngredient />
-            </>
-          }
-        />
-        <Route path="/rating_form" element={<ReviewPage />} />
-      </Routes>
+        <AuthProvider>
+        <NavBar />
+        
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/About" element={<About />} />
+
+          <Route 
+            path="/Services" 
+              element={
+                  <ProtectedRoute> 
+                      <Services /> 
+                  </ProtectedRoute>
+              } 
+          />
+
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/Login" element={<LoginForm />} />
+          <Route path="/Register" element={<RegisterForm />} />
+
+          <Route
+            path="/SaveRecipe"
+              element={
+                <ProtectedRoute> 
+                  <Services />
+                  <SaveRecipe />
+                </ProtectedRoute>
+              } 
+          />
+
+          <Route
+            path="/SaveIngredient"
+            element={
+              <>
+                <Services />
+                <SaveIngredient />
+              </>
+            }
+          />
+
+          <Route path="/rating_form" element={<ReviewPage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

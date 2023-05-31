@@ -105,17 +105,29 @@ function RegisterForm() {
 
 
 
-    async function onSubmit() {
+    const onSubmit = async (e) => {
+      e.preventDefault();
       try {
         if (confirmed) {
+            console.log("SEND POST REQUST TO REGISTER");
             const response = await axios.post("http://localhost:8000/register", user);
-            return response;
+            console.log("RECEIVED BACK STATUS");
+            console.log(response);
+            console.log("token on submit: ", response.token);
+            //backend sends back token
+            const tok = response;
+            console.log('Submit TOKEN: ', tok.data['token']);
+            
+            //store in cookies
+            document.cookie = `token=${tok.data['token']}`;
+            console.log("SET COOKIE");
         }
         else
           console.log("not matched");
       }
 
       catch (error) {
+        alert("ERROR");
         console.log(error);
         return false;
       }

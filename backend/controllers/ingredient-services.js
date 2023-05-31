@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
-const ingredientModel = require("./ingredient");
+const ingredientModel = require("../models/ingredient");
 const dotenv = require("dotenv");
+
+// utility functions
+const { findDocByName, findDocByField, populateField, createDoc } = require("../utility/utility");
 
 dotenv.config();
 

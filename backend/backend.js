@@ -1,10 +1,25 @@
+//https
+const https= require("https");
+const fs = require("fs");
+
+//express js
 const express = require("express");
-const mongoose = require("mongoose");
+
+//configure .env file
+const dotenv = require("dotenv");
+dotenv.config();
+
+//use cors for 
 const cors = require("cors");
 
 // Add mongdb user services
-const userServices = require("./models/user-services");
-const ingredientServices = require("./models/ingredient-services");
+const userServices = require("./controllers/user-services");
+const ingredientServices = require("./controllers/ingredient-services");
+const recipeServices = require("./controllers/recipe-services");
+
+//web token for user auth
+const jwt = require("jsonwebtoken");
+// const { create } = require("./models/user");
 
 const app = express();
 const port = 8000;
@@ -15,6 +30,40 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+
+
+
+
+// --------------------------------------
+//  Token
+// --------------------------------------
+
+function generateAccessToken(id) {
+  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h"});
+};
+
+
+
+//use case
+//app.get(..., authenticateToken, function (req, res) => ...);
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    console.log(err)
+
+    if (err) return res.sendStatus(403)
+
+    req.user = user
+
+    next()
+  })
+}
 
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
@@ -27,8 +76,10 @@ app.post("/login", async (req, res) => {
   const user = req.body;
   try {
     const result = await userServices.login(user);
+
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
+
     } else {
       res.send({ users_list: result });
     }
@@ -38,6 +89,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
 // register endpoint:
 //  get username and password from request body and pass to
 //  userServices.register() which adds the user to the database
@@ -46,10 +98,14 @@ app.post("/register", async (req, res) => {
   try {
     const user = req.body;
     const result = await userServices.register(user);
+
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
+
     } else {
-      res.send({ users_list: result });
+      const token = generateAccessToken({id : result._id});
+      res.json({token : token}).status(201);
+      //res.send({ users_list: result});
     }
   } catch (error) {
     console.log(error);
@@ -60,6 +116,18 @@ app.post("/register", async (req, res) => {
 // --------------------------------------------------
 // USER ENDPOINTS
 // --------------------------------------------------
+// Get users endpoint:
+app.get("/users", async (req, res) => {
+  const name = req.query["name"];
+  try {
+    const result = await userServices.getUsers(name);
+    res.send({ users_list: result }); // can be empty array (no error if nothing found)
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // Get User by Id endpoint:
 app.get("/users/:id", async (req, res) => {
   const id = req.params.id;
@@ -76,12 +144,54 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
+
 // --------------------------------------------------
 // RECIPE ENDPOINTS
 // --------------------------------------------------
-// Get all recipes endpoint:
+// Get recipes
+app.get("/recipes", async (req, res) => {
+  const name = req.query["name"];
+  try {
+    const result = await recipeServices.getRecipes(name);
+    res.send({ recipes_list: result }); // can be empty array (no error if nothing found)
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Create recipe endpoint:
+app.post("/recipes", async (req, res) => {
+  const recipeToAdd = req.body;
+  try {
+    const savedRecipe = await recipeServices.createRecipe(recipeToAdd);
+    if (savedRecipe) {
+      res.status(201).send(savedRecipe).end();
+    }
+    else {
+      res.status(400).send("Bad Request.");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
 // Get recipe by Id endpoint:
+app.get("/recipes/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await recipeServices.getRecipeById(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ recipes_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
 
 // Get recipes by user Id endpoint:
 
@@ -195,10 +305,31 @@ app.delete("/ingredients/:id", async (req, res) => {
   }
 });
 
+
+/*
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
     console.log(
       `REST API is listening on: http://localhost:${process.env.PORT}.`
     );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
+});
+
+*/
+
+https
+  .createServer(
+		// Provide the private and public key to the server by reading each
+		// file's content with the readFileSync() method.
+    {
+      key: fs.readFileSync("certificates/key.pem"),
+      cert: fs.readFileSync("certificates/cert.pem"),
+    },
+    app
+  )
+  .listen(process.env.PORT || port, () => {
+  if (process.env.PORT) 
+    console.log(`REST API is listening on: https://localhost:${process.env.PORT}`);
+  else
+    console.log(`REST API is listening on: http://localhost:${port}.`); 
 });

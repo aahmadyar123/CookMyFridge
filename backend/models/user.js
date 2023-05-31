@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate(value) {
-        if (value.length < 8)
+        if (value.length < 1)
           throw new Error("Invalid password, must be at least 8 characters.");
       }, // would throw database exception with pword length < 8, needs to be caught in try/catch
     },
