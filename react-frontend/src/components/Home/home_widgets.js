@@ -41,21 +41,33 @@ export const Button = styled.button`
     }
 `;
 
+export const StyledLink = styled.a`
+  text-decoration: none;
+  color: inherit;
+  margin: auto;  
+`;
+
 export default function HomeWidgets() {
     return (
     <>
         <WidgetBox>
             <WidgetImg>
                 <img src={require('../../images/toast.png')} id="Recipe" alt="Toast"/>
-                <Button id="Button"> Find Recipes</Button>
+                <StyledLink href="/SaveRecipe">
+                    <Button id="Button"> My Favorites </Button>
+                </StyledLink>
             </WidgetImg>
             <WidgetImg>
                 <img src={require('../../images/soup.png')} id="Recipe" alt="Soup"/>
-                <Button id="Button"> Cook My Fridge </Button>
+                <StyledLink href="/SaveIngredient">
+                    <Button id="Button"> Find Recipes </Button>
+                </StyledLink>
             </WidgetImg>
             <WidgetImg>
                 <img src={require('../../images/cookie.png')} id="Recipe" alt="Cookie"/>
-                <Button id="Button"> My Favorites </Button>
+                <StyledLink href="/ContactUs">
+                    <Button id="Button"> Contact Us </Button>
+                </StyledLink>
             </WidgetImg>
         </WidgetBox>
     </>

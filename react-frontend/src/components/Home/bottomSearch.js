@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import {AiOutlineSearch} from 'react-icons/ai'
 import "../../css/bottomSearch.css"
@@ -84,6 +84,32 @@ export const Button = styled.button`
   }
 `;
 
+const DropdownList = styled.ul`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 9999; /* Set a higher z-index value */
+`;
+
+const DropdownListItem = styled.li`
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 50px;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+`;
+
 export function Select() {
     //const [Category, setCategory] = useState('');
     return (
@@ -99,18 +125,62 @@ export function Select() {
 }
 
 export default function BottomSearchbar() {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [ingredientList, setIngredientList] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+        setShowDropdown(true);
+      };
+    
+      const handleAddIngredient = () => {
+        if (searchQuery.trim() !== '') {
+          setIngredientList((prevIngredientList) => [...prevIngredientList, searchQuery]);
+          setSearchQuery('');
+          setShowDropdown(false);
+        }
+      };
+
+      const handleDropdownItemClick = (ingredient) => {
+        setSearchQuery(ingredient);
+        setShowDropdown(false);
+      };    
+
+      const handleConsoleLog = () => {
+        console.log(ingredientList);
+      };
+
     return (
         <>
             <SearchNav>
                 <SearchContainer>
-                <IconButton > 
-                        <AiOutlineSearch size={25}/>
-                </IconButton>
-                <SearchInput placeholder="Food Ingredients" size="100px"/>
-                </SearchContainer>
+                    <IconButton > 
+                            <AiOutlineSearch size={25}/>
+                    </IconButton>
+                    <SearchInput 
+                        placeholder="Food Ingredients" 
+                        size="100px"
+                        value={searchQuery}
+                        onChange={handleSearchInputChange}
+                        list="ingredientsList"
+                    />
+                    {showDropdown && searchQuery && (
+                        <DropdownList>
+                        {ingredientList.map((ingredient, index) => (
+                            <DropdownListItem key={index} onClick={() => handleDropdownItemClick(ingredient)}>
+                            {ingredient}
+                            </DropdownListItem>
+                        ))}
+                        </DropdownList>
+                    )}
+                    </SearchContainer>
+
+                <Button onClick={handleAddIngredient}>Add Ingredient</Button>
+
                 <Select id="Select"/>
                 <ButtonBox>
-                    <Button> Search </Button>
+                    <Button onClick={handleConsoleLog} > Search </Button>
                 </ButtonBox>
             </SearchNav>
         </>
