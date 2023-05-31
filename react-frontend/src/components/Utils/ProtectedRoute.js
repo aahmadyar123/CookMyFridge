@@ -9,7 +9,7 @@ export const ProtectedRoute = ({children}) => {
   // console.log("In protected: ", authentication.status);
   // console.log(authentication.data['ingredients']);
   // if (authentication.status !== 200) {
-  if (true) {
+  if (false) {
     console.log("return no access");
     return (
       <>

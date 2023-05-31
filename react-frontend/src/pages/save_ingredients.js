@@ -5,9 +5,10 @@ import "../css/bottomSearch.css";
 import { Box, TextField, MenuItem } from "@mui/material";
 import backgroundImage from "../images/pastaBread.jpg";
 import axios from "axios";
+// import { SearchNav } from "../components/Home/bottomSearch";
 
 export const SearchNav = styled.nav`
-  background: #ffffff;
+  background: #FFFFFF;
   height: 108px;
   display: flex;
   justify-content: space-around;
@@ -17,9 +18,9 @@ export const SearchNav = styled.nav`
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
+  align-items: center;
   background-image: url(${backgroundImage});
 `;
 
@@ -29,7 +30,7 @@ const SearchContainer = styled.div`
   background: #f2f4f8;
   border-radius: 10px;
   display: flex;
-  align-items: center;
+  align-items: flex-satrt;
   justify-content: space-between;
   padding-left: 5px;
   transition: all 0.3s ease;
@@ -181,7 +182,7 @@ const IngredientSearch = () => {
     <Container>
       <SearchNav>
         <SearchContainer>
-          <IconButton>
+          {/* <IconButton>
             <AiOutlineSearch size={25} />
           </IconButton>
           <SearchInput
@@ -202,16 +203,16 @@ const IngredientSearch = () => {
                 </DropdownListItem>
               ))}
             </DropdownList>
-          )}
+          )} */}
         </SearchContainer>
 
-        <Button onClick={handleAddIngredient}>Add Ingredient</Button>
+        {/* <Button onClick={handleAddIngredient}>Add Ingredient</Button>
 
         <Select id="Select" />
 
         <ButtonBox>
           <Button onClick={onSubmit}> Search </Button>
-        </ButtonBox>
+        </ButtonBox> */}
       </SearchNav>
     </Container>
   );

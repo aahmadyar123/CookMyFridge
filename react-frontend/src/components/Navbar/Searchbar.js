@@ -3,7 +3,7 @@ import{useState} from 'react'
 import styled from 'styled-components'
 import {AiOutlineSearch, AiOutlineClose} from 'react-icons/ai'
 
-const SearchContainer = styled.div`
+export const SearchContainer = styled.div`
     position: relative;
     width: ${(props) => (props.isSearching ? 360 : 48)}px;
     height: 40px;
@@ -16,7 +16,7 @@ const SearchContainer = styled.div`
     translate: all 0.3s ease;
 `;
 
-const SearchInput = styled.input`
+export const SearchInput = styled.input`
     padding-left: 48px;
     border: none;
     position: absolute;
@@ -34,7 +34,7 @@ const SearchInput = styled.input`
     }
 `;
 
-const IconButton = styled.button`
+export const IconButton = styled.button`
     position: relative;
     height: 36px;
     width: 36px;
