@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import "../css/bottomSearch.css"
+import React, { useState } from "react";
+import styled from "styled-components";
+import "../css/bottomSearch.css";
 import { AiOutlineSearch } from "react-icons/ai";
 import backgroundImage from "../images/pastaBread.jpg";
-import {Box, TextField, MenuItem} from '@mui/material';
+import { Box, TextField, MenuItem } from "@mui/material";
 
 const Container = styled.div`
-    position: center;
-    height: 100vh;
-    width: 100%;
+  position: center;
+  height: 100vh;
+  width: 100%;
 `;
 
 export const SearchNav = styled.nav`
-  background: #FFFFFF;
+  background: #ffffff;
   height: 108px;
   display: flex;
   justify-content: space-between;
@@ -21,46 +21,46 @@ export const SearchNav = styled.nav`
 `;
 
 export const SearchContainer = styled.div`
-    position: relative;
-    width: 360px;
-    height: 52px;
-    top: 25.06px;
-    background: #F2F4F8;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    padding-left: 5px;
-    translate: all 0.3s ease;
+  position: relative;
+  width: 360px;
+  height: 52px;
+  top: 25.06px;
+  background: #f2f4f8;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5px;
+  translate: all 0.3s ease;
 `;
 
 export const SearchInput = styled.input`
-    padding-left: 10px;
-    border: none;
-    border-radius: 10px;
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: transparent;
-    outline: none;
-    font-size: 16px;
-    border: 1px solid transparent;
-    &:focus {
-        border-color: rgba(0, 0, 0, 0.3)
-    }
+  padding-left: 10px;
+  border: none;
+  border-radius: 10px;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  outline: none;
+  font-size: 16px;
+  border: 1px solid transparent;
+  &:focus {
+    border-color: rgba(0, 0, 0, 0.3);
+  }
 `;
 
 export const IconButton = styled.button`
-    top: 10px;
-    padding-left: 5px;
-    position: relative;
-    height: 36px;
-    width: 36px;
-    border: none;
-    z-index: 1;
-    cursor: pointer;
-    background: none;
+  top: 10px;
+  padding-left: 5px;
+  position: relative;
+  height: 36px;
+  width: 36px;
+  border: none;
+  z-index: 1;
+  cursor: pointer;
+  background: none;
 `;
 
 export const ButtonBox = styled.nav`
@@ -119,84 +119,93 @@ export const DropdownListItem = styled.li`
 `;
 
 export function Select() {
-    //const [Category, setCategory] = useState('');
-    return (
-        <Box width='200px' position="relative" top="22.5px" height="42px" right="90px">
-            <TextField id="Select" label="All Categories" select fullWidth>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem value='PlaceHolder'> PlaceHolder </MenuItem>
-            </TextField>
-        </Box>
-    );
+  //const [Category, setCategory] = useState('');
+  return (
+    <Box
+      width="200px"
+      position="relative"
+      top="22.5px"
+      height="42px"
+      right="90px"
+    >
+      <TextField id="Select" label="All Categories" select fullWidth>
+        <MenuItem value="PlaceHolder"> PlaceHolder </MenuItem>
+        <MenuItem value="PlaceHolder"> PlaceHolder </MenuItem>
+        <MenuItem value="PlaceHolder"> PlaceHolder </MenuItem>
+        <MenuItem value="PlaceHolder"> PlaceHolder </MenuItem>
+      </TextField>
+    </Box>
+  );
 }
 
 export default function BottomSearchbar() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [ingredientList, setIngredientList] = useState([]);
-    const [showDropdown, setShowDropdown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [ingredientList, setIngredientList] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-        setShowDropdown(true);
-      };
-    
-      const handleAddIngredient = () => {
-        if (searchQuery.trim() !== '') {
-          setIngredientList((prevIngredientList) => [...prevIngredientList, searchQuery]);
-          setSearchQuery('');
-          setShowDropdown(false);
-        }
-      };
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+    setShowDropdown(true);
+  };
 
-      const handleDropdownItemClick = (ingredient) => {
-        setSearchQuery(ingredient);
-        setShowDropdown(false);
-      };    
+  const handleAddIngredient = () => {
+    if (searchQuery.trim() !== "") {
+      setIngredientList((prevIngredientList) => [
+        ...prevIngredientList,
+        searchQuery,
+      ]);
+      setSearchQuery("");
+      setShowDropdown(false);
+    }
+  };
 
-      const handleConsoleLog = () => {
-        console.log(ingredientList);
-      };
+  const handleDropdownItemClick = (ingredient) => {
+    setSearchQuery(ingredient);
+    setShowDropdown(false);
+  };
 
-    return (
-          <Container>
-            <SearchNav>
-                <SearchContainer>
-                    <IconButton > 
-                            <AiOutlineSearch size={27}/>
-                    </IconButton>
-                    <SearchInput 
-                        placeholder="       Food Ingredients" 
-                        value={searchQuery}
-                        onChange={handleSearchInputChange}
-                        list="ingredientsList"
-                    />
+  const handleConsoleLog = () => {
+    console.log(ingredientList);
+  };
 
-                    {showDropdown && searchQuery && (
-                        <DropdownList>
-                        {ingredientList.map((ingredient, index) => (
-                            <DropdownListItem key={index} onClick={() => handleDropdownItemClick(ingredient)}>
-                            {ingredient}
-                            </DropdownListItem>
-                        ))}
-                        </DropdownList>
-                    )}
+  return (
+    <Container>
+      <SearchNav>
+        <SearchContainer>
+          <IconButton>
+            <AiOutlineSearch size={27} />
+          </IconButton>
+          <SearchInput
+            placeholder="       Food Ingredients"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+            list="ingredientsList"
+          />
 
+          {showDropdown && searchQuery && (
+            <DropdownList>
+              {ingredientList.map((ingredient, index) => (
+                <DropdownListItem
+                  key={index}
+                  onClick={() => handleDropdownItemClick(ingredient)}
+                >
+                  {ingredient}
+                </DropdownListItem>
+              ))}
+            </DropdownList>
+          )}
+        </SearchContainer>
 
-                  </SearchContainer>
-                
-                <ButtonBox>
-                  <Button onClick={handleAddIngredient}>Add</Button>
-                </ButtonBox>
+        <ButtonBox>
+          <Button onClick={handleAddIngredient}>Add</Button>
+        </ButtonBox>
 
-                <Select id="Select"/>
-                
-                <ButtonBox className="SButton">
-                    <Button onClick={handleConsoleLog} > Search </Button>
-                </ButtonBox>
+        <Select id="Select" />
 
-            </SearchNav>
-          </Container>
-    );
+        <ButtonBox className="SButton">
+          <Button onClick={handleConsoleLog}> Search </Button>
+        </ButtonBox>
+      </SearchNav>
+    </Container>
+  );
 }
