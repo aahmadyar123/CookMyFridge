@@ -17,12 +17,13 @@ import {AuthProvider} from "./components/context/AuthProvider";
 function App() {
   return (
     <Router>
-      <AuthProvider>
+        <AuthProvider>
         <NavBar />
         
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/About" element={<About />} /> 
+          <Route path="/About" element={<About />} />
+           
         {/* 
           <Route 
             path="/Services" 

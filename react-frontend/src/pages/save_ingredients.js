@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import "../css/bottomSearch.css"
 import { AiOutlineSearch } from "react-icons/ai";
-import backgroundImage from "../images/pastaBread.jpg";
+// import backgroundImage from "../images/pastaBread.jpg";
 import {Box, TextField, MenuItem} from '@mui/material';
 
 const Container = styled.div`
