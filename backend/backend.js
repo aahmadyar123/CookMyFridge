@@ -2,6 +2,9 @@
 const https = require("https");
 const fs = require("fs");
 
+//methods to interact with recipe API
+const recipeAPI = require("./recipeAPI.js");
+
 //express js
 const express = require("express");
 
@@ -49,12 +52,12 @@ async function authenticateToken(req, res, next) {
   console.log("In authenticate Token");
   token = req.body["token"];
 
-  if (token == null) return res.sendStatus(401);
+  if (token == null) res.status(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     console.log(err);
 
-    if (err) return res.sendStatus(403);
+    if (err) res.status(403);
 
     req._id = user;
 
@@ -382,7 +385,7 @@ app.delete("/ingredients/:id", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server Error.");
+    res.status(501).send("Internal Server Error.");
   }
 });
 
