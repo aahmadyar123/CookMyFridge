@@ -216,6 +216,70 @@ async function getIngredients(user) {
   }
 }
 
+async function addFriend(user, friendId) {
+  /*
+  This function adds a friend to a user's list of friends
+  Args:
+    friendId: id of friend to add
+    user: user to add friend to
+  Return:
+    boolean: true if added, false otherwise
+  */
+  try {
+    // console.log("user: ", user);
+
+    user.friends.push(friendId);
+    await user.save();
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getFriends(user) {
+  /*
+  This function populates a user's list of friends
+  Args:
+    user: user to get recipes from
+  Return:
+    array of recipes
+  */
+  try {
+    // populate without using utility functions
+    let populatedUser = await user.populate("friends");
+
+    // const recipes = await populateField(user, "recipes");
+    return populatedUser;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
+async function getUserData(user) {
+  /*
+  This function populates a user's list of friends, recipes, and ingredients
+  Args:
+    user: user to get recipes from
+  Return:
+    user filled with friends, recipes, and ingredients
+  */
+  try {
+    // populate
+    let populatedUser = await user.populate("friends");
+    populatedUser = await user.populate("recipes");
+    populatedUser = await user.populate("ingredients");
+
+    // const recipes = await populateField(user, "recipes");
+    return populatedUser;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -226,4 +290,7 @@ module.exports = {
   getRecipes,
   addIngredient,
   getIngredients,
+  addFriend,
+  getFriends,
+  getUserData,
 };

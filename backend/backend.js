@@ -215,6 +215,58 @@ app.get("/users/:id/ingredients", async (req, res) => {
   }
 });
 
+// Add a Friend to a User's Friends List endpoint:
+app.post("/users/:id/friends", async (req, res) => {
+  const user_id = req.params.id;
+  const user = await userServices.findUserById(user_id);
+  const friend_id = req.body.friend_id;
+  try {
+    const result = await userServices.addFriend(user, friend_id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Populate the Friends for a specific User
+app.get("/users/:id/friends", async (req, res) => {
+  const user_id = req.params.id;
+  try {
+    const user = await userServices.findUserById(user_id);
+    const result = await userServices.getFriends(user);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Populate the User Data for a specific User
+app.get("/users/:id/data", async (req, res) => {
+  const user_id = req.params.id;
+  try {
+    const user = await userServices.findUserById(user_id);
+    const result = await userServices.getUserData(user);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // -------------------------------------------------------
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
@@ -266,6 +318,23 @@ app.get("/recipes/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const result = await recipeServices.getRecipeById(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ recipes_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Update recipe rating endpoint:
+app.put("/recipes/:id", async (req, res) => {
+  const id = req.params.id;
+  const rating = req.body.rating;
+  try {
+    const result = await recipeServices.updateRecipeRating(id, rating);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
