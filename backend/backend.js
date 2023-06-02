@@ -385,7 +385,7 @@ app.delete("/ingredients/:id", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server Error.");
+    res.status(501).send("Internal Server Error.");
   }
 });
 
@@ -418,4 +418,3 @@ https
     console.log(`REST API is listening on: http://localhost:${port}.`); 
 });
 */
-
