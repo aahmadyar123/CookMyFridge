@@ -118,7 +118,7 @@ export default function IngredientAdd() {
     const [searchQuery, setSearchQuery] = useState('');
     const [ingredientList, setIngredientList] = useState([]);
     const [kcal, setKcal] = useState("");
-    const [cooktime, setCookTime] = useState("");
+    const [cookTime, setCookTime] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
 
     const {value} = useIngredients();
@@ -129,11 +129,11 @@ export default function IngredientAdd() {
 
 
     const handleKcalChange = (event) => {
-
+      setKcal(event.value);
     }
 
     const handleCookTimeChange = (event) => {
-
+      setCookTime(event.value);
     }
 
     const handleSearchInputChange = (event) => {
@@ -155,8 +155,10 @@ export default function IngredientAdd() {
       setShowDropdown(false);
     };    
 
-    const handleConsoleLog = () => {
-      console.log("added new ingredients no context: ", value.ingredients);
+    const handleRecipeSearch = () => {
+      value.addKcal(kcal);
+      value.addCookTime(cookTime);
+      value.recipe(true);
     };
 
     return (
@@ -200,6 +202,7 @@ export default function IngredientAdd() {
                     name="Kcal" 
                     variant="outlined" 
                     defaultValue={null}
+                    onChange={handleKcalChange}
                 />
 
                 <TextField 
@@ -210,10 +213,11 @@ export default function IngredientAdd() {
                     name="minutes" 
                     variant="outlined" 
                     defaultValue={null}
+                    onChange={handleCookTimeChange}
                 />
                 
                 <ButtonBox className="SButton">
-                    <Button onClick={handleConsoleLog}> Search </Button>
+                    <Button onClick={handleRecipeSearch}> Search </Button>
                 </ButtonBox>
 
             </SearchNav>
