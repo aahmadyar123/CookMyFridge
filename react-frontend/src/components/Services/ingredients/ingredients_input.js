@@ -2,13 +2,16 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import "../../../css/bottomSearch.css"
 import { AiOutlineSearch } from "react-icons/ai";
-import {Box, TextField, MenuItem} from '@mui/material';
-import { useIngredients } from '../../context/ingredients_context';
+import {useIngredients} from '../../context/ingredients_context';
+import TextField from '@material-ui/core/TextField';
+import ToleranceSelectCheckmarks from './ingredients_tolerance';
 
 export const SearchNav = styled.nav`
   background: #FFFFFF;
   height: 108px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   padding: 0.5rem calc((100vw - 1000px) / 2);
   z-index: 10;
@@ -18,7 +21,7 @@ export const SearchContainer = styled.div`
     position: relative;
     width: 360px;
     height: 52px;
-    top: 25.06px;
+    right: 190px;
     background: #F2F4F8;
     border-radius: 10px;
     display: flex;
@@ -61,15 +64,14 @@ export const ButtonBox = styled.nav`
   position: relative;
   display: flex;
   align-items: center;
-  margin-right: -200px;
+  margin-right: -150px;
 `;
 
 export const Button = styled.button`
   position: relative;
   width: 90px;
   height: 55px;
-  right: 185px;
-  top: 5px;
+  right: 220px;
   border-radius: 8px;
   background: #000;
   color: #fff;
@@ -112,23 +114,11 @@ export const DropdownListItem = styled.li`
   }
 `;
 
-export function Select() {
-    //const [Category, setCategory] = useState('');
-    return (
-        <Box width='200px' position="relative" top="22.5px" height="42px" right="90px">
-            <TextField id="Select" label="All Categories" select fullWidth>
-                <MenuItem defaultValue='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem deafultValue='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem deafultValue='PlaceHolder'> PlaceHolder </MenuItem>
-                <MenuItem deafultValue='PlaceHolder'> PlaceHolder </MenuItem>
-            </TextField>
-        </Box>
-    );
-}
-
 export default function IngredientAdd() {
     const [searchQuery, setSearchQuery] = useState('');
     const [ingredientList, setIngredientList] = useState([]);
+    const [kcal, setKcal] = useState("");
+    const [cooktime, setCookTime] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
 
     const {value} = useIngredients();
@@ -136,6 +126,15 @@ export default function IngredientAdd() {
     useEffect(() => {
       setIngredientList(value.ingredients);
     }, [value.ingredients]);
+
+
+    const handleKcalChange = (event) => {
+
+    }
+
+    const handleCookTimeChange = (event) => {
+
+    }
 
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
@@ -183,16 +182,38 @@ export default function IngredientAdd() {
                         </DropdownList>
                     )}
 
-                  </SearchContainer>
+                </SearchContainer>
                 
                 <ButtonBox>
                   <Button onClick={handleAddIngredient}>Add</Button>
                 </ButtonBox>
 
-                <Select id="Select"/>
+                <div className="SelectContainer">
+                  <ToleranceSelectCheckmarks className="Select" />
+                </div>
+
+                <TextField
+                    className="kcal"
+                    helperText={"KCal"}
+                    type="number"
+                    label="Kcal" 
+                    name="Kcal" 
+                    variant="outlined" 
+                    defaultValue={null}
+                />
+
+                <TextField 
+                    className="minutes"
+                    helperText={"Cook Time Minutes"}
+                    type="number"
+                    label="minutes" 
+                    name="minutes" 
+                    variant="outlined" 
+                    defaultValue={null}
+                />
                 
                 <ButtonBox className="SButton">
-                    <Button onClick={handleConsoleLog} > Search </Button>
+                    <Button onClick={handleConsoleLog}> Search </Button>
                 </ButtonBox>
 
             </SearchNav>

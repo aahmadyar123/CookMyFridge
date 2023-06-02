@@ -63,7 +63,9 @@ async function authenticateToken(req, res, next) {
 
       next();
     });
-  } catch (error) {
+  } 
+  
+  catch (error) {
     console.log(error);
     console.log("AUTH TOKEN ERROR");
     res.sendStatus(500);

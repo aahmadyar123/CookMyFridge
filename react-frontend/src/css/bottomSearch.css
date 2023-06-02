@@ -7,8 +7,26 @@
     color: #5A5A5A;
     padding-right: 20px;
   }
+.SelectContainer {
+  position: relative;
+  top: -3px;
+  right: 100px;
+}
 
-  .SButton {
-    position: relative;
-    right: 100px;
-  }
+.kcal {
+  width: 150px;
+  top: 10px;
+  right: 120px;
+}
+
+.minutes {
+  width: 150px;
+  top: 10px;
+  right: 150px;
+}
+
+.SButton {
+  position: relative;
+  top: -1px;
+  left: 50px;
+}
