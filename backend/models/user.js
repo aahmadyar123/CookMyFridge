@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema(
         ref: "Recipe",
         required: false,
         trim: true,
-      }
+      },
     ],
     last_login: {
       type: Date,
@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema(
       ref: "User",
       required: false,
       trim: true,
-    }
+    },
   },
   { collection: "users" }
 );

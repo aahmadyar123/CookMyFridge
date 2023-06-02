@@ -88,8 +88,8 @@ async function updateRecipeRating(recipeId, rating) {
       return false;
     }
 
-
-    const newRating = (recipe.rating * recipe.no_ratings + rating) / (recipe.no_ratings + 1);
+    const newRating =
+      (recipe.rating * recipe.no_ratings + rating) / (recipe.no_ratings + 1);
     recipe.rating = newRating;
     recipe.no_ratings += 1;
     await recipe.save();
