@@ -5,6 +5,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import {useIngredients} from '../../context/ingredients_context';
 import TextField from '@material-ui/core/TextField';
 import ToleranceSelectCheckmarks from './ingredients_tolerance';
+import { ingredientData } from "../../Home/data";
 
 export const SearchNav = styled.nav`
   background: #FFFFFF;
@@ -119,7 +120,9 @@ export default function IngredientAdd() {
     const [ingredientList, setIngredientList] = useState([]);
     const [kcal, setKcal] = useState("");
     const [cookTime, setCookTime] = useState("");
-    const [showDropdown, setShowDropdown] = useState(false);
+    // might need dropdown for later but for now, don't need
+    // const [showDropdown, setShowDropdown] = useState(false);
+    const [tempData, setTempData] = useState(ingredientData); 
 
     const {value} = useIngredients();
 
@@ -138,21 +141,31 @@ export default function IngredientAdd() {
 
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
-        setShowDropdown(true);
+        // setShowDropdown(true);
+        console.log(event.target.value);
+        onSearchChange(event.target.value);
     };
+
+    const onSearchChange = (value) =>{
+      const newData = ingredientData.filter((ing) => 
+          ing.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+          );
+      setTempData(newData);
+      console.log(tempData);
+  };
     
     const handleAddIngredient = () => {
       if (searchQuery.trim() !== '') {
         setIngredientList((ingredientList) => [...ingredientList, searchQuery]);
         value.onAdd([...ingredientList, searchQuery]);
         setSearchQuery('');
-        setShowDropdown(false);
+        // setShowDropdown(false);
       }
     };
 
     const handleDropdownItemClick = (ingredient) => {
       setSearchQuery(ingredient);
-      setShowDropdown(false);
+      // setShowDropdown(false);
     };    
 
     const handleRecipeSearch = () => {
@@ -160,6 +173,7 @@ export default function IngredientAdd() {
       value.addCookTime(cookTime);
       value.recipe(true);
     };
+
 
     return (
             <SearchNav>
@@ -173,12 +187,11 @@ export default function IngredientAdd() {
                         onChange={handleSearchInputChange}
                         list="ingredientsList"
                     />
-
-                    {showDropdown && searchQuery && (
+                    {searchQuery && (
                         <DropdownList>
-                        {ingredientList.map((ingredient, index) => (
-                            <DropdownListItem key={index} onClick={() => handleDropdownItemClick(ingredient)}>
-                            {ingredient}
+                        {tempData.map((ingredient, index) => (
+                            <DropdownListItem key={index} onClick={() => handleDropdownItemClick(ingredient.name)}>
+                            {ingredient.name}
                             </DropdownListItem>
                         ))}
                         </DropdownList>
