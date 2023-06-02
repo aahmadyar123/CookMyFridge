@@ -167,9 +167,14 @@ const IngredientSearch = () => {
       const requestData = { ingredients: ingredientList, token: "" };
       console.log(requestData);
       const response = await axios.post(
-        "http://localhost:8000/ingredients",
+        `${process.env.BACKEND_URL}/ingredients`,
         requestData
-      );
+      )
+
+      // const response = await axios.post(
+      //   "http://localhost:8000/ingredients",
+      //   requestData
+      // );
       return response;
     } catch (error) {
       console.log(error);

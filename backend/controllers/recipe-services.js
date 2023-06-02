@@ -59,6 +59,46 @@ async function createRecipe(recipe) {
   }
 }
 
+// find a recipe by ID
+async function getRecipeById(id) {
+  /*
+  This functions finds user by id
+  Args:
+    id: id for entry in DB
+  */
+  try {
+    return await recipeModel.findById(id);
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
+// update recipe rating
+// - this function updates the recipe rating by taking the average of the current rating and the new rating
+// - this function also increments the number of ratings by 1
+async function updateRecipeRating(recipeId, rating) {
+  const recipe = await getRecipeById(recipeId);
+  if (recipe) {
+    recipe.rating = recipe.rating || 0;
+    recipe.no_ratings = recipe.no_ratings || 0;
+
+    if (rating < 0 || rating > 5) {
+      console.log("Invalid rating");
+      return false;
+    }
+
+
+    const newRating = (recipe.rating * recipe.no_ratings + rating) / (recipe.no_ratings + 1);
+    recipe.rating = newRating;
+    recipe.no_ratings += 1;
+    await recipe.save();
+    return recipe;
+  } else {
+    return false;
+  }
+}
+
 // --------------------------------------------------
 // HELPER FUNCTIONS
 // --------------------------------------------------
@@ -72,4 +112,6 @@ async function findRecipeByName(name) {
 module.exports = {
   getRecipes,
   createRecipe,
+  getRecipeById,
+  updateRecipeRating,
 };

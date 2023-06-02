@@ -8,6 +8,18 @@ const RecipeSchema = new mongoose.Schema(
       trim: true,
     },
 
+    no_ratings: {
+      type: Number,
+      required: false,
+      trim: true,
+    },
+
+    rating: {
+      type: Number, // average rating = rating / no_ratings
+      required: false,
+      trim: true,
+    },
+
     details: [
       {
         type: mongoose.Schema.Types.ObjectId, // array of details ids (references)
@@ -42,7 +54,7 @@ const RecipeSchema = new mongoose.Schema(
         required: false,
         trim: true,
       },
-    ],
+    ]
   },
 
   { collection: "recipes" }
