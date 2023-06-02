@@ -9,6 +9,7 @@ export async function Auth(){
   }
 
   console.log("BEFORE AUTH");
+  
   try {
     const response = await axios.post("http://localhost:8000/services/recipes", token);
     console.log("GOT BACK RESPONSE IN AUTH");
