@@ -6,7 +6,8 @@ dotenv.config();
 const recipeServices = require("./controllers/recipe-services");
 
 
-testRecipe = {"results": [
+test = {
+    "results": [
         {
             "vegetarian": false,
             "vegan": false,
@@ -242,15 +243,252 @@ testRecipe = {"results": [
                     }
                 ]
             }
+        },
+        {
+            "vegetarian": false,
+            "vegan": false,
+            "glutenFree": true,
+            "dairyFree": false,
+            "veryHealthy": true,
+            "cheap": false,
+            "veryPopular": false,
+            "sustainable": false,
+            "lowFodmap": false,
+            "weightWatcherSmartPoints": 12,
+            "gaps": "no",
+            "preparationMinutes": -1,
+            "cookingMinutes": -1,
+            "aggregateLikes": 159,
+            "healthScore": 85,
+            "creditsText": "pinkwhen.com",
+            "sourceName": "pinkwhen.com",
+            "pricePerServing": 435.16,
+            "id": 795751,
+            "title": "Chicken Fajita Stuffed Bell Pepper",
+            "readyInMinutes": 45,
+            "servings": 3,
+            "sourceUrl": "http://www.pinkwhen.com/chicken-fajita-stuffed-bell-pepper/",
+            "image": "https://spoonacular.com/recipeImages/795751-312x231.jpg",
+            "imageType": "jpg",
+            "summary": "Chicken Fajita Stuffed Bell Pepper takes approximately <b>45 minutes</b> from beginning to end. Watching your figure? This gluten free recipe has <b>526 calories</b>, <b>50g of protein</b>, and <b>24g of fat</b> per serving. For <b>$4.35 per serving</b>, you get a main course that serves 3. 159 people have made this recipe and would make it again. This recipe is typical of Mexican cuisine. This recipe from Pink When requires cumin, cilantro, salsa, and chili powder. All things considered, we decided this recipe <b>deserves a spoonacular score of 98%</b>. This score is amazing. Users who liked this recipe also liked <a href=\"https://spoonacular.com/recipes/stuffed-bell-peppers-551310\">Stuffed Bell Peppers</a>, <a href=\"https://spoonacular.com/recipes/stuffed-bell-pepper-1348405\">Stuffed Bell Pepper</a>, and <a href=\"https://spoonacular.com/recipes/stuffed-bell-pepper-526845\">Stuffed Bell Pepper</a>.",
+            "cuisines": [
+                "Mexican"
+            ],
+            "dishTypes": [
+                "lunch",
+                "main course",
+                "main dish",
+                "dinner"
+            ],
+            "diets": [
+                "gluten free"
+            ],
+            "occasions": [],
+            "analyzedInstructions": [
+                {
+                    "name": "",
+                    "steps": [
+                        {
+                            "number": 1,
+                            "step": "To get started heat oven to 35",
+                            "ingredients": [],
+                            "equipment": [
+                                {
+                                    "id": 404784,
+                                    "name": "oven",
+                                    "localizedName": "oven",
+                                    "image": "oven.jpg"
+                                }
+                            ]
+                        },
+                        {
+                            "number": 2,
+                            "step": "Mix salt, pepper, cilantro, cumin, chili powder, and quinoa together and place to the side.",
+                            "ingredients": [
+                                {
+                                    "id": 2009,
+                                    "name": "chili powder",
+                                    "localizedName": "chili powder",
+                                    "image": "chili-powder.jpg"
+                                },
+                                {
+                                    "id": 11165,
+                                    "name": "cilantro",
+                                    "localizedName": "cilantro",
+                                    "image": "cilantro.png"
+                                },
+                                {
+                                    "id": 1002030,
+                                    "name": "pepper",
+                                    "localizedName": "pepper",
+                                    "image": "pepper.jpg"
+                                },
+                                {
+                                    "id": 20035,
+                                    "name": "quinoa",
+                                    "localizedName": "quinoa",
+                                    "image": "uncooked-quinoa.png"
+                                },
+                                {
+                                    "id": 1002014,
+                                    "name": "cumin",
+                                    "localizedName": "cumin",
+                                    "image": "ground-cumin.jpg"
+                                },
+                                {
+                                    "id": 2047,
+                                    "name": "salt",
+                                    "localizedName": "salt",
+                                    "image": "salt.jpg"
+                                }
+                            ],
+                            "equipment": []
+                        },
+                        {
+                            "number": 3,
+                            "step": "Cut the bell pepper in half (if you havent already) and clean out the seeds.",
+                            "ingredients": [
+                                {
+                                    "id": 10211821,
+                                    "name": "bell pepper",
+                                    "localizedName": "bell pepper",
+                                    "image": "bell-pepper-orange.png"
+                                },
+                                {
+                                    "id": 93818,
+                                    "name": "seeds",
+                                    "localizedName": "seeds",
+                                    "image": "sunflower-seeds.jpg"
+                                }
+                            ],
+                            "equipment": []
+                        },
+                        {
+                            "number": 4,
+                            "step": "Layer quinoa and then grilled chicken into the pepper, and then top each with cheese.",
+                            "ingredients": [
+                                {
+                                    "id": 1015114,
+                                    "name": "grilled chicken",
+                                    "localizedName": "grilled chicken",
+                                    "image": "rotisserie-chicken.png"
+                                },
+                                {
+                                    "id": 1041009,
+                                    "name": "cheese",
+                                    "localizedName": "cheese",
+                                    "image": "cheddar-cheese.png"
+                                },
+                                {
+                                    "id": 1002030,
+                                    "name": "pepper",
+                                    "localizedName": "pepper",
+                                    "image": "pepper.jpg"
+                                },
+                                {
+                                    "id": 20035,
+                                    "name": "quinoa",
+                                    "localizedName": "quinoa",
+                                    "image": "uncooked-quinoa.png"
+                                }
+                            ],
+                            "equipment": []
+                        },
+                        {
+                            "number": 5,
+                            "step": "Place in the oven for about 10 minutes until the bell pepper has softened.Chicken Fajita Stuffed Bell Pepper",
+                            "ingredients": [
+                                {
+                                    "id": 10211821,
+                                    "name": "bell pepper",
+                                    "localizedName": "bell pepper",
+                                    "image": "bell-pepper-orange.png"
+                                },
+                                {
+                                    "id": 5006,
+                                    "name": "whole chicken",
+                                    "localizedName": "whole chicken",
+                                    "image": "whole-chicken.jpg"
+                                }
+                            ],
+                            "equipment": [
+                                {
+                                    "id": 404784,
+                                    "name": "oven",
+                                    "localizedName": "oven",
+                                    "image": "oven.jpg"
+                                }
+                            ],
+                            "length": {
+                                "number": 10,
+                                "unit": "minutes"
+                            }
+                        },
+                        {
+                            "number": 6,
+                            "step": "Top with avocado and serve with shredded lettuce and salsa for a complete meal.This is SO GOOD! I love bell peppers, and I love all of these flavors that are married together that make this chicken fajita stuffed bell pepper so amazing. I could seriously just eat the flavored quinoa all by itself.If you are looking for even more delicious and healthy recipes, make sure you head over to the Simple Fit Forty tab under the cooking section of this blog. We have all of our favorite healthy recipes listed for you right there in one spot. You can also drool over out latest on the Simple Fit Forty Instagram page.If you are looking to get healthy and fit, come and join the super secret and awesome Simple Fit Forty Lifestyle community over on Facebook. We would love to have you join!",
+                            "ingredients": [
+                                {
+                                    "id": 10211821,
+                                    "name": "bell pepper",
+                                    "localizedName": "bell pepper",
+                                    "image": "bell-pepper-orange.png"
+                                },
+                                {
+                                    "id": 9037,
+                                    "name": "avocado",
+                                    "localizedName": "avocado",
+                                    "image": "avocado.jpg"
+                                },
+                                {
+                                    "id": 5006,
+                                    "name": "whole chicken",
+                                    "localizedName": "whole chicken",
+                                    "image": "whole-chicken.jpg"
+                                },
+                                {
+                                    "id": 11252,
+                                    "name": "lettuce",
+                                    "localizedName": "lettuce",
+                                    "image": "iceberg-lettuce.jpg"
+                                },
+                                {
+                                    "id": 20035,
+                                    "name": "quinoa",
+                                    "localizedName": "quinoa",
+                                    "image": "uncooked-quinoa.png"
+                                },
+                                {
+                                    "id": 6164,
+                                    "name": "salsa",
+                                    "localizedName": "salsa",
+                                    "image": "salsa.png"
+                                }
+                            ],
+                            "equipment": []
+                        }
+                    ]
+                }
+            ],
+            "spoonacularSourceUrl": "https://spoonacular.com/chicken-fajita-stuffed-bell-pepper-795751",
+            "nutrition": {
+                "nutrients": [
+                    {
+                        "name": "Calories",
+                        "amount": 526.088,
+                        "unit": "kcal"
+                    }
+                ]
+            }
         }
     ],
     "offset": 0,
-    "number": 1,
+    "number": 2,
     "totalResults": 590
 }
 
 
-async function getRecipe(params) {
+function getRecipe(params) {
     /*
     Get recipe from spponacular API via GET request
     :param: params: JSON containing information for search query on recipe
@@ -258,9 +496,18 @@ async function getRecipe(params) {
     */
     //parse instructions in array into string to be used in API call
     let queries = "";
+
+    let ret = [];
+    let recipes = test;
+    for (let i = 0; i < recipes.results.length; i++) {
+        ret.push(parseRecipe(recipes.results[i]))
+    }
+    
+    return ret
     
     
 
+    /*
     try {
     //example request
     //const result = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${input}&number=2&apiKey=${process.env.API_KEY}`);
@@ -270,8 +517,7 @@ async function getRecipe(params) {
         console.log(e);
         return null;
     }
-    
-
+    */
 }
 
 
@@ -284,7 +530,6 @@ function parseRecipe(recipe) {
     */
     //new JSON and fields to parse for
 
-    recipe = testRecipe.results[0];
     const newDish = {};
 
     //fields to parse
@@ -332,15 +577,16 @@ function analyzeInstructions(instructions) {
     return: JSON object containing ingredients and steps to make recipe
     */
 
+    //initialize JSON to return 
     let ret = {};
     ret['ingredients'] = new Set();
     ret['steps'] = []
 
-    //add ingredients and procedure to JSON
+    //Iterate through all steps and add to array
     for (let i = 0; i < instructions.steps.length; i++) {
         ret.steps.push((instructions.steps[i].step));
 
-        //add ingredients required for each step to set of all ingredients required
+        //Iterate through ingredients for each step and add to set of all ingredients required
         for (let j = 0; j < instructions.steps[i].ingredients.length; j++) {
             ret.ingredients.add(instructions.steps[i].ingredients[j].name)
         }
