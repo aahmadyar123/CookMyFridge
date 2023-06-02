@@ -8,6 +8,7 @@ export const IngredientProvider = ({ children }) => {
   const [KCal, setKCal] = useState(null);
   const [cookTime, setCookTime] = useState(null);
   const [sendRecipe, setRecipe] = useState(false);
+  const [tolerances, setTolerance] = useState([]);
   
   useEffect( (sendRecipe) => {
     if (sendRecipe === true) {
@@ -16,6 +17,10 @@ export const IngredientProvider = ({ children }) => {
     }
   }, []);
 
+  const add_tolerance = (tolerance) => {
+    setTolerance(tolerance);
+  }
+
   const send_recipe = (send) => {
     setRecipe(true);
   }
@@ -23,6 +28,7 @@ export const IngredientProvider = ({ children }) => {
   const add_ingredient = (ingredient) => {
 	if (check(ingredient.slice(-1)[0]) === false) {
 				setIngredients(ingredient);
+
 		}
   }
 
@@ -58,16 +64,18 @@ export const IngredientProvider = ({ children }) => {
     ingredients,
     KCal,
     cookTime,
+    tolerances,
 		onAdd: add_ingredient,
 		onDel: delete_ingredient,
     addKcal: add_KCal,
     addCookTime: add_CookTime,
+    addTolerance: add_tolerance,
     recipe: send_recipe,
 		print: log
   };
 
   return (
-    <IngredientContext.Provider value={{value}}>
+    <IngredientContext.Provider value={{value}} context={{value}}>
       {children}
     </IngredientContext.Provider>
   );
