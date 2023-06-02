@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import { useIngredients } from '../../context/ingredients_context';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,15 +35,13 @@ const tolerances = [
 ];
 
 export default function ToleranceSelectCheckmarks() {
+  const {addTolerance} = useIngredients();
   const [tolerance, setTolerance] = React.useState([]);
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setTolerance(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    const {target: { value }} = event;
+    setTolerance(value);
+    addTolerance(value);
   };
 
   return (
