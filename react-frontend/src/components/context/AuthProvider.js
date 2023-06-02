@@ -3,6 +3,8 @@ import { createContext, useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const dotenv = require("dotenv");
+dotenv.config();
 
 const AuthContext = createContext({});
 
@@ -11,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleRegister = async (user) => {
-    const response = await axios.post("http://localhost:8000/register", user);
+    const response = await axios.post(`${process.env.BACKEND_URL}/register`, user);
     const token = response.data['token']
     setToken(token);
 
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     console.log("In Login");
 
     try{
-      const response = await axios.post("http://localhost:8000/login", user);
+      const response = await axios.post(`${process.env.BACKEND_URL}/login`, user);
       if (response.status === 201){
           const token = response.data['token'];
           setToken(token);
