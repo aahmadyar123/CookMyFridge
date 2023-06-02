@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
-const userModel = require("./user");
+const userModel = require("../models/user");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
+
+// utility functions
+const {
+  findDocs,
+  findDocByField,
+  populateField,
+  createDoc,
+} = require("../utility/utility");
 
 dotenv.config();
 
@@ -79,6 +87,11 @@ async function login(login) {
   }
 }
 
+async function getUsers(name) {
+  let result = await findDocs(userModel, name);
+  return result;
+}
+
 async function findUserById(id) {
   /*
   This functions finds user by id
@@ -119,9 +132,98 @@ async function deleteUser(login) {
   }
 }
 
+async function addRecipe(user, recipeId) {
+  /*
+  This function adds a recipe to a user's list of recipes
+  Args:
+    recipeId: id of recipe to add
+    user: user to add recipe to
+  Return:
+    boolean: true if added, false otherwise
+  */
+  try {
+    // console.log("user: ", user);
+
+    user.recipes.push(recipeId);
+    await user.save();
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getRecipes(user) {
+  /*
+  This function populates a user's list of recipes
+  Args:
+    userId: id of user to get recipes from
+  Return:
+    array of recipes
+  */
+  try {
+    // populate without using utility functions
+    let populatedUser = await user.populate("recipes");
+
+    // const recipes = await populateField(user, "recipes");
+    return populatedUser;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
+async function addIngredient(user, ingredientId) {
+  /*
+  This function adds an ingredient to a user's list of ingredients
+  Args:
+    ingredientId: id of ingredient to add
+    user: user to add ingredient to
+  Return:
+    boolean: true if added, false otherwise
+  */
+  try {
+    // console.log("user: ", user);
+
+    user.ingredients.push(ingredientId);
+    await user.save();
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getIngredients(user) {
+  /*
+  This function populates a user's list of ingredients
+  Args:
+    user: user to get recipes from
+  Return:
+    array of recipes
+  */
+  try {
+    // populate without using utility functions
+    let populatedUser = await user.populate("ingredients");
+
+    // const recipes = await populateField(user, "recipes");
+    return populatedUser;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
 module.exports = {
   register,
   login,
+  getUsers,
   findUserById,
   deleteUser,
+  addRecipe,
+  getRecipes,
+  addIngredient,
+  getIngredients,
 };

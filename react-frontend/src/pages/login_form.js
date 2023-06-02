@@ -6,9 +6,9 @@ import backgroundImage from '../images/bowtiepasta.jpg';
 import logo from '../images/logo.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useForm } from "react-hook-form";
-import "../css/login.css"
-import axios from 'axios';
+import {NavLink} from '../components/Navbar/NavbarElements';
+import { useAuth } from '../components/context/AuthProvider';
+import "../css/login.css";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,8 +95,9 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const {handleSubmit} = useForm();
-
+  const {value} = useAuth();
+  const [confirmed, setConfirm] = useState(false);
+  const [bad, setBad] = useState("");
 
   const [user, setUser] = useState(
       {
@@ -116,14 +117,20 @@ function LoginForm() {
         else if (name === "password") {
           setUser({email: user['email'], password: value})
         }
-
     };
   
-    async function onSubmit() {
+    async function onSubmit(e) {
+      e.preventDefault();
       try {
-          console.log(user);
-          const response = await axios.post("http://localhost:8000/login", user);
-          return response;
+          console.log("IN LOGIN: ", user);
+          const c = await value.onLogin(user)
+          console.log("Confirmed: ", c);
+          if (c) {
+            setBad("BAD PASSWORD");
+          } else {
+            setBad("");
+          }
+          setConfirm(c);
       }
 
       catch (error) {
@@ -135,10 +142,12 @@ function LoginForm() {
 
   return (
     <div className={classes.root}>
-      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}> 
-        <a href="/">
+      <form className={classes.form} onSubmit={onSubmit}> 
+      
+        <NavLink to="/">
           <img className={classes.logo} src={logo} alt="Logo" />
-        </a>
+        </NavLink>
+
         <div>
           <div className={classes.inputIcon}>
             <MailOutlineIcon />
@@ -151,14 +160,17 @@ function LoginForm() {
               onChange={handleChange} 
             />
           </div>
+          
           <div className={classes.inputIcon}>
             <LockOutlinedIcon />
-            <TextField 
+            <TextField
+              error={confirmed}
+              helperText={bad}
               label="Password" 
               name="password" 
               type="password" 
               variant="outlined" 
-              inputProps={{ style: { paddingLeft: '12px' } }} 
+              inputProps={{ style: { paddingLeft: '12px' } }}
               //{...register("password")} // Register the "password" input
               onChange={handleChange} 
             />

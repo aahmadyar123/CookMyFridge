@@ -7,10 +7,21 @@ import {
   NavBtnLink
 } from './NavbarElements';
 
+import { useAuth } from "../context/AuthProvider";
 import Searchbar from './Searchbar';
 import '../../css/Nav.css'
 
 const Navbar = () => {
+  const { value } = useAuth();
+
+  let button;
+
+  value.token ? (
+    button =  <NavBtnLink to='/' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
+  ) : (
+    button = <NavBtnLink to='/Login' id="register"> Login </NavBtnLink>
+  )
+
   return (
     <>
       <Nav>
@@ -25,7 +36,7 @@ const Navbar = () => {
           <NavLink id="link" to='/About' >
             About
           </NavLink>
-          <NavLink id="link" to='/SaveRecipe' >
+          <NavLink id="link" to='/services/recipes'>
             Services
           </NavLink>
           <NavLink id="link" to='/ContactUs' >
@@ -35,9 +46,10 @@ const Navbar = () => {
 
         <Searchbar id="Search"/>
 
-        <NavBtn>
-          <NavBtnLink to='/Login' id="register" > Login </NavBtnLink>
+         <NavBtn>
+           {button}
         </NavBtn>
+
       </Nav>
     </>
   );
