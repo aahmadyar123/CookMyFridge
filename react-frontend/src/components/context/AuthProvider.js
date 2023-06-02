@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleRegister = async (user) => {
-    const response = await axios.post(`${process.env.BACKEND_URL}/register`, user);
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, user);
     const token = response.data['token']
     setToken(token);
 
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     console.log("In Login");
 
     try{
-      const response = await axios.post(`${process.env.BACKEND_URL}/login`, user);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, user);
       if (response.status === 201){
           const token = response.data['token'];
           setToken(token);
