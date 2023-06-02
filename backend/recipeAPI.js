@@ -6,8 +6,51 @@ dotenv.config();
 const recipeServices = require("./controllers/recipe-services");
 
 
-instruction = { 
-    analyzedInstructions: [
+testRecipe = {"results": [
+        {
+            "vegetarian": false,
+            "vegan": false,
+            "glutenFree": true,
+            "dairyFree": true,
+            "veryHealthy": true,
+            "cheap": false,
+            "veryPopular": true,
+            "sustainable": false,
+            "lowFodmap": false,
+            "weightWatcherSmartPoints": 11,
+            "gaps": "no",
+            "preparationMinutes": 10,
+            "cookingMinutes": 45,
+            "aggregateLikes": 1866,
+            "healthScore": 100,
+            "creditsText": "pinkwhen.com",
+            "sourceName": "pinkwhen.com",
+            "pricePerServing": 300.45,
+            "id": 715415,
+            "title": "Red Lentil Soup with Chicken and Turnips",
+            "readyInMinutes": 55,
+            "servings": 8,
+            "sourceUrl": "http://www.pinkwhen.com/red-lentil-soup-with-chicken-and-turnips/",
+            "image": "https://spoonacular.com/recipeImages/715415-312x231.jpg",
+            "imageType": "jpg",
+            "summary": "Red Lentil Soup with Chicken and Turnips might be a good recipe to expand your main course repertoire. This recipe serves 8 and costs $3.0 per serving. One serving contains <b>477 calories</b>, <b>27g of protein</b>, and <b>20g of fat</b>. It is brought to you by Pink When. 1866 people have tried and liked this recipe. It can be enjoyed any time, but it is especially good for <b>Autumn</b>. From preparation to the plate, this recipe takes approximately <b>55 minutes</b>. It is a good option if you're following a <b>gluten free and dairy free</b> diet. Head to the store and pick up salt and pepper, canned tomatoes, flat leaf parsley, and a few other things to make it today. Overall, this recipe earns a <b>spectacular spoonacular score of 99%</b>. If you like this recipe, you might also like recipes such as <a href=\"https://spoonacular.com/recipes/red-lentil-and-chicken-soup-682185\">Red Lentil and Chicken Soup</a>, <a href=\"https://spoonacular.com/recipes/red-lentil-and-chicken-soup-1058971\">Red Lentil and Chicken Soup</a>, and <a href=\"https://spoonacular.com/recipes/red-lentil-soup-34121\">Red-Lentil Soup</a>.",
+            "cuisines": [],
+            "dishTypes": [
+                "lunch",
+                "soup",
+                "main course",
+                "main dish",
+                "dinner"
+            ],
+            "diets": [
+                "gluten free",
+                "dairy free"
+            ],
+            "occasions": [
+                "fall",
+                "winter"
+            ],
+            "analyzedInstructions": [
                 {
                     "name": "",
                     "steps": [
@@ -189,7 +232,23 @@ instruction = {
                     ]
                 }
             ],
-    }
+            "spoonacularSourceUrl": "https://spoonacular.com/red-lentil-soup-with-chicken-and-turnips-715415",
+            "nutrition": {
+                "nutrients": [
+                    {
+                        "name": "Calories",
+                        "amount": 477.238,
+                        "unit": "kcal"
+                    }
+                ]
+            }
+        }
+    ],
+    "offset": 0,
+    "number": 1,
+    "totalResults": 590
+}
+
 
 async function getRecipe(params) {
     /*
@@ -224,10 +283,12 @@ function parseRecipe(recipe) {
     :return: new JSON containing important information about recipe
     */
     //new JSON and fields to parse for
-    let newDish = {};
+
+    recipe = testRecipe.results[0];
+    const newDish = {};
 
     //fields to parse
-    const fields =["id", "title", "servings", "summary", "spoonacularSourceURL", "readyInMinutes", "image"]; //spoonacular JSON fields
+    const fields =["id", "title", "servings", "summary", "spoonacularSourceUrl", "readyInMinutes", "image"]; //spoonacular JSON fields
     const newFields = ["id", "name", "servings", "summary", "url", "readyInMinutes", "image"];               //field names in MongoDB databse
 
     //add data to new JSON
@@ -240,6 +301,7 @@ function parseRecipe(recipe) {
         }
     }
     //get calorie information
+    recipe.kcal = null;
     if (recipe.hasOwnProperty("nutrition")) {
         if (recipe["nutrition"].hasOwnProperty("nutrients")) {
             if (recipe.nutrition.nutrients.length > 0) {
@@ -249,6 +311,18 @@ function parseRecipe(recipe) {
             }
         }
     }
+ 
+    if (recipe.hasOwnProperty("analyzedInstructions") && recipe.analyzedInstructions.length > 0) {
+        let data = analyzeInstructions(recipe.analyzedInstructions[0]);
+        newDish.ingredients = data.ingredients;
+        newDish.steps = data.steps;
+    }
+    else {
+        newDish.ingredients = null;
+        newDish.steps = null;
+    }
+
+    return newDish
 }
 
 function analyzeInstructions(instructions) {
@@ -258,7 +332,6 @@ function analyzeInstructions(instructions) {
     return: JSON object containing ingredients and steps to make recipe
     */
 
-    instructions = instruction.analyzedInstructions[0]
     let ret = {};
     ret['ingredients'] = new Set();
     ret['steps'] = []
@@ -272,9 +345,7 @@ function analyzeInstructions(instructions) {
             ret.ingredients.add(instructions.steps[i].ingredients[j].name)
         }
     }
-
     return ret
-
 }
 
 
