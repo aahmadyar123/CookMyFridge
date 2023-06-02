@@ -56,14 +56,14 @@ async function authenticateToken(req, res, next) {
       console.log("NULL TOKEN IN AUTH");
       return res.status(401).send("NULL TOKEN");
     }
-//   token = req.body["token"];
+    //   token = req.body["token"];
 
-//   if (token == null) res.status(401);
+    //   if (token == null) res.status(401);
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       console.log(err);
 
-    if (err) res.status(403);
+      if (err) res.status(403);
 
       req._id = user;
 
