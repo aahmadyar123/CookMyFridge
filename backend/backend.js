@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 //authenticate JWT for protected routes
-app.use("/services", authenticateToken);
+// app.use("/services", authenticateToken);
 
 // --------------------------------------
 //  Token
@@ -50,19 +50,30 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   console.log("In authenticate Token");
-  token = req.body["token"];
+  try {
+    token = req.body["token"];
+    if (token == null) {
+      console.log("NULL TOKEN IN AUTH");
+      return res.status(401).send("NULL TOKEN");
+    }
+//   token = req.body["token"];
 
-  if (token == null) res.status(401);
+//   if (token == null) res.status(401);
 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err);
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      console.log(err);
 
     if (err) res.status(403);
 
-    req._id = user;
+      req._id = user;
 
-    next();
-  });
+      next();
+    });
+  } catch (error) {
+    console.log(error);
+    console.log("AUTH TOKEN ERROR");
+    res.sendStatus(500);
+  }
 }
 
 // --------------------------------------------------
@@ -137,6 +148,7 @@ app.get("/users/:id", async (req, res) => {
     } else {
       res.send({ users_list: result });
     }
+    x;
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error.");
@@ -271,7 +283,7 @@ app.get("/users/:id/data", async (req, res) => {
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
 
-app.post("/services/recipes", async (req, res) => {
+app.post("/services/recipes", authenticateToken, async (req, res) => {
   try {
     const id = req._id;
     const user = await userServices.findUserById(id);
@@ -458,7 +470,6 @@ app.delete("/ingredients/:id", async (req, res) => {
   }
 });
 
-///*
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
     console.log(
@@ -466,8 +477,6 @@ app.listen(process.env.PORT || port, () => {
     );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
-
-//*/
 
 /*
 https

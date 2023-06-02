@@ -6,7 +6,6 @@ import axios from 'axios';
 const dotenv = require("dotenv");
 dotenv.config();
 
-
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -15,7 +14,6 @@ export const AuthProvider = ({ children }) => {
 
   const handleRegister = async (user) => {
     const response = await axios.post(`${process.env.BACKEND_URL}/register`, user);
-    // const response = await axios.post("http://localhost:8000/register", user);
     const token = response.data['token']
     setToken(token);
 

@@ -15,7 +15,6 @@ const Navbar = () => {
   const { value } = useAuth();
 
   let button;
-  console.log("token: ", value.token);
 
   value.token ? (
     button =  <NavBtnLink to='/' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
