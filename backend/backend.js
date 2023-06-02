@@ -2,6 +2,9 @@
 const https = require("https");
 const fs = require("fs");
 
+//methods to interact with recipe API
+const recipeAPI = require("./recipeAPI.js");
+
 //express js
 const express = require("express");
 
@@ -53,11 +56,14 @@ async function authenticateToken(req, res, next) {
       console.log("NULL TOKEN IN AUTH");
       return res.status(401).send("NULL TOKEN");
     }
+//   token = req.body["token"];
+
+//   if (token == null) res.status(401);
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       console.log(err);
 
-      if (err) return res.sendStatus(403);
+    if (err) res.status(403);
 
       req._id = user;
 
@@ -221,6 +227,58 @@ app.get("/users/:id/ingredients", async (req, res) => {
   }
 });
 
+// Add a Friend to a User's Friends List endpoint:
+app.post("/users/:id/friends", async (req, res) => {
+  const user_id = req.params.id;
+  const user = await userServices.findUserById(user_id);
+  const friend_id = req.body.friend_id;
+  try {
+    const result = await userServices.addFriend(user, friend_id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Populate the Friends for a specific User
+app.get("/users/:id/friends", async (req, res) => {
+  const user_id = req.params.id;
+  try {
+    const user = await userServices.findUserById(user_id);
+    const result = await userServices.getFriends(user);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Populate the User Data for a specific User
+app.get("/users/:id/data", async (req, res) => {
+  const user_id = req.params.id;
+  try {
+    const user = await userServices.findUserById(user_id);
+    const result = await userServices.getUserData(user);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // -------------------------------------------------------
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
@@ -272,6 +330,23 @@ app.get("/recipes/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const result = await recipeServices.getRecipeById(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ recipes_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+// Update recipe rating endpoint:
+app.put("/recipes/:id", async (req, res) => {
+  const id = req.params.id;
+  const rating = req.body.rating;
+  try {
+    const result = await recipeServices.updateRecipeRating(id, rating);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
@@ -391,7 +466,7 @@ app.delete("/ingredients/:id", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server Error.");
+    res.status(501).send("Internal Server Error.");
   }
 });
 

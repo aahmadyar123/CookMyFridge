@@ -20,26 +20,6 @@ connection_string =
 
 mongoose.set("debug", process.env.DEBUG);
 
-mongoose
-  .connect(
-    "mongodb+srv://" +
-      process.env.MONGO_USER +
-      ":" +
-      process.env.MONGO_PWD +
-      "@" +
-      process.env.MONGO_CLUSTER +
-      "/" +
-      process.env.MONGO_DB +
-      "?retryWrites=true&w=majority&authSource=" +
-      process.env.MONGO_AUTH_DB,
-    // "mongodb://localhost:27017/users",
-    {
-      useNewUrlParser: true, //useFindAndModify: false,
-      useUnifiedTopology: true,
-    }
-  )
-  .catch((error) => console.log(error));
-
 const ingredientsServices = require("./models/ingredient-services");
 const Ingredients = require("./models/ingredient");
 const usersServices = require("./models/user-services");

@@ -54,4 +54,4 @@ jobs:
           app-name: 'CookMyFridge-Backend'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CEA4E74F953C4FDCA01A2853E5580144 }}
-          package: .
+          package: ./backend
