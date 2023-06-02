@@ -3,46 +3,72 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const recipeServices = require("./controllers/recipe-services");
 
 
-async function getRecipe(ingredients) {
+
+async function getRecipe(params) {
     /*
     Get recipe from spponacular API via GET request
-    :param: ingredients: list of available ingredients to create dish
-    :return: list of JSON representing diferent dishes
+    :param: params: JSON containing information for search query on recipe
+    :return: list of JSON representing diferent dishes with parsed information
     */
     //parse instructions in array into string to be used in API call
-    let input = "";
-    for (let i = 0; i < ingredients.length; i++) {
-        input += `,+${ingredients[i]}`;
-    }
-    if (ingredients.length > 0) {
-        input = input.slice(2);
-    }
+    let queries = "";
+    
     
 
+    try {
     //example request
-    const result = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${input}&number=2&apiKey=${process.env.API_KEY}`);
-    console.log(result);
+    //const result = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${input}&number=2&apiKey=${process.env.API_KEY}`);
+    //console.log(result);
+    }
+    catch(e) {
+        console.log(e);
+        return null;
+    }
     
 
 }
- 
 
-async function analyzeRecipe(recipeID) {
+
+
+function parseRecipe(recipe) {
     /*
-    Analyze recipe received from spoonacular API via GET requst to get procedure to produce dish
-    :param recipeID: recipe ID according from spoonacular API
-    :return: string representing procedure to create recipe
+    Parses JSON containing information about recipe and puts in database
+    :param recipe: JSON object representing recipe
+    :return: new JSON containing important information about recipe
     */
+    //new JSON and fields to parse for
+    let newDish = {};
+
+    //fields to parse
+    const fields =["id", "title", "servings", "summary", "spoonacularSourceURL", "readyInMinutes"]; //spoonacular JSON fields
+    const newFields = ["id", "name", "servings", "summary", "url", "readyInMinutes"];               //field names in MongoDB databse
+
+    //add data to new JSON
+    for (let i = 0; i < fields.length; i++) {
+        if (recipe.hasOwnProperty(fields[i])) {
+            newDish[newFields[i]] = recipe[field];
+        }
+        else {
+            newDish[newFields[i]] = null;
+        }
+    }
     
-    //example request
-    //const result = await axios.get(`https://api.spoonacular.com/recipes/${recipeID}/analyzedInstructions${process.env.API_KEY}`);
+}
+
+function analyzeInstructions(instructions) {
+    /*
+    Analyzes instructions to make recipe from JSON and updates recipe
+    :param instructions: JSON containing instructions on how to make recipe
+    return: JSON object containing ingredients and steps to make recipe
+    */
+
 }
 
 
 
 module.exports = {
-    getRecipe,
-    analyzeRecipe
+    getRecipe
 };
