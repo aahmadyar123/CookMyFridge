@@ -47,25 +47,23 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   console.log("In authenticate Token");
-  try{
+  try {
     token = req.body["token"];
     if (token == null) {
       console.log("NULL TOKEN IN AUTH");
       return res.status(401).send("NULL TOKEN");
     }
-  
+
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       console.log(err);
-  
+
       if (err) return res.sendStatus(403);
-  
+
       req._id = user;
-  
+
       next();
     });
-  }
-  
-  catch (error) {
+  } catch (error) {
     console.log(error);
     console.log("AUTH TOKEN ERROR");
     res.sendStatus(500);
@@ -143,7 +141,8 @@ app.get("/users/:id", async (req, res) => {
       res.status(404).send("Resource not found.");
     } else {
       res.send({ users_list: result });
-    }x
+    }
+    x;
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error.");
@@ -227,12 +226,10 @@ app.get("/users/:id/ingredients", async (req, res) => {
 // -------------------------------------------------------
 
 app.post("/services/recipes", authenticateToken, async (req, res) => {
-
   try {
     const id = req._id;
     const user = await userServices.findUserById(id);
     res.send({ ingredients: "apple" }).status(200);
-
   } catch (e) {
     console.log(error);
     res.status(500).send("BAD AUTH /services/recipes");
@@ -398,7 +395,6 @@ app.delete("/ingredients/:id", async (req, res) => {
   }
 });
 
-
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
     console.log(
@@ -406,7 +402,6 @@ app.listen(process.env.PORT || port, () => {
     );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
-
 
 /*
 https
