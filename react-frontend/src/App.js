@@ -44,7 +44,6 @@ function App() {
                 <ProtectedRoute> 
                   <Services />
                   <SaveRecipe />
-                  <h1>HI</h1>
                 </ProtectedRoute>
               } 
           />
