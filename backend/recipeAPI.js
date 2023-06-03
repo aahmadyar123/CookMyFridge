@@ -132,7 +132,7 @@ function analyzeInstructions(instructions) {
   ret["steps"] = [];
 
   //use set for ingredients to not add duplicates
-  let tempIngredients = new Set()
+  let tempIngredients = new Set();
 
   //Iterate through all steps and add to array
   for (let i = 0; i < instructions.steps.length; i++) {

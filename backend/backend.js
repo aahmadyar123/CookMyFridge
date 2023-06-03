@@ -291,22 +291,21 @@ app.get("/ingredients", async (req, res) => {
 app.post("/ingredients", async (req, res) => {
   const data = req.body;
   try {
-      const id = req._id
-      console.log("ID /ingred: ", id);
-      console.log("INGREDIENTS /ingred: ", data.ingredients);
-      const updatedUser = await userServices.updateIngredients(id, data);
+    const id = req._id;
+    console.log("ID /ingred: ", id);
+    console.log("INGREDIENTS /ingred: ", data.ingredients);
+    const updatedUser = await userServices.updateIngredients(id, data);
 
-      if (updatedUser) {
-        res.status(201).send(updatedUser).end();
-      } else {
-        res.status(400).send("Bad Request.");
-      }
+    if (updatedUser) {
+      res.status(201).send(updatedUser).end();
+    } else {
+      res.status(400).send("Bad Request.");
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error.");
   }
 });
-
 
 ///*
 app.listen(process.env.PORT || port, () => {

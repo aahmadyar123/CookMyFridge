@@ -190,7 +190,6 @@ async function addIngredient(user, ingredientId) {
   }
 }
 
-
 async function getIngredients(id) {
   /*
   Gets all ingredients associated with specified user
@@ -199,10 +198,9 @@ async function getIngredients(id) {
   */
   try {
     // populate without using utility functions
-    const ingredients = await userModel.findById(id).select("ingredients"); 
+    const ingredients = await userModel.findById(id).select("ingredients");
     console.log("GET INGREDIENTS: ", ingredients);
     return ingredients;
-
   } catch (error) {
     console.log(error);
     return undefined;
@@ -231,7 +229,6 @@ async function addFriend(user, friendId) {
   }
 }
 
-
 async function updateIngredients(id, userIngredients) {
   /*
   Updates user.ingredients field in database
@@ -241,20 +238,18 @@ async function updateIngredients(id, userIngredients) {
   try {
     //update ingredients field for user with specified id
     const result = await userModel.updateOne(
-      {_id: id},
-      {$set: {ingredients: userIngredients.ingredients}}
+      { _id: id },
+      { $set: { ingredients: userIngredients.ingredients } }
     );
 
     r = await userModel.findById(id);
     console.log("RESULT: ", r);
     return result;
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     return undefined;
   }
 }
-
 
 async function getFriends(user) {
   /*
@@ -298,7 +293,6 @@ async function getFriends(user) {
 //  }
 //}
 
-
 module.exports = {
   register,
   login,
@@ -311,5 +305,5 @@ module.exports = {
   getIngredients,
   addFriend,
   getFriends,
-  updateIngredients
+  updateIngredients,
 };
