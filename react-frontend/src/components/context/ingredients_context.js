@@ -10,7 +10,7 @@ export const IngredientProvider = ({ children }) => {
   const [cookTime, setCookTime] = useState(null);
   const [sendRecipe, setRecipe] = useState(false);
   const [tolerances, setTolerance] = useState([]);
-  
+
   useEffect( (sendRecipe) => {
     if (sendRecipe === true) {
       //axois post to send request for a recipe
@@ -27,10 +27,11 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const add_ingredient = async (ingredient, token) => {
-	if (check(ingredient.slice(-1)[0]) === false) {
-        const new_ingredient = {'ingredients': ingredient, 'token': token}
+	  if (check(ingredient.slice(-1)[0]) === false) {
+        const new_ingredient = {'ingredients': ingredient}
+        const tok = {headers: {'token': token}}
         console.log("SENT INGREDIENTS: ", new_ingredient);
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient);
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
         console.log("GOT BACK RESPONSE");
 
         if (response.status === 201) {
@@ -39,9 +40,21 @@ export const IngredientProvider = ({ children }) => {
 		}
   }
 
+  const get_ingredients = async (token) => {
+    console.log("SENDING TOKEN: ", {headers: {'token': token}});
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, {headers:{'token': token}});
+    
+    if (response.status === 201) {
+      const new_ingredients = response.data.ingredients_list.ingredients
+      console.log("INGREDIENTS FROM BACKEND: ", new_ingredients);
+      setIngredients(new_ingredients);
+    }
+  }
+
 	const delete_ingredient = async (ingredient, token) => {
-    const new_ingredient = {'ingredients': ingredient, 'token': token}
-    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient);
+    const new_ingredient = {'ingredients': ingredient }
+    const tok = {headers: {'token': token}}
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
     if (response.status === 201) {
       setIngredients(ingredient);
     }
@@ -82,11 +95,12 @@ export const IngredientProvider = ({ children }) => {
     addCookTime: add_CookTime,
     addTolerance: add_tolerance,
     recipe: send_recipe,
+    getIngredients: get_ingredients,
 		print: log
   };
 
   return (
-    <IngredientContext.Provider value={{value}} context={{value}}>
+    <IngredientContext.Provider value={{value}}>
       {children}
     </IngredientContext.Provider>
   );

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import IngredientAdd from '../components/Services/ingredients/ingredients_input';
 import styled from 'styled-components'
 import IngredientTable from '../components/Services/ingredients/ingredient_table';
-import { IngredientProvider } from '../components/context/ingredients_context';
+import { useIngredients } from '../components/context/ingredients_context';
+import { useAuth } from '../components/context/AuthProvider';
 
 const Container = styled.div`
   position: center;
@@ -11,13 +12,23 @@ const Container = styled.div`
 `;
 
 
-export  default function saveIngredients() {
+const SaveIngredients = () => {
+  const {value} = useIngredients();
+  const {Auth} = useAuth();
+
+  useEffect( ()=> {
+    const token = Auth.token; // Assuming you have a token available in the context
+    console.log("SAVE TOK: ", token);
+    value.getIngredients(token);
+  }, [Auth.token]);
+
   return (
     <Container>
-      <IngredientProvider>
         <IngredientAdd />
         <IngredientTable />
-      </IngredientProvider>
     </Container>
   );
 }
+
+export default SaveIngredients;
+

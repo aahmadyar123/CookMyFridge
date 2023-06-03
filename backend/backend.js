@@ -17,7 +17,6 @@ const cors = require("cors");
 
 // Add mongdb user services
 const userServices = require("./controllers/user-services");
-const ingredientServices = require("./controllers/ingredient-services");
 const recipeServices = require("./controllers/recipe-services");
 
 //web token for user auth
@@ -51,8 +50,8 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   console.log("In authenticate Token");
-  token = req.body["token"];
-  console.log("TOKEN: ",token);
+  token = req.headers["token"];
+  console.log("TOKEN: ", token);
 
   if (token == null) res.status(401);
 
@@ -61,8 +60,8 @@ async function authenticateToken(req, res, next) {
 
     if (err) res.status(403);
 
-    req._id = user;
-    console.log("USER ID IN AUTH: ", user);
+    req._id = user.id;
+    console.log("USER ID IN AUTH: ", user.id);
     next();
   });
 }
@@ -278,12 +277,12 @@ app.get("/recipes/:id", async (req, res) => {
 //  [ ] filter by recipeId (out of scope)
 //  [ ] filter by userId (out of scope)
 app.get("/ingredients", async (req, res) => {
-  const name = req.query["name"];
   try {
-    const result = await ingredientServices.getIngredients(name);
-    res.send({ ingredients_list: result }); // can be empty array (no error if nothing found)
+    const id = req._id;
+    const result = await userServices.getIngredients(id);
+    res.status(201).send({ ingredients_list: result }); // can be empty array (no error if nothing found)
   } catch (error) {
-    console.log(error);
+    console.log("ERROR: ", error);
     res.status(500).send("Internal Server Error.");
   }
 });
@@ -295,7 +294,7 @@ app.post("/ingredients", async (req, res) => {
       const id = req._id
       console.log("ID /ingred: ", id);
       console.log("INGREDIENTS /ingred: ", data.ingredients);
-      const updatedUser = await userServices.updateIngredients(id.id, data);
+      const updatedUser = await userServices.updateIngredients(id, data);
 
       if (updatedUser) {
         res.status(201).send(updatedUser).end();

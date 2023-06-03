@@ -13,6 +13,7 @@ import RegisterForm from "./pages/register_form";
 import ReviewPage from "./pages/rating_form";
 import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
+import { IngredientProvider } from "./components/context/ingredients_context";
 
 function App() {
   return (
@@ -52,8 +53,10 @@ function App() {
             path="/services/ingredients"
             element={
               <>
-                <Services />
-                <SaveIngredient />
+                <IngredientProvider>
+                  <Services />
+                  <SaveIngredient />
+                </IngredientProvider>
               </>
             }
           />

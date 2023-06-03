@@ -121,6 +121,7 @@ export default function IngredientAdd() {
     const [ingredientList, setIngredientList] = useState([]);
     const [kcal, setKcal] = useState("");
     const [cookTime, setCookTime] = useState("");
+
     // might need dropdown for later but for now, don't need
     // const [showDropdown, setShowDropdown] = useState(false);
     const [tempData, setTempData] = useState(ingredientData); 
