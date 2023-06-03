@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthProvider';
 
 export async function Auth(){
-  const {value} = useAuth();
+  const {Auth} = useAuth();
 
   const token = {
-    'token': value.token
+    'token': Auth.token
   }
 
   console.log("BEFORE AUTH");

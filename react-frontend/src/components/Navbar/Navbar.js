@@ -12,12 +12,12 @@ import Searchbar from './Searchbar';
 import '../../css/Nav.css'
 
 const Navbar = () => {
-  const { value } = useAuth();
+  const { Auth } = useAuth();
 
   let button;
-
-  value.token ? (
-    button =  <NavBtnLink to='/' id="register" onClick={value.onLogout}> Sign Out </NavBtnLink>
+  
+  Auth.token ? (
+    button =  <NavBtnLink to='/' id="register" onClick={Auth.onLogout}> Sign Out </NavBtnLink>
   ) : (
     button = <NavBtnLink to='/Login' id="register"> Login </NavBtnLink>
   )

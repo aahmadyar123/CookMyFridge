@@ -101,14 +101,14 @@ function RegisterForm() {
         confirm: ""
       }
     );
-    const {value} = useAuth();
+    const {Auth} = useAuth();
 
     const onSubmit = async (e) => {
       e.preventDefault();
       try {
         if (confirmed) {
             console.log("SEND POST REQUST TO REGISTER");
-            await value.onRegister(user);
+            await Auth.onRegister(user);
             // const response = await axios.post("http://localhost:8000/register", user);
         }
         

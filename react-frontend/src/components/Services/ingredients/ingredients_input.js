@@ -6,6 +6,7 @@ import {useIngredients} from '../../context/ingredients_context';
 import TextField from '@material-ui/core/TextField';
 import ToleranceSelectCheckmarks from './ingredients_tolerance';
 import { ingredientData } from "../../Home/data";
+import { useAuth } from '../../context/AuthProvider';
 
 export const SearchNav = styled.nav`
   background: #FFFFFF;
@@ -124,6 +125,7 @@ export default function IngredientAdd() {
     // const [showDropdown, setShowDropdown] = useState(false);
     const [tempData, setTempData] = useState(ingredientData); 
 
+    const {Auth} = useAuth();
     const {value} = useIngredients();
 
     useEffect(() => {
@@ -154,10 +156,11 @@ export default function IngredientAdd() {
       console.log(tempData);
   };
     
-    const handleAddIngredient = () => {
+    const handleAddIngredient = async () => {
       if (searchQuery.trim() !== '') {
         setIngredientList((ingredientList) => [...ingredientList, searchQuery]);
-        value.onAdd([...ingredientList, searchQuery]);
+        console.log("TOKEN: ", Auth.token);
+        await value.onAdd([...ingredientList, searchQuery], Auth.token);
         setSearchQuery('');
         // setShowDropdown(false);
       }

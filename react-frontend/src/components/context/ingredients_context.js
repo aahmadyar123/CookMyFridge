@@ -1,5 +1,6 @@
 import React from 'react'
 import { createContext, useContext, useState, useEffect } from "react";
+import axios from 'axios';
 
 const IngredientContext = createContext({});
 
@@ -25,15 +26,25 @@ export const IngredientProvider = ({ children }) => {
     setRecipe(true);
   }
 
-  const add_ingredient = (ingredient) => {
+  const add_ingredient = async (ingredient, token) => {
 	if (check(ingredient.slice(-1)[0]) === false) {
-				setIngredients(ingredient);
+        const new_ingredient = {'ingredients': ingredient, 'token': token}
+        console.log("SENT INGREDIENTS: ", new_ingredient);
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient);
+        console.log("GOT BACK RESPONSE");
 
+        if (response.status === 201) {
+          setIngredients(ingredient);
+        }
 		}
   }
 
-	const delete_ingredient = (ingredient) => {
-		setIngredients(ingredient);
+	const delete_ingredient = async (ingredient, token) => {
+    const new_ingredient = {'ingredients': ingredient, 'token': token}
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient);
+    if (response.status === 201) {
+      setIngredients(ingredient);
+    }
 	}
 
   const add_KCal = (kcal) => {

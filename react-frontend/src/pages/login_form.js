@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm() {
   const classes = useStyles();
-  const {value} = useAuth();
+  const {Auth} = useAuth();
   const [confirmed, setConfirm] = useState(false);
   const [bad, setBad] = useState("");
 
@@ -123,7 +123,7 @@ function LoginForm() {
       e.preventDefault();
       try {
           console.log("IN LOGIN: ", user);
-          const c = await value.onLogin(user)
+          const c = await Auth.onLogin(user)
           console.log("Confirmed: ", c);
           if (c) {
             setBad("BAD PASSWORD");
