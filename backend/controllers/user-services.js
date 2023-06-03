@@ -311,6 +311,5 @@ module.exports = {
   getIngredients,
   addFriend,
   getFriends,
-  getUserData,
   updateIngredients
 };
