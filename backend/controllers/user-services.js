@@ -196,6 +196,7 @@ async function addIngredient(user, ingredientId) {
   }
 }
 
+
 async function getIngredients(user) {
   /*
   This function populates a user's list of ingredients
@@ -237,6 +238,29 @@ async function addFriend(user, friendId) {
     return false;
   }
 }
+
+
+async function updateIngredients(id, userIngredients) {
+  /*
+  Updates user.ingredients field in database
+  :param id: user id in database
+  :param ingredients: updated list of ingredients for user
+  */
+  try {
+    //update ingredients field for user with specified id
+    const result = await userModel.udpateOne(
+      {_id: id},
+      {$set: {ingredients: userIngredients.ingredients}}
+    );
+    console.log("RESULT: ", result);
+    return result;
+  }
+  catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
 
 async function getFriends(user) {
   /*
