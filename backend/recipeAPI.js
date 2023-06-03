@@ -128,8 +128,11 @@ function analyzeInstructions(instructions) {
 
   //initialize JSON to return
   let ret = {};
-  ret["ingredients"] = new Set();
+  ret["ingredients"] = [];
   ret["steps"] = [];
+
+  //use set for ingredients to not add duplicates
+  let tempIngredients = new Set();
 
   //Iterate through all steps and add to array
   for (let i = 0; i < instructions.steps.length; i++) {
@@ -137,9 +140,10 @@ function analyzeInstructions(instructions) {
 
     //Iterate through ingredients for each step and add to set of all ingredients required
     for (let j = 0; j < instructions.steps[i].ingredients.length; j++) {
-      ret.ingredients.add(instructions.steps[i].ingredients[j].name);
+      tempIngredients.add(instructions.steps[i].ingredients[j].name);
     }
   }
+  ret.ingredients = Array.from(tempIngredients);
   return ret;
 }
 

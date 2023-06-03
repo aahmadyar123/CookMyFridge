@@ -17,12 +17,12 @@ const UserSchema = new mongoose.Schema(
     },
     ingredients: [
       {
-        type: mongoose.Schema.Types.ObjectId, // array of ingredient ids (references)
-        ref: "Ingredient",
+        type: String, // array of ingredient ids (references)
         required: false,
         trim: true,
       },
     ],
+
     recipes: [
       {
         type: mongoose.Schema.Types.ObjectId, // array of recipe ids (references)

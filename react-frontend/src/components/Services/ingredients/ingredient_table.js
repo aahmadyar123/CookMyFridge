@@ -19,6 +19,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
 import { useIngredients } from '../../context/ingredients_context';
+import { useAuth } from '../../context/AuthProvider';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -116,8 +117,8 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected, deleteIngredient } = props;
 
-  const handleDeleteClick = () => {
-    deleteIngredient();
+  const handleDeleteClick = async () => {
+    await deleteIngredient();
   };
 
   return (
@@ -171,6 +172,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function IngredientTable(new_ingredient) {
   const {value} = useIngredients();
+  const {Auth} = useAuth();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -188,11 +190,11 @@ export default function IngredientTable(new_ingredient) {
     setOrderBy(property);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const updatedIngredients = ingredients.filter((ingredient) => !isSelected(ingredient));
     setOrder('asc');
     setOrderBy('calories');
-    value.onDel(updatedIngredients);
+    await value.onDel(updatedIngredients, Auth.token);
     setSelected([]);
   };
 

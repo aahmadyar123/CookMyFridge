@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthProvider';
 // import { Auth } from "./Auth";
 
 export const ProtectedRoute = ({children}) => {
-	const {value} = useAuth();
+	const {Auth} = useAuth();
 
-	if (value.token === null) {
+	if (Auth.token === null) {
 		return (
 			<h1> You do not have Authentication </h1>
 		);
