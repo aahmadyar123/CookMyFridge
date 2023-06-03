@@ -39,13 +39,10 @@ console.log("Connected to MongoDB.");
 
 async function register(user) {
   /*
-  This functions adds user to database
-  Args:
-    user: user to add to db
-  Return:
-    JSON of user if created
+  Registers user to database
+  :param user: JSON containing user account information
+  :return: JSON representing user added to DB
   */
-
   try {
     //check if duplicate email
     duplicate = await userModel.findOne({ email: user.email });
@@ -157,10 +154,8 @@ async function addRecipe(user, recipeId) {
 async function getRecipes(user) {
   /*
   This function populates a user's list of recipes
-  Args:
-    userId: id of user to get recipes from
-  Return:
-    array of recipes
+  :param: userID: id of user to get recipes from
+  :return: array of recipes
   */
   try {
     // populate without using utility functions
@@ -176,12 +171,11 @@ async function getRecipes(user) {
 
 async function addIngredient(user, ingredientId) {
   /*
-  This function adds an ingredient to a user's list of ingredients
-  Args:
-    ingredientId: id of ingredient to add
-    user: user to add ingredient to
-  Return:
-    boolean: true if added, false otherwise
+  Adds an ingredient to a user's list of ingredients
+  
+  :param ingredientId: id of ingredient to add
+  :param user: user to add ingredient to
+  :return: boolean - true if added, false otherwise
   */
   try {
     // console.log("user: ", user);
@@ -282,27 +276,28 @@ async function getFriends(user) {
   }
 }
 
-async function getUserData(user) {
-  /*
-  This function populates a user's list of friends, recipes, and ingredients
-  Args:
-    user: user to get recipes from
-  Return:
-    user filled with friends, recipes, and ingredients
-  */
-  try {
-    // populate
-    let populatedUser = await user.populate("friends");
-    populatedUser = await user.populate("recipes");
-    populatedUser = await user.populate("ingredients");
+//async function getUserData(user) {
+//  /*
+//  This function populates a user's list of friends, recipes, and ingredients
+//  Args:
+//    user: user to get recipes from
+//  Return:
+//    user filled with friends, recipes, and ingredients
+//  */
+//  try {
+//    // populate
+//    let populatedUser = await user.populate("friends");
+//    populatedUser = await user.populate("recipes");
+//    populatedUser = await user.populate("ingredients");
+//
+//    // const recipes = await populateField(user, "recipes");
+//    return populatedUser;
+//  } catch (error) {
+//    console.log(error);
+//    return undefined;
+//  }
+//}
 
-    // const recipes = await populateField(user, "recipes");
-    return populatedUser;
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
 
 module.exports = {
   register,

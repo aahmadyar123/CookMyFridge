@@ -15,7 +15,7 @@ dotenv.config();
 //use cors for
 const cors = require("cors");
 
-// Add mongdb user services
+// Add mongodb collection services
 const userServices = require("./controllers/user-services");
 const recipeServices = require("./controllers/recipe-services");
 
@@ -203,7 +203,7 @@ app.get("/users/:id/recipes", async (req, res) => {
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
 
-app.post("/services/recipes", async (req, res) => {
+app.post("/recipes", async (req, res) => {
   try {
     const id = req._id;
     const user = await userServices.findUserById(id);
