@@ -52,6 +52,7 @@ function generateAccessToken(id) {
 async function authenticateToken(req, res, next) {
   console.log("In authenticate Token");
   token = req.body["token"];
+  console.log("TOKEN: ",token);
 
   if (token == null) res.status(401);
 
@@ -61,7 +62,7 @@ async function authenticateToken(req, res, next) {
     if (err) res.status(403);
 
     req._id = user;
-
+    console.log("USER ID IN AUTH: ", user);
     next();
   });
 }
@@ -182,22 +183,22 @@ app.get("/users/:id/recipes", async (req, res) => {
 
 // Add an Ingredient to a User's Saved Ingredients endpoint:
 // - body of the request to this endpoint contains 1 field: ingredient_id
-app.post("/ingredients", async (req, res) => {
-  const user_id = req.params.id;
-  const user = await userServices.findUserById(user_id);
-  const ingredient_id = req.body.ingredient_id;
-  try {
-    const result = await userServices.addIngredient(user, ingredient_id);
-    if (result === undefined || result.length === 0) {
-      res.status(404).send("Resource not found.");
-    } else {
-      res.send({ users_list: result });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
+// app.post("/ingredients", async (req, res) => {
+//   const user_id = req.params.id;
+//   const user = await userServices.findUserById(user_id);
+//   const ingredient_id = req.body.ingredient_id;
+//   try {
+//     const result = await userServices.addIngredient(user, ingredient_id);
+//     if (result === undefined || result.length === 0) {
+//       res.status(404).send("Resource not found.");
+//     } else {
+//       res.send({ users_list: result });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
 
 
 // Populate the Ingredients for a specific User
@@ -348,9 +349,9 @@ app.post("/ingredients", async (req, res) => {
       const id = req._id
       console.log("ID /ingred: ", id);
       console.log("INGREDIENTS /ingred: ", data.ingredients);
-      const updatedUser = await userServices.updateIngredients(id, data);
+      const updatedUser = await userServices.updateIngredients(id.id, data);
 
-      if (updatedUesr) {
+      if (updatedUser) {
         res.status(201).send(updatedUser).end();
       } else {
         res.status(400).send("Bad Request.");

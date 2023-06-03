@@ -248,11 +248,13 @@ async function updateIngredients(id, userIngredients) {
   */
   try {
     //update ingredients field for user with specified id
-    const result = await userModel.udpateOne(
+    const result = await userModel.updateOne(
       {_id: id},
       {$set: {ingredients: userIngredients.ingredients}}
     );
-    console.log("RESULT: ", result);
+
+    r = await userModel.findById(id);
+    console.log("RESULT: ", r);
     return result;
   }
   catch (error) {
@@ -317,4 +319,5 @@ module.exports = {
   addFriend,
   getFriends,
   getUserData,
+  updateIngredients
 };
