@@ -200,24 +200,6 @@ app.get("/users/:id/recipes", async (req, res) => {
 //   }
 // });
 
-
-// Populate the Ingredients for a specific User
-app.get("/users/ingredients", async (req, res) => {
-  const user_id = req.params.id;
-  try {
-    const user = await userServices.findUserById(user_id);
-    const result = await userServices.getIngredients(user);
-    if (result === undefined || result.length === 0) {
-      res.status(404).send("Resource not found.");
-    } else {
-      res.send({ users_list: result });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
 // -------------------------------------------------------
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
@@ -264,8 +246,6 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
-
-
 // Get recipe by Id endpoint:
 app.get("/recipes/:id", async (req, res) => {
   const id = req.params.id;
@@ -308,40 +288,6 @@ app.get("/ingredients", async (req, res) => {
   }
 });
 
-// Get ingredient by Id endpoint:
-app.get("/ingredients/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const result = await ingredientServices.getIngredientById(id);
-    if (result === undefined || result.length === 0) {
-      res.status(404).send("Resource not found.");
-    } else {
-      res.send({ ingredients_list: result });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-// Get ingredients by recipe Id endpoint:
-
-// Get ingredients by user Id endpoint:
-app.get("/ingredients/users/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const result = await ingredientServices.getIngredientsByUserId(id);
-    if (result === undefined || result.length === 0) {
-      res.status(404).send("Resource not found.");
-    } else {
-      res.send({ ingredients_list: result });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
 // Create ingredient endpoint:
 app.post("/ingredients", async (req, res) => {
   const data = req.body;
@@ -362,39 +308,6 @@ app.post("/ingredients", async (req, res) => {
   }
 });
 
-// Update ingredient endpoint:
-
-// Delete ingredient by name:
-app.delete("/ingredients", async (req, res) => {
-  const name = req.query["name"];
-  try {
-    const result = await ingredientServices.deleteIngredientByName(name);
-    if (result) {
-      res.status(204).end();
-    } else {
-      res.status(404).send("Resource not found.");
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-// Delete ingredient by id endpoint:
-app.delete("/ingredients/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const result = await ingredientServices.deleteIngredientById(id);
-    if (result) {
-      res.status(204).end();
-    } else {
-      res.status(404).send("Resource not found.");
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
 
 ///*
 app.listen(process.env.PORT || port, () => {
