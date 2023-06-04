@@ -20,7 +20,7 @@ const SaveIngredients = () => {
     const token = Auth.token; // Assuming you have a token available in the context
     console.log("SAVE TOK: ", token);
     value.getIngredients(token);
-  }, [Auth.token, value]);
+  }, [Auth.token]);
 
   return (
     <Container>
