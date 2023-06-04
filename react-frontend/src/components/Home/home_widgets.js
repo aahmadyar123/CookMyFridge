@@ -52,19 +52,19 @@ export default function HomeWidgets() {
     <>
         <WidgetBox>
             <WidgetImg>
-                <img src={require('../../images/toast.png')} id="Recipe" alt="Toast"/>
+                <img src={require('../../images/toast.png')} id="Saved_Recipe" alt="Toast" style={{ width: '310px', height: '365px' }}/>
                 <StyledLink href="/SaveRecipe">
                     <Button id="Button"> My Favorites </Button>
                 </StyledLink>
             </WidgetImg>
             <WidgetImg>
-                <img src={require('../../images/soup.png')} id="Recipe" alt="Soup"/>
+                <img src={require('../../images/soup.png')} id="Saved_Recipe" alt="Soup"/>
                 <StyledLink href="/SaveIngredient">
                     <Button id="Button"> Find Recipes </Button>
                 </StyledLink>
             </WidgetImg>
             <WidgetImg>
-                <img src={require('../../images/cookie.png')} id="Recipe" alt="Cookie"/>
+                <img src={require('../../images/cookie.png')} id="Saved_Recipe" alt="Cookie"/>
                 <StyledLink href="/ContactUs">
                     <Button id="Button"> Contact Us </Button>
                 </StyledLink>

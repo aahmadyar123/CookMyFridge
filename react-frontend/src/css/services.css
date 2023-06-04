@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre&display=swap');
 
-#Recipe {
+#Saved_Recipe {
     font-family: 'Abhaya Libre', serif;
     font-style: 'normal';
     font-weight: 600;;
@@ -10,6 +10,15 @@
 }
 
 #Ingredients {
+    font-family: 'Abhaya Libre', serif;
+    font-style: 'normal';
+    font-weight: 600;;
+    font-size: 25.1px;
+    line-height: 10px;
+    padding-left: 100px;
+}
+
+#Recipe {
     font-family: 'Abhaya Libre', serif;
     font-style: 'normal';
     font-weight: 600;;

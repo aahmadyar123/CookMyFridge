@@ -25,17 +25,6 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/About" element={<About />} />
-           
-        {/* 
-          <Route 
-            path="/Services" 
-              element={
-                  <ProtectedRoute> 
-                      <Services /> 
-                  </ProtectedRoute>
-              } 
-          /> */}
-
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Login" element={<LoginForm />} />
           <Route path="/Register" element={<RegisterForm />} />

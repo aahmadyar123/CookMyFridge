@@ -26,13 +26,11 @@ const RecipeMenu = () => {
   return (
     <PageContainer>
     <MainContent>
-      {/* Your existing RecipeGrid component */}
       <RecipeGrid />
     </MainContent>
     <Footer>
     </Footer>
   </PageContainer>
-    // <RecipeGrid />
   ); 
 }
 
