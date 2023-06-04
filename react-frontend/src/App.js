@@ -14,6 +14,7 @@ import ReviewPage from "./pages/rating_form";
 import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
+import RecipeMenu from "./pages/recipes";
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
           <Route path="/Register" element={<RegisterForm />} />
 
           <Route
-            path="/services/recipes"
+            path="/services/saved_recipes"
               element={
                 <ProtectedRoute> 
                   <Services />
@@ -60,6 +61,17 @@ function App() {
               </>
             }
           />
+
+          <Route
+            path="/services/recipes"
+              element={
+                <ProtectedRoute> 
+                  <Services />
+                  <RecipeMenu />
+                </ProtectedRoute>
+              } 
+          />
+
 
           <Route path="/rating_form" element={<ReviewPage />} />
         </Routes>
