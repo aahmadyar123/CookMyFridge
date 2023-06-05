@@ -234,7 +234,6 @@ app.get("/recipes/:id", async (req, res) => {
   }
 });
 
-
 //search API for recipes
 app.post("/recipes", async (req, res) => {
   try {
@@ -264,7 +263,6 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
-
 //Favorite Recipe
 app.post("/recipes/:id", async (req, res) => {
   try {
@@ -284,34 +282,32 @@ app.post("/recipes/:id", async (req, res) => {
   }
 });
 
-
 //Get ratings for recipe
 app.get("/recipe/:id/ratings", async (req, res) => {
   try {
     //get recipe ID
     const recipeID = req.params["id"];
-    const ratings = recipeServices(recipeID);
+    const ratings = await recipeServices(recipeID);
 
     if (ratings === undefined) {
       res.status(404).send("Resource not Found").end();
-    }
-    else {
+    } else {
       res.status(201).send(ratings).end();
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(500);
   }
 });
 
-
 //add rating to recipe
 app.post("/recipe/:id/ratings", async (req, res) => {
   try {
+    const recipeID = req.params["id"];
+    const rating = req.body["rating"];
 
-  }
-  catch (error) {
+    const result = await recipeServices.addRating(recipeID);
+  } catch (error) {
     console.log(error);
     res.status(500);
   }
@@ -329,9 +325,9 @@ app.post("/recipe/:id/ratings", async (req, res) => {
 // INGREDIENT ENDPOINTS
 // --------------------------------------------------
 // Get all ingredients endpoint:
-//  [X] get all ingredients from database filtering by name
-//  [ ] filter by recipeId (out of scope)
-//  [ ] filter by userId (out of scope)
+
+
+//return ingredients associated with user
 app.get("/ingredients", async (req, res) => {
   try {
     const id = req._id;
