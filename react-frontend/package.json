@@ -20,6 +20,7 @@
     "interweave": "^13.1.0",
     "material-ui": "^0.20.2",
     "react": "^18.2.0",
+    "react-collapse": "^5.1.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^3.11.0",

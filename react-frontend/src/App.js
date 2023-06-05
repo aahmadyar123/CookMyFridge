@@ -15,6 +15,7 @@ import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
 import RecipeMenu from "./pages/recipes";
+import ShowRecipe from "./pages/show_recipe";
 
 function App() {
   return (
@@ -60,7 +61,14 @@ function App() {
                   <RecipeMenu />
                 </ProtectedRoute>
               } 
-              />
+          />
+
+          <Route
+            path="/services/recipes/:id"
+            element={
+                <ShowRecipe />
+            }
+          />  
 
 
           <Route path="/rating_form" element={<ReviewPage />} />
