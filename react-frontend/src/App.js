@@ -15,7 +15,7 @@ import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
 import RecipeMenu from "./pages/recipes";
-import ShowRecipe from "./pages/show_recipe";
+import ShowRecipe from "./pages/recipeExample";
 
 function App() {
   return (

@@ -5,10 +5,10 @@ import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import backgroundImage from '../images/bowtiepasta.jpg';
 import "../css/login.css"
 
 const useStyles = makeStyles((theme) => ({
@@ -19,27 +19,18 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     fontFamily: 'Abhaya Libre Bold, sans-serif',
     backgroundColor: '#f2f2f2',
-    background: `url(${backgroundImage}) no-repeat center center fixed`,
-    backgroundSize: 'cover',
-    backgroundAttachment: 'fixed',
-    backgroundPosition: 'absolute',
     overflow: 'hidden',
   },
   container: {
     fontFamily: 'Abhaya Libre Bold, sans-serif',
-    maxWidth: '500px',
     width: '100%',
-    maxHeight: '800px',
     padding: theme.spacing(4),
     backgroundColor: '#fff',
     borderRadius: '20px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-    position: 'aboslute',
   },
   form: {
     marginBottom: theme.spacing(3),
-    position: 'aboslute',
-    maxHeight: '450px',
     height: '100%',
     alignItems: 'center',
     fontFamily: 'Abhaya Libre, sans-serif',
@@ -51,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
-    position: 'aboslute',
       margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
       width: "100%",
       borderRadius: '70px',
@@ -63,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   reviewSection: {
-    position: 'aboslute',
     marginBottom: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
@@ -73,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
-      position: 'aboslute',
       margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
       borderRadius: '70px',
       color: 'white',
@@ -95,9 +83,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
   averageRating: {
-    marginBottom: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
+    flexWrap: 'nowrap',
     alignItems: 'center',
     textAlign: 'center', // Center align the text
   },
@@ -138,6 +126,7 @@ function ReviewPage() {
 
   const renderSubmitForm = () => {
     return (
+      <>
       <form onSubmit={handleSubmit} className={classes.form}>
         <Typography variant="h6" gutterBottom>
           Submit Your Rating
@@ -177,13 +166,14 @@ function ReviewPage() {
           Submit
         </Button>
       </form>
+      </>
     );
   };
 
   const renderUserReviews = () => {
     const reviewsToShow = showAllReviews ? ratings : ratings.slice(0, 1);
     return (
-      <div className={classes.reviewSection}>
+      <Box className={classes.reviewSection}>
         <Typography variant="h6" gutterBottom>
           User Reviews
         </Typography>
@@ -216,23 +206,30 @@ function ReviewPage() {
             Load More
           </Button>
         )}
-      </div>
+      </Box>
     );
   }
 
   return (
-    <div className={classes.root}>
+    <>
+    {/* <div className={classes.root}>
       <div className={classes.container}>
-        <div className={classes.averageRating}>
-          <Typography variant="h5" gutterBottom>
+        <div className={classes.averageRating}> */}
+      <Box>
+        <Box>
+          <Typography variant="h5" >
+            <Rating value={averageRating} readOnly />
             Average Rating: {averageRating.toFixed(1)}/5
           </Typography>
-          <Rating value={averageRating} readOnly />
-        </div>
-        {renderSubmitForm()}
+        </Box>
+        <Box>
+          {renderSubmitForm()}
+        </Box>
         {renderUserReviews()}
-      </div>
-    </div>
+      </Box>
+      {/* </div> */}
+    {/* </div> */}
+    </>
   );
 }
 

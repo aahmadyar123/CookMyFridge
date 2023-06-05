@@ -14,12 +14,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useIngredients } from '../context/ingredients_context';
 import { Markup } from 'interweave';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
   })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(270deg)',
+    transform: !expand ? 'rotate(180deg)' : 'rotate(0deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
@@ -42,13 +44,18 @@ function RecipeReviewCard({recipe}) {
           </Typography>
         }
       />
-      <a href={`/services/recipes/${recipe.id}`}>
-      <CardMedia
-        component="img"
-        height="194"
-        image={recipe.image}
-      />
-      </a>
+      <Link
+        to={{
+          pathname: `/services/recipes/${recipe.id}`,
+          state: recipe ,
+        }}
+      >
+        <CardMedia
+          component="img"
+          height="194"
+          image={recipe.image}
+        />
+      </Link>
       <CardContent>
         <Grid container spacing={2} columns={12}>
           <Grid item xs={7}>

@@ -13,12 +13,27 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Markup } from 'interweave';
 import { styled } from '@mui/material/styles';
+import { useLocation, useParams } from 'react-router-dom';
+import { Container } from '@mui/material';
+import { useIngredients } from '../components/context/ingredients_context';
 
 const ShowRecipe = () => {
+
+    const targetId = useParams();
+    const {value} = useIngredients();
+    let targetRecipe = null;
+
+    for (let i = 0; i < value.recipes.length; i++) {
+        if (Number(value.recipes[i].id) === Number(targetId.id)) {
+            targetRecipe = value.recipes[i];
+            break;
+        }
+    }
+
     return (
-        <>
-            <h1> Howdy</h1>
-        </>
+        <Container>
+            <img src={targetRecipe.image} alt={targetRecipe.name} />
+        </Container>
     ); 
   }
   
