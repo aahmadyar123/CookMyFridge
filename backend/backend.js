@@ -203,6 +203,34 @@ app.get("/users/:id/recipes", async (req, res) => {
 // Services Endpoints (Protected Routes)
 // -------------------------------------------------------
 
+app.get("/recipes", async (req, res) => {
+  try {
+    //send back recipes associated with user
+    const id = req._id;
+    const recipes = await userServices.getRecipes(id);
+    res.status(201).send(recipes).end();
+
+  }
+  catch (error) {
+    console.log(error);
+    res.status(404).send("Recipes not Found for User");
+
+  }
+})
+
+
+// Get recipes
+app.get("/recipes/:id", async (req, res) => {
+  const name = req.query["name"];
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
+
+
 app.post("/recipes", async (req, res) => {
   try {
     //const id = req._id;
@@ -216,9 +244,7 @@ app.post("/recipes", async (req, res) => {
       if (recipe) {
         recipes[i] = recipe;
         console.log("DUPLICATE");
-      }
-
-      else {
+      } else {
         //add recipe to database
         console.log("ADDED RECIPE");
         recipeServices.addRecipe(recipes[i]);
@@ -226,7 +252,6 @@ app.post("/recipes", async (req, res) => {
     }
 
     res.status(201).send(recipes);
-    
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
     console.log(error);
@@ -237,16 +262,7 @@ app.post("/recipes", async (req, res) => {
 // --------------------------------------------------
 // RECIPE ENDPOINTS
 // --------------------------------------------------
-// Get recipes
-app.get("/recipes/:id", async (req, res) => {
-  const name = req.query["name"];
-  try {
 
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
 
 /*
 // Create recipe endpoint:

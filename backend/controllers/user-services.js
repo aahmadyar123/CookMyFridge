@@ -151,18 +151,17 @@ async function addRecipe(user, recipeId) {
   }
 }
 
-async function getRecipes(user) {
+async function getRecipes(userID) {
   /*
   This function populates a user's list of recipes
   :param: userID: id of user to get recipes from
   :return: array of recipes
   */
   try {
-    // populate without using utility functions
-    let populatedUser = await user.populate("recipes");
+    //find user and populate recipes from doucment references
+    let populatedUser = await userModel.findUserById(userID).populate("recipes");
+    return populatedUser['recipes'];
 
-    // const recipes = await populateField(user, "recipes");
-    return populatedUser;
   } catch (error) {
     console.log(error);
     return undefined;
