@@ -26,14 +26,14 @@ export const Button = styled.button`
     height: 50px;
     margin: auto;  
     border-radius: 20px;
-    background: #000;
+    background: #353839;
     color: #fff;
     outline: none;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-decoration: none;
-
+    
     &:hover {
         transition: all 0.2s ease-in-out;
         background: #929292;

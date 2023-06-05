@@ -12,6 +12,13 @@ export const Nav = styled.nav`
     border-color: #000;
 `;
 
+export const Title = styled.h1`
+  font-size: 1.2em;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+`;
+
 export const NavLink = styled(Link)`
     color: #000;
     display: flex;
@@ -52,7 +59,7 @@ export const NavBtn = styled.nav`
   
 export const NavBtnLink = styled(Link)`
     border-radius: 4px;
-    background: #000;
+    background: #353839;
     padding: 10px 22px;
     color: #fff;
     border-radius: 100px;

@@ -4,7 +4,8 @@ import {
   NavLink,
   NavMenu,
   NavBtn,
-  NavBtnLink
+  NavBtnLink,
+  Title
 } from './NavbarElements';
 
 import { useAuth } from "../context/AuthProvider";
@@ -31,16 +32,16 @@ const Navbar = () => {
 
         <NavMenu>
           <NavLink id="link" to='/' >
-            Home
+            <Title>Home</Title>
           </NavLink>
           <NavLink id="link" to='/About' >
-            About
+            <Title>About</Title>
           </NavLink>
           <NavLink id="link" to='/services/recipes'>
-            Services
+            <Title>Services</Title>
           </NavLink>
           <NavLink id="link" to='/ContactUs' >
-            Contact Us
+            <Title>Contact Us</Title>
           </NavLink>
         </NavMenu>
 
