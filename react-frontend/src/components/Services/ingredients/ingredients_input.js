@@ -175,7 +175,7 @@ export default function IngredientAdd() {
     };    
 
     const handleRecipeSearch = () => {
-      const recipe = {'ingredients': ingredientList, 'maxCal': kcal, 'maxReadyTime': cookTime, 'intolerances': value.tolerances};
+      const recipe = {'includeIngredients': ingredientList, 'maxCal': kcal, 'maxReadyTime': cookTime, 'intolerances': value.tolerances};
       value.addKcal(kcal);
       value.addCookTime(cookTime);
       value.recipe(recipe, Auth.token);
