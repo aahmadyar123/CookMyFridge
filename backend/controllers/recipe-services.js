@@ -91,6 +91,10 @@ async function updateAverageRating(recipe, rating) {
   :return: boolean specifying if rating successfully updated
   */
   try {
+    //check for valid rating
+    if (rating < 0 || rating > 5) {
+      return false;
+    }
     //get current rating and total number of ratings
     let curRating = recipe.rating;
     let numRatings = recipe.ratings.length;
@@ -99,9 +103,10 @@ async function updateAverageRating(recipe, rating) {
     recipe.rating =
       curRating * (numRatings / (numRatings + 1)) +
       rating * (1 / (numRatings + 1));
+    return true;
   } catch (error) {
     console.log(error);
-    return undefined;
+    return false;
   }
 }
 
@@ -130,10 +135,16 @@ async function addRating(recipeID, rating) {
   try {
     //find recipe then update average rating and push new rating
     const recipe = findByID(recipeID);
-    updateAverageRating(recipe, rating.score);
-    recipe.ratings.push(rating);
-    await recipe.save(); //save updated recipe to DB
-    return true;
+
+    //check if score updated successfully
+    if (updateAverageRating(recipe, rating.score)) {
+      recipe.ratings.push(rating);
+      await recipe.save(); //save updated recipe to DB
+      return true;
+    }
+    else {
+      return false
+    }
   } catch (error) {
     console.log(error);
     return false;
