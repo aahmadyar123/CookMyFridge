@@ -209,9 +209,10 @@ app.post("/recipes", async (req, res) => {
     const user = await userServices.findUserById(id);
     parameters = req.body;
     console.log("PARAMETERS: ", parameters);
-    recipes = recipeAPI.getRecipe(parameters);
-    console.log("RECIPE: ", recipe);
-    res.send(recipes).status(200);
+    recipes = await recipeAPI.getRecipe(parameters);
+    console.log("RECIPE: ", recipes);
+    res.status(201).send(recipes);
+
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
     console.log(error);
