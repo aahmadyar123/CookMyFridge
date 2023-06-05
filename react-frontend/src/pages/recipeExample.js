@@ -125,7 +125,7 @@ function ShowRecipe() {
                                     >
                                         <Typography>
                                         <ol style={{ padding: 0, margin: 0 }}>
-                                            {targetRecipe.steps.map((step, index) => (
+                                            {targetRecipe.ingredients.map((step, index) => (
                                             <li key={index} >{step}</li>
                                             ))}
                                         </ol>
