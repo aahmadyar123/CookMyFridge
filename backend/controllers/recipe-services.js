@@ -141,9 +141,8 @@ async function addRating(recipeID, rating) {
       recipe.ratings.push(rating);
       await recipe.save(); //save updated recipe to DB
       return true;
-    }
-    else {
-      return false
+    } else {
+      return false;
     }
   } catch (error) {
     console.log(error);
