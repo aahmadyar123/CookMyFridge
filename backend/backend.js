@@ -207,19 +207,15 @@ app.get("/recipes", async (req, res) => {
     const recipes = await userServices.getRecipes(id);
     if (recipes === undefined || recipes.length === 0) {
       res.status(404).send("Recipes not Found for User");
-    }
-    else {
+    } else {
       console.log(recipes);
       res.status(201).send(recipes).end();
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(505).send("Recipes not Found for User");
-
   }
-})
-
+});
 
 // Get recipe by Id endpoint:
 app.get("/recipes/:id", async (req, res) => {
@@ -236,8 +232,6 @@ app.get("/recipes/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
-
 
 app.post("/recipes", async (req, res) => {
   try {
@@ -262,14 +256,12 @@ app.post("/recipes", async (req, res) => {
     } else {
       res.status(201).send(recipes);
     }
-
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
     console.log(error);
     res.status(500).send("BAD AUTH /services/recipes");
   }
 });
-
 
 app.post("/recipes/:id", async (req, res) => {
   try {
@@ -280,13 +272,11 @@ app.post("/recipes/:id", async (req, res) => {
 
     if (!result) {
       res.status(500).end();
-    }
-    else {
+    } else {
       res.status(201).end();
     }
-  }
-  catch (error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
     res.status(500);
   }
 });
@@ -347,7 +337,6 @@ app.listen(process.env.PORT || port, () => {
     );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
-
 
 /*
 https

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const userModel = require("../models/user");
 
-
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 
@@ -145,7 +144,6 @@ async function addRecipe(userID, recipe) {
     user.recipes.push(recipe._id);
     await user.save();
     return true;
-
   } catch (error) {
     console.log(error);
     return false;
@@ -160,10 +158,9 @@ async function getRecipes(userID) {
   */
   try {
     //find user and populate recipes from doucment references
-    let user = await findUserById(userID)
+    let user = await findUserById(userID);
     let populatedUser = await userModel.populate(user, "recipes");
-    return populatedUser['recipes'];
-
+    return populatedUser["recipes"];
   } catch (error) {
     console.log(error);
     return undefined;
@@ -270,7 +267,6 @@ async function getFriends(user) {
     return undefined;
   }
 }
-
 
 module.exports = {
   register,
