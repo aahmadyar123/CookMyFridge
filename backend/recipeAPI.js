@@ -16,8 +16,9 @@ async function getRecipe(params) {
     const ret = [];
 
     //valid seach parameters
-    const arrayParams = new Set(["ingredients", "intolerances"]);
+    const arrayParams = new Set(["includeIngredients", "intolerances"]);
     const varParams = new Set(["maxCal", "maxReadyTime"]);
+    console.log("PARAMS: ", params);
 
     //parse search paramters and too to url query
     for (let field in params) {
@@ -35,19 +36,20 @@ async function getRecipe(params) {
       }
     }
 
+    console.log("QUERY: ", queries);
     //send request to API to get recipes
     let url = `https://api.spoonacular.com/recipes/complexSearch?number=3${queries}&addRecipeInformation=true&instructionsRequired=true&apiKey=${process.env.API_KEY}`;
     const response = await axios.get(url);
     const recipes = response.data;
     console.log("URL: ", url);
-    console.log("RECIPE API: ", recipes);
+    // console.log("RECIPE API: ", recipes);
 
     //parse each recipe
     for (let i = 0; i < recipes.results.length; i++) {
       ret.push(parseRecipe(recipes.results[i]));
     }
 
-    console.log(ret);
+    // console.log(ret);
     return ret;
   }
 

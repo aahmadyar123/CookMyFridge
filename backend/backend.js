@@ -209,15 +209,18 @@ app.post("/recipes", async (req, res) => {
     //const user = await userServices.findUserById(id);
     parameters = req.body;
     recipes = await recipeAPI.getRecipe(parameters);
-
+    console.log("PARAMETERS: ", parameters);
     //check if recipe already exists in DB
-    for (let i = 0; i < result.length; i++) {
-      let recipe = await recipeServices.getRecipeWebID(recipes[i].id);
+    for (let i = 0; i < recipes.length; i++) {
+      let recipe = await recipeServices.getRecipeByWebID(recipes[i].id);
       if (recipe) {
         recipes[i] = recipe;
+        console.log("DUPLICATE");
       }
+
       else {
         //add recipe to database
+        console.log("ADDED RECIPE");
         recipeServices.addRecipe(recipes[i]);
       }
     }
