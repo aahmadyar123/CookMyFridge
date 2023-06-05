@@ -116,6 +116,27 @@ async function updateRecipeRating(recipeId, rating) {
   }
 }
 
+
+async function getRatings(recipeID) {
+  /*
+  Returns ratings associated with recipe
+  :param recipeID: databse id of recipe
+  */
+  try {
+    const recipe = findByID(recipeID);
+    return recipe.ratings;
+  }
+  catch (error) {
+    console.log(error)
+    return undefined;
+  }
+}
+
+
+async function addRating(recipeID) {
+
+}
+
 // --------------------------------------------------
 // HELPER FUNCTIONS
 // --------------------------------------------------
@@ -132,4 +153,6 @@ module.exports = {
   getRecipeById,
   updateRecipeRating,
   getRecipeByWebID,
+  getRatings,
+  addRating
 };
