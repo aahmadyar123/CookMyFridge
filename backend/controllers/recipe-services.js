@@ -51,16 +51,14 @@ async function getRecipes(name) {
 
 // create a new recipe
 async function addRecipe(recipe) {
-
   try {
-  const newRecipe = new recipeModel(recipe);
-  const savedRecipe = await newRecipe.save();
-  return savedRecipe;
- }
- catch (error) {
-  console.log(error);
-  return undefined;
- }
+    const newRecipe = new recipeModel(recipe);
+    const savedRecipe = await newRecipe.save();
+    return savedRecipe;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
 }
 
 async function getRecipeByWebID(id) {
@@ -70,16 +68,13 @@ async function getRecipeByWebID(id) {
   :return:  JSON object representing recipe
   */
   try {
-    const result = await recipeModel.findOne({id : id});
+    const result = await recipeModel.findOne({ id: id });
     return result;
-
-  }
-  catch (error) {
-    console.log(error)
-    return undefined
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 }
-
 
 // find a recipe by ID
 async function getRecipeById(id) {
@@ -136,5 +131,5 @@ module.exports = {
   addRecipe,
   getRecipeById,
   updateRecipeRating,
-  getRecipeByWebID
+  getRecipeByWebID,
 };

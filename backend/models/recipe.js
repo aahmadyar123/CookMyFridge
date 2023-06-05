@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const RecipeSchema = new mongoose.Schema(
   {
     //recipe id from spoonacular
-    id : {
+    id: {
       type: String,
       required: true,
     },
@@ -15,26 +15,25 @@ const RecipeSchema = new mongoose.Schema(
     },
 
     //recipe description
-    summary:
-      {
-        type: String,
-        required: false,
-        trim: true,
-      },
+    summary: {
+      type: String,
+      required: false,
+      trim: true,
+    },
 
-      //link to image of recipe
-      image: {
-        type: String,
-        required: false,
-        trim: false
-      },
+    //link to image of recipe
+    image: {
+      type: String,
+      required: false,
+      trim: false,
+    },
 
-      //link to recipe on spoonacular website
-      url: {
-        type: String,
-        required: false,
-        trim: false
-      },
+    //link to recipe on spoonacular website
+    url: {
+      type: String,
+      required: false,
+      trim: false,
+    },
 
     //overall rating
     rating: {
@@ -48,7 +47,7 @@ const RecipeSchema = new mongoose.Schema(
       type: {
         stars: Number,
         name: String,
-        comment: String
+        comment: String,
       },
       required: false,
       trim: true,
@@ -67,30 +66,30 @@ const RecipeSchema = new mongoose.Schema(
     kcal: {
       type: Number,
       required: false,
-      trim: false
+      trim: false,
     },
-    
+
     //time to prepare food
     readyInMinutes: {
-      type: Number, 
+      type: Number,
       required: false,
-      trim: false
+      trim: false,
     },
 
     //how many servings recipe makes
     servings: {
       type: Number,
       required: false,
-      trim: false
+      trim: false,
     },
 
-    steps: [{
-      type: String,
-      required: false,
-      trim: true
-    }],
-
-
+    steps: [
+      {
+        type: String,
+        required: false,
+        trim: true,
+      },
+    ],
   },
 
   { collection: "recipes" }
