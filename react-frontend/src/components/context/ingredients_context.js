@@ -33,6 +33,7 @@ export const IngredientProvider = ({ children }) => {
     try {
       const tok = {headers: {'token': token}}
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes`, tok);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }

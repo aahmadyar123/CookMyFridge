@@ -243,6 +243,10 @@ export default function IngredientAdd() {
                     <Button onClick={handleRecipeSearch}> Search </Button>
                 </ButtonBox>
 
+                <ButtonBox>
+                    <Button onClick={get_recipe}> Test </Button>
+                </ButtonBox>
+
             </SearchNav>
     );
 }
