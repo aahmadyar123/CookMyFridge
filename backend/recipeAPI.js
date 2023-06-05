@@ -39,6 +39,8 @@ async function getRecipe(params) {
     let url = `https://api.spoonacular.com/recipes/complexSearch?number=3${queries}&addRecipeInformation=true&instructionsRequired=true&apiKey=${process.env.API_KEY}`;
     const response = await axios.get(url);
     const recipes = response.data;
+    console.log("URL: ", url);
+    console.log("RECIPE API: ", recipes);
 
     //parse each recipe
     for (let i = 0; i < recipes.results.length; i++) {
@@ -74,6 +76,7 @@ function parseRecipe(recipe) {
     "name",
     "servings",
     "summary",
+    "kcal",
     "url",
     "readyInMinutes",
     "image",
@@ -87,6 +90,9 @@ function parseRecipe(recipe) {
       newDish[newFields[i]] = null;
     }
   }
+
+  
+  
   //get calorie information
   recipe.kcal = null;
   if (recipe.hasOwnProperty("nutrition")) {
@@ -97,6 +103,15 @@ function parseRecipe(recipe) {
         }
       }
     }
+  }
+  
+  if (newDish.summary) {
+    // Extract calories using regex
+    const regex = /(\d+)\s+calories/;
+    const match = newDish.summary.match(regex);
+    const calories = match ? parseInt(match[1]) : 0;
+    console.log(calories);
+    newDish['kcal'] = calories;
   }
 
   if (
