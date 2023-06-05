@@ -160,7 +160,8 @@ async function getRecipes(userID) {
   */
   try {
     //find user and populate recipes from doucment references
-    let populatedUser = await userModel.findUserById(userID).populate("recipes");
+    let user = await findUserById(userID)
+    let populatedUser = await userModel.populate(user, "recipes");
     return populatedUser['recipes'];
 
   } catch (error) {
@@ -243,7 +244,6 @@ async function updateIngredients(id, userIngredients) {
     );
 
     r = await userModel.findById(id);
-    console.log("RESULT: ", r);
     return result;
   } catch (error) {
     console.log(error);

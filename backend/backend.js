@@ -197,7 +197,7 @@ app.get("/users/:id/recipes", async (req, res) => {
 // });
 
 // -------------------------------------------------------
-// Services Endpoints (Protected Routes)
+// Recipes Endpoints (Protected Routes)
 // -------------------------------------------------------
 
 app.get("/recipes", async (req, res) => {
@@ -205,20 +205,32 @@ app.get("/recipes", async (req, res) => {
     //send back recipes associated with user
     const id = req._id;
     const recipes = await userServices.getRecipes(id);
-    res.status(201).send(recipes).end();
+    if (recipes === undefined || recipes.length === 0) {
+      res.status(404).send("Recipes not Found for User");
+    }
+    else {
+      console.log(recipes);
+      res.status(201).send(recipes).end();
+    }
   }
   catch (error) {
     console.log(error);
-    res.status(404).send("Recipes not Found for User");
+    res.status(505).send("Recipes not Found for User");
 
   }
 })
 
 
-// Get recipes
+// Get recipe by Id endpoint:
 app.get("/recipes/:id", async (req, res) => {
-  const name = req.query["name"];
+  const id = req.params.id;
   try {
+    const result = await recipeServices.getRecipeById(id);
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ recipes_list: result });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error.");
@@ -253,44 +265,6 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
-// --------------------------------------------------
-// RECIPE ENDPOINTS
-// --------------------------------------------------
-
-
-/*
-// Create recipe endpoint:
-app.post("/recipes", async (req, res) => {
-  const recipeToAdd = req.body;
-  try {
-    const savedRecipe = await recipeServices.createRecipe(recipeToAdd);
-    if (savedRecipe) {
-      res.status(201).send(savedRecipe).end();
-    } else {
-      res.status(400).send("Bad Request.");
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-*/
-
-// Get recipe by Id endpoint:
-app.get("/recipes/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const result = await recipeServices.getRecipeById(id);
-    if (result === undefined || result.length === 0) {
-      res.status(404).send("Resource not found.");
-    } else {
-      res.send({ recipes_list: result });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
 
 // Get recipes by user Id endpoint:
 
@@ -345,7 +319,6 @@ app.listen(process.env.PORT || port, () => {
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
 
-//*/
 
 /*
 https
