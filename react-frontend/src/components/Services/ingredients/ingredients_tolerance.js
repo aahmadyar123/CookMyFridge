@@ -35,13 +35,13 @@ const tolerances = [
 ];
 
 export default function ToleranceSelectCheckmarks() {
-  const {addTolerance} = useIngredients();
+  const {value} = useIngredients();
   const [tolerance, setTolerance] = React.useState([]);
 
   const handleChange = (event) => {
-    const {target: { value }} = event;
-    setTolerance(value);
-    addTolerance(value);
+    console.log("TOLERANCES: ", event.target.value);
+    setTolerance(event.target.value);
+    value.addTolerance(event.target.value);
   };
 
   return (
