@@ -43,15 +43,17 @@ const RecipeSchema = new mongoose.Schema(
     },
 
     //individual user ratings
-    ratings: {
-      type: {
-        stars: Number,
-        name: String,
-        comment: String,
+    ratings: [
+      {
+        type: {
+          stars: Number,
+          name: String,
+          comment: String,
+        },
+        required: false,
+        trim: true,
       },
-      required: false,
-      trim: true,
-    },
+    ],
 
     //ingredients required in recipe
     ingredients: [

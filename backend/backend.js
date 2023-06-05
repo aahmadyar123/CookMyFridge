@@ -200,6 +200,7 @@ app.get("/users/:id/recipes", async (req, res) => {
 // Recipes Endpoints (Protected Routes)
 // -------------------------------------------------------
 
+//load in saved recipes
 app.get("/recipes", async (req, res) => {
   try {
     //send back recipes associated with user
@@ -233,18 +234,17 @@ app.get("/recipes/:id", async (req, res) => {
   }
 });
 
+//search API for recipes
 app.post("/recipes", async (req, res) => {
   try {
     const id = req._id;
-    //const user = await userServices.findUserById(id);
     parameters = req.body;
     recipes = await recipeAPI.getRecipes(parameters);
-    console.log("PARAMETERS: ", parameters);
-    //check if recipe already exists in DB
 
     if (recipes === undefined || recipes.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
+      //check if recipe already exists in DB
       for (let i = 0; i < recipes.length; i++) {
         let recipe = await recipeServices.getRecipeByWebID(recipes[i].id);
         if (recipe) {
@@ -263,6 +263,7 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
+//Favorite Recipe
 app.post("/recipes/:id", async (req, res) => {
   try {
     //data base id for user and recipe
@@ -281,6 +282,37 @@ app.post("/recipes/:id", async (req, res) => {
   }
 });
 
+//Get ratings for recipe
+app.get("/recipe/:id/ratings", async (req, res) => {
+  try {
+    //get recipe ID
+    const recipeID = req.params["id"];
+    const ratings = await recipeServices(recipeID);
+
+    if (ratings === undefined) {
+      res.status(404).send("Resource not Found").end();
+    } else {
+      res.status(201).send(ratings).end();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
+//add rating to recipe
+app.post("/recipe/:id/ratings", async (req, res) => {
+  try {
+    const recipeID = req.params["id"];
+    const rating = req.body["rating"];
+
+    const result = await recipeServices.addRating(recipeID);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
 // Get recipes by user Id endpoint:
 
 // Create recipe endpoint:
@@ -293,9 +325,8 @@ app.post("/recipes/:id", async (req, res) => {
 // INGREDIENT ENDPOINTS
 // --------------------------------------------------
 // Get all ingredients endpoint:
-//  [X] get all ingredients from database filtering by name
-//  [ ] filter by recipeId (out of scope)
-//  [ ] filter by userId (out of scope)
+
+//return ingredients associated with user
 app.get("/ingredients", async (req, res) => {
   try {
     const id = req._id;
