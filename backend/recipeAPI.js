@@ -5,7 +5,7 @@ dotenv.config();
 
 const recipeServices = require("./controllers/recipe-services");
 
-async function getRecipe(params) {
+async function getRecipes(params) {
   /*
   Get recipe from spponacular API via GET request
   :param: params: JSON containing information for search query on recipe
@@ -157,7 +157,7 @@ function analyzeInstructions(instructions) {
 }
 
 module.exports = {
-  getRecipe,
+  getRecipes,
   parseRecipe,
   analyzeInstructions,
 };

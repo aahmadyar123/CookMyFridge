@@ -238,7 +238,7 @@ app.post("/recipes", async (req, res) => {
     const id = req._id;
     //const user = await userServices.findUserById(id);
     parameters = req.body;
-    recipes = await recipeAPI.getRecipe(parameters);
+    recipes = await recipeAPI.getRecipes(parameters);
     console.log("PARAMETERS: ", parameters);
     //check if recipe already exists in DB
     for (let i = 0; i < recipes.length; i++) {
