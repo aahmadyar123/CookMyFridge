@@ -228,6 +228,19 @@ app.get("/recipes", async (req, res) => {
   const name = req.query["name"];
   try {
     const result = await recipeServices.getRecipes(name);
+
+    //check if recipe already exists in DB
+    for (let i = 0; i < result.length; i++) {
+      let recipe = await recipeServices.getRecipeWebID(result.id);
+      if (recipeExists) {
+        result[i] = recipe;
+      }
+      else {
+        //add recipe to database
+      }
+    }
+
+
     res.send({ recipes_list: result }); // can be empty array (no error if nothing found)
   } catch (error) {
     console.log(error);

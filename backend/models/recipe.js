@@ -2,59 +2,95 @@ const mongoose = require("mongoose");
 
 const RecipeSchema = new mongoose.Schema(
   {
+    //recipe id from spoonacular
+    id : {
+      type: String,
+      required: true,
+    },
+    //recipe name
     name: {
       type: String,
       required: true,
       trim: true,
     },
 
-    no_ratings: {
+    //recipe description
+    summary:
+      {
+        type: String,
+        required: false,
+        trim: true,
+      },
+
+      //link to image of recipe
+      image: {
+        type: String,
+        required: false,
+        trim: false
+      },
+
+      //link to recipe on spoonacular website
+      url: {
+        type: String,
+        required: false,
+        trim: false
+      },
+
+    //overall rating
+    rating: {
       type: Number,
       required: false,
       trim: true,
     },
 
-    rating: {
-      type: Number, // average rating = rating / no_ratings
+    //individual user ratings
+    ratings: {
+      type: {
+        stars: Number,
+        name: String,
+        comment: String
+      },
       required: false,
       trim: true,
     },
 
-    details: [
-      {
-        type: mongoose.Schema.Types.ObjectId, // array of details ids (references)
-        ref: "Details",
-        required: false,
-        trim: true,
-      },
-    ],
-
-    dietary_restrictions: [
-      {
-        type: mongoose.Schema.Types.ObjectId, // array of restrictions ids (references)
-        ref: "dietary_restrictions",
-        required: false,
-        trim: true,
-      },
-    ],
-
-    region: [
-      {
-        type: mongoose.Schema.Types.ObjectId, // array of region ids (references)
-        ref: "Region",
-        required: false,
-        trim: true,
-      },
-    ],
-
+    //ingredients required in recipe
     ingredients: [
       {
-        type: mongoose.Schema.Types.ObjectId, // array of ingredients ids (references)
-        ref: "Ingredient",
+        type: String,
         required: false,
         trim: true,
       },
     ],
+
+    //kcals in recipe
+    kcal: {
+      type: Number,
+      required: false,
+      trim: false
+    },
+    
+    //time to prepare food
+    readyInMinutes: {
+      type: Number, 
+      required: false,
+      trim: false
+    },
+
+    //how many servings recipe makes
+    servings: {
+      type: Number,
+      required: false,
+      trim: false
+    },
+
+    steps: [{
+      type: String,
+      required: false,
+      trim: true
+    }],
+
+
   },
 
   { collection: "recipes" }
