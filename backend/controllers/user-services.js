@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const userModel = require("../models/user");
+
+
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 
@@ -129,22 +131,21 @@ async function deleteUser(login) {
   }
 }
 
-async function addRecipe(user, recipeId) {
+async function addRecipe(userID, recipe) {
   /*
-  This function adds a recipe to a user's list of recipes
-  Args:
-    recipeId: id of recipe to add
-    user: user to add recipe to
-  Return:
-    boolean: true if added, false otherwise
+  Adds recipe reference to user
+  :param userID: id of user
+  :param recipe: recipe object
+  :return: boolean if added
   */
   try {
     // console.log("user: ", user);
 
-    user.recipes.push(recipeId);
+    const user = await findUserById(userID);
+    user.recipes.push(recipe._id);
     await user.save();
-
     return true;
+
   } catch (error) {
     console.log(error);
     return false;
@@ -270,27 +271,6 @@ async function getFriends(user) {
   }
 }
 
-//async function getUserData(user) {
-//  /*
-//  This function populates a user's list of friends, recipes, and ingredients
-//  Args:
-//    user: user to get recipes from
-//  Return:
-//    user filled with friends, recipes, and ingredients
-//  */
-//  try {
-//    // populate
-//    let populatedUser = await user.populate("friends");
-//    populatedUser = await user.populate("recipes");
-//    populatedUser = await user.populate("ingredients");
-//
-//    // const recipes = await populateField(user, "recipes");
-//    return populatedUser;
-//  } catch (error) {
-//    console.log(error);
-//    return undefined;
-//  }
-//}
 
 module.exports = {
   register,

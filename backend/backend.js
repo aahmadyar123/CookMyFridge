@@ -49,9 +49,7 @@ function generateAccessToken(id) {
 //app.get(..., authenticateToken, function (req, res) => ...);
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
-  console.log("In authenticate Token");
   token = req.headers["token"];
-  console.log("TOKEN: ", token);
 
   if (token == null) res.status(401);
 
@@ -61,7 +59,6 @@ async function authenticateToken(req, res, next) {
     if (err) res.status(403);
 
     req._id = user.id;
-    console.log("USER ID IN AUTH: ", user.id);
     next();
   });
 }
@@ -209,7 +206,6 @@ app.get("/recipes", async (req, res) => {
     const id = req._id;
     const recipes = await userServices.getRecipes(id);
     res.status(201).send(recipes).end();
-
   }
   catch (error) {
     console.log(error);
@@ -233,7 +229,7 @@ app.get("/recipes/:id", async (req, res) => {
 
 app.post("/recipes", async (req, res) => {
   try {
-    //const id = req._id;
+    const id = req._id;
     //const user = await userServices.findUserById(id);
     parameters = req.body;
     recipes = await recipeAPI.getRecipe(parameters);
@@ -243,10 +239,8 @@ app.post("/recipes", async (req, res) => {
       let recipe = await recipeServices.getRecipeByWebID(recipes[i].id);
       if (recipe) {
         recipes[i] = recipe;
-        console.log("DUPLICATE");
       } else {
         //add recipe to database
-        console.log("ADDED RECIPE");
         recipeServices.addRecipe(recipes[i]);
       }
     }
@@ -319,7 +313,7 @@ app.get("/ingredients", async (req, res) => {
     const result = await userServices.getIngredients(id);
     res.status(201).send({ ingredients_list: result }); // can be empty array (no error if nothing found)
   } catch (error) {
-    console.log("ERROR: ", error);
+    console.log(error);
     res.status(500).send("Internal Server Error.");
   }
 });
@@ -329,8 +323,6 @@ app.post("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
-    console.log("ID /ingred: ", id);
-    console.log("INGREDIENTS /ingred: ", data.ingredients);
     const updatedUser = await userServices.updateIngredients(id, data);
 
     if (updatedUser) {
