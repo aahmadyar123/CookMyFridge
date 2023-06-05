@@ -30,6 +30,8 @@ export const AuthProvider = ({ children }) => {
     console.log("In Login");
 
     try{
+      console.log(`${process.env.REACT_APP_BACKEND_URL}/login`);
+      console.log("USER", user);
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, user);
       if (response.status === 201){
           const token = response.data['token'];

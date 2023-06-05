@@ -208,11 +208,22 @@ app.post("/recipes", async (req, res) => {
     const id = req._id;
     const user = await userServices.findUserById(id);
     parameters = req.body;
-    console.log("PARAMETERS: ", parameters);
     recipes = await recipeAPI.getRecipe(parameters);
-    console.log("RECIPE: ", recipes);
-    res.status(201).send(recipes);
 
+    //check if recipe already exists in DB
+    for (let i = 0; i < result.length; i++) {
+      let recipe = await recipeServices.getRecipeWebID(result.id);
+      if (recipeExists) {
+        result[i] = recipe;
+      }
+      else {
+        //add recipe to database
+        recipeServices.addRecipe(result[i]);
+      }
+    }
+
+    res.status(201).send(recipes);
+    
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
     console.log(error);
@@ -224,24 +235,10 @@ app.post("/recipes", async (req, res) => {
 // RECIPE ENDPOINTS
 // --------------------------------------------------
 // Get recipes
-app.get("/recipes", async (req, res) => {
+app.get("/recipes/:id", async (req, res) => {
   const name = req.query["name"];
   try {
-    const result = await recipeServices.getRecipes(name);
 
-    //check if recipe already exists in DB
-    for (let i = 0; i < result.length; i++) {
-      let recipe = await recipeServices.getRecipeWebID(result.id);
-      if (recipeExists) {
-        result[i] = recipe;
-      }
-      else {
-        //add recipe to database
-      }
-    }
-
-
-    res.send({ recipes_list: result }); // can be empty array (no error if nothing found)
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error.");

@@ -50,15 +50,18 @@ async function getRecipes(name) {
 }
 
 // create a new recipe
-async function createRecipe(recipe) {
-  const savedRecipe = await createDoc(recipeModel, recipe);
-  if (savedRecipe) {
-    return savedRecipe;
-  } else {
-    return false;
-  }
-}
+async function addRecipe(recipe) {
 
+  try {
+  const newRecipe = new recipeModel(recipe);
+  const savedRecipe = await newRecipe.save();
+  return savedRecipe;
+ }
+ catch (error) {
+  console.log(error);
+  return undefined;
+ }
+}
 
 async function getRecipeByWebID(id) {
   /*
@@ -75,8 +78,6 @@ async function getRecipeByWebID(id) {
     console.log(error)
     return undefined
   }
-
-
 }
 
 
@@ -132,7 +133,8 @@ async function findRecipeByName(name) {
 // --------------------------------------------------
 module.exports = {
   getRecipes,
-  createRecipe,
+  addRecipe,
   getRecipeById,
   updateRecipeRating,
+  getRecipeByWebID
 };
