@@ -20,6 +20,7 @@ function App() {
   return (
     <Router>
         <AuthProvider>
+          <IngredientProvider>  
         <NavBar />
         
         <Routes>
@@ -44,28 +45,27 @@ function App() {
             element={
               <>
                 <ProtectedRoute>
-                  <IngredientProvider>
-                    <Services />
-                    <SaveIngredient />
-                  </IngredientProvider>
+                  <Services />
+                  <SaveIngredient />
                 </ProtectedRoute>
               </>
             }
-          />
+            />
 
           <Route
             path="/services/recipes"
-              element={
-                <ProtectedRoute> 
+            element={
+              <ProtectedRoute> 
                   <Services />
                   <RecipeMenu />
                 </ProtectedRoute>
               } 
-          />
+              />
 
 
           <Route path="/rating_form" element={<ReviewPage />} />
         </Routes>
+        </IngredientProvider>
       </AuthProvider>
     </Router>
   );

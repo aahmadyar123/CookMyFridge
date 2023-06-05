@@ -4,11 +4,13 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import Collapse from '@mui/material/Collapse';
+//import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import '../../css/services.css';
+import { useIngredients } from '../context/ingredients_context';
+import { Markup } from 'interweave';
 
 function RecipeReviewCard({recipe}) {
   return (
@@ -21,62 +23,68 @@ function RecipeReviewCard({recipe}) {
         }
         title={
           <Typography variant="h6" sx={{ fontSize: 20}}>
-            Shrimp and Chorizo Paella
+            {recipe.name} 
           </Typography>
         }
       />
       <CardMedia
         component="img"
         height="194"
-        image="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs3.amazonaws.com%2Fgrecipes%2Fpublic%2Fpictures%2Frecipes%2F1035809%2Fpaella_big.jpg&f=1&nofb=1&ipt=f3a82793c8588fcc7157574e26b359d02fe3703cf79a4349d63e193d4988e6ae&ipo=images"
-        alt="Paella dish"
+        image={recipe.image}
       />
       <CardContent>
         <Grid container spacing={2} columns={12}>
           <Grid item xs={7}>
-            Cook Time: 30 min
+            Cook Time: {recipe.readyInMinutes} min
           </Grid>
           <Grid item xs={4}>
-            Servings: 4 
+            Servings: {recipe.servings} 
           </Grid>
         </Grid>
         <Grid container spacing={2} columns={12}>
           <Grid item xs={12}>
-            kcal Per Serving: 500
+            kcal Per Serving: {recipe.kcal} 
           </Grid>
         </Grid>
           <Typography variant="body2" >
-            This impressive paella is a perfect party dish and a fun meal to cook
-            together with your guests. Add 1 cup of frozen peas along with the mussels,
-            if you like.
+            <Markup content={recipe.summary} />
           </Typography>
       </CardContent>
     </Card>
+
+    // Expand this card to show the ingredients and steps
+    //recipes.steps.map((step, index) => (
+    //);
   );
 }
 
 
 
 export default function RecipeGrid() {
+  const {value} = useIngredients();
+  console.log("VALUES: ", value.recipes);
+  const recipes = value.recipes; 
+  const numColumns = 3;
+  // React.useEffect(()=> {
+  //   recipes = value.recipes;
+  // }, [value.recipes]);
 
-  const recipes = [1, 2, 3, 4, 5, 6, 7, 8, 9]; // Dummy data for now
+  const numGridRows = Math.ceil(recipes.length / 3); // Calculate the number of grid rows needed
 
-    const numGridRows = Math.ceil(recipes.length / 3); // Calculate the number of grid rows needed
-
-    return (
-      <Grid sx={{ flexGrow: 1, marginTop: 1 }} container spacing={4}>
-        {Array.from({ length: numGridRows }, (_, rowIndex) => (
-          <Grid key={rowIndex} item xs={12}>
-            <Grid container justifyContent="center" spacing={7}>
-              {recipes.slice(rowIndex * 3, (rowIndex + 1) * 3).map((recipe, index) => (
-                <Grid key={index} item>
-                  <RecipeReviewCard recipe={recipe} title={recipe.title} image={recipe.image} />
-                </Grid>
-              ))}
-            </Grid>
+  return (
+    <Grid sx={{ flexGrow: 1, marginTop: 1 }} container spacing={4}>
+      {Array.from({ length: numGridRows }, (_, rowIndex) => (
+        <Grid key={rowIndex} item xs={12}>
+          <Grid container justifyContent="center" spacing={7}>
+            {recipes.slice(rowIndex * numColumns, (rowIndex + 1) * numColumns).map((recipe, index) => (
+              <Grid key={index} item>
+                <RecipeReviewCard recipe={recipe} />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </Grid>
+      ))}
+    </Grid>
 
   );
 }

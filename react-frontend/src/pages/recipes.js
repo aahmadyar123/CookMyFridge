@@ -24,13 +24,13 @@ const Footer = styled('footer')(({ theme }) => ({
 
 const RecipeMenu = () => {
   return (
-    <PageContainer>
-    <MainContent>
-      <RecipeGrid />
-    </MainContent>
-    <Footer>
-    </Footer>
-  </PageContainer>
+     <PageContainer>
+     <MainContent>
+       <RecipeGrid />
+     </MainContent>
+     <Footer>
+     </Footer>
+   </PageContainer>
   ); 
 }
 

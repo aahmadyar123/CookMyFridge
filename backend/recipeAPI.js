@@ -76,7 +76,6 @@ function parseRecipe(recipe) {
     "name",
     "servings",
     "summary",
-    "kcal",
     "url",
     "readyInMinutes",
     "image",
