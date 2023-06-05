@@ -7,17 +7,16 @@ const recipeServices = require("./controllers/recipe-services");
 
 async function getRecipe(params) {
   /*
-    Get recipe from spponacular API via GET request
-    :param: params: JSON containing information for search query on recipe
-    :return: list of JSON representing diferent dishes with parsed information
-    */
-  //
-  try {
+  Get recipe from spponacular API via GET request
+  :param: params: JSON containing information for search query on recipe
+  :return: list of JSON representing diferent dishes with parsed information
+  */
+    //
     let queries = "";
     const ret = [];
 
     //valid seach parameters
-    const arrayParams = new Set(["ingredients", "cuisine", "intolerances"]);
+    const arrayParams = new Set(["ingredients", "intolerances"]);
     const varParams = new Set(["maxCal", "maxReadyTime"]);
 
     //parse search paramters and too to url query
@@ -48,11 +47,8 @@ async function getRecipe(params) {
 
     console.log(ret);
     return ret;
-  } catch (e) {
-    console.log(e);
-    return null;
   }
-}
+
 
 function parseRecipe(recipe) {
   /*
@@ -61,7 +57,6 @@ function parseRecipe(recipe) {
     :return: new JSON containing important information about recipe
     */
   //new JSON and fields to parse for
-
   const newDish = {};
 
   //fields to parse
@@ -119,6 +114,7 @@ function parseRecipe(recipe) {
   return newDish;
 }
 
+
 function analyzeInstructions(instructions) {
   /*
     Analyzes instructions to make recipe from JSON and updates recipe
@@ -146,6 +142,7 @@ function analyzeInstructions(instructions) {
   ret.ingredients = Array.from(tempIngredients);
   return ret;
 }
+
 
 module.exports = {
   getRecipe,

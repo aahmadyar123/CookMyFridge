@@ -207,8 +207,13 @@ app.post("/recipes", async (req, res) => {
   try {
     const id = req._id;
     const user = await userServices.findUserById(id);
-    res.send({ ingredients: "apple" }).status(200);
-  } catch (e) {
+    parameters = req.body;
+    console.log("PARAMETERS: ", parameters);
+    recipes = recipeAPI.getRecipe(parameters);
+    console.log("RECIPE: ", recipe);
+    res.send(recipes).status(200);
+  } catch (error) {
+    console.log("ERROR IN RECIPE POST");
     console.log(error);
     res.status(500).send("BAD AUTH /services/recipes");
   }
@@ -229,6 +234,7 @@ app.get("/recipes", async (req, res) => {
   }
 });
 
+/*
 // Create recipe endpoint:
 app.post("/recipes", async (req, res) => {
   const recipeToAdd = req.body;
@@ -244,6 +250,7 @@ app.post("/recipes", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+*/
 
 // Get recipe by Id endpoint:
 app.get("/recipes/:id", async (req, res) => {

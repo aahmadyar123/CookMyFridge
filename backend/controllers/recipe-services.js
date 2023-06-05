@@ -59,6 +59,27 @@ async function createRecipe(recipe) {
   }
 }
 
+
+async function getRecipeByWebID(id) {
+  /*
+  Find recipe from spoonacular id
+  :param id: spoonacular id for recipe
+  :return:  JSON object representing recipe
+  */
+  try {
+    const result = await recipeModel.findOne({id : id});
+    return result;
+
+  }
+  catch (error) {
+    console.log(error)
+    return undefined
+  }
+
+
+}
+
+
 // find a recipe by ID
 async function getRecipeById(id) {
   /*
