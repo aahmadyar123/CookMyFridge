@@ -78,18 +78,6 @@ export default function RecipeGrid() {
         ))}
       </Grid>
 
-    // <Grid sx={{ flexGrow: 1, marginTop: 2}} container spacing={4}>
-    //   <Grid item xs={12}>
-    //     <Grid container justifyContent="center" spacing={7}>
-    //       {[0, 1, 2].map((value) => (
-    //         <Grid key={value} item>
-    //           <RecipeReviewCard />
-    //         </Grid>
-    //       ))}
-    //     </Grid>
-    //   </Grid>
-    // </Grid>
-
   );
 }
 
