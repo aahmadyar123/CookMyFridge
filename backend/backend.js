@@ -257,7 +257,12 @@ app.post("/recipes", async (req, res) => {
       }
     }
 
-    res.status(201).send(recipes);
+    if (recipes === undefined || recipes.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.status(201).send(recipes);
+    }
+
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
     console.log(error);
@@ -265,6 +270,26 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
+
+app.post("/recipes/:id", async (req, res) => {
+  try {
+    //data base id for user and recipe
+    const userID = req._id;
+    const recipeID = req.params["id"];
+    const result = await userServices.addRecipe(userID, recipeID);
+
+    if (!result) {
+      res.status(500).end();
+    }
+    else {
+      res.status(201).end();
+    }
+  }
+  catch (error) {
+    console.log(error)
+    res.status(500);
+  }
+});
 
 // Get recipes by user Id endpoint:
 
@@ -285,7 +310,11 @@ app.get("/ingredients", async (req, res) => {
   try {
     const id = req._id;
     const result = await userServices.getIngredients(id);
-    res.status(201).send({ ingredients_list: result }); // can be empty array (no error if nothing found)
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.status(201).send({ ingredients_list: result }); // can be empty array (no error if nothing found)
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error.");
