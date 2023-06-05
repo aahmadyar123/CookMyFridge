@@ -30,7 +30,7 @@ async function getRecipe(params) {
         queries += "&" + field + "=" + params[field].join(",");
       }
       //handle fields with single variable values
-      else if (varParams.has(field) && params[field] !== null) {
+      else if (varParams.has(field) && params[field] !== null && params[field].length > 0) {
         queries += "&" + field + "=" + params[field];
       }
     }

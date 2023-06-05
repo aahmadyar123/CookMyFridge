@@ -205,20 +205,20 @@ app.get("/users/:id/recipes", async (req, res) => {
 
 app.post("/recipes", async (req, res) => {
   try {
-    const id = req._id;
-    const user = await userServices.findUserById(id);
+    //const id = req._id;
+    //const user = await userServices.findUserById(id);
     parameters = req.body;
     recipes = await recipeAPI.getRecipe(parameters);
 
     //check if recipe already exists in DB
     for (let i = 0; i < result.length; i++) {
-      let recipe = await recipeServices.getRecipeWebID(result.id);
-      if (recipeExists) {
-        result[i] = recipe;
+      let recipe = await recipeServices.getRecipeWebID(recipes[i].id);
+      if (recipe) {
+        recipes[i] = recipe;
       }
       else {
         //add recipe to database
-        recipeServices.addRecipe(result[i]);
+        recipeServices.addRecipe(recipes[i]);
       }
     }
 
