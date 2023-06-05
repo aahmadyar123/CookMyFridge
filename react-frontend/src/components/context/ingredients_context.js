@@ -18,8 +18,15 @@ export const IngredientProvider = ({ children }) => {
   const send_recipe = async (recipe, token) => {
     console.log("SENDING RECIPE: ", recipe);
     const tok = {headers: {'token': token}}
-    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
-    setRecipe(response.data);
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
+      console.log("RESPONSE: ", response);
+      console.log("DATA: ", response.data);
+      setRecipe(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
 
   const add_ingredient = async (ingredient, token) => {

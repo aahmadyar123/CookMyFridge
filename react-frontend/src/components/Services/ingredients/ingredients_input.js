@@ -216,7 +216,7 @@ export default function IngredientAdd() {
 
                 <TextField
                     className="kcal"
-                    helperText={"Max alories"}
+                    helperText={"Max Calories"}
                     type="number"
                     label="Kcal" 
                     name="Kcal" 

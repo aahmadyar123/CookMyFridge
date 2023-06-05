@@ -43,10 +43,12 @@ function App() {
             path="/services/ingredients"
             element={
               <>
-                <IngredientProvider>
-                  <Services />
-                  <SaveIngredient />
-                </IngredientProvider>
+                <ProtectedRoute>
+                  <IngredientProvider>
+                    <Services />
+                    <SaveIngredient />
+                  </IngredientProvider>
+                </ProtectedRoute>
               </>
             }
           />
