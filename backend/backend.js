@@ -241,7 +241,7 @@ app.post("/recipes", async (req, res) => {
     recipes = await recipeAPI.getRecipes(parameters);
     console.log("PARAMETERS: ", parameters);
     //check if recipe already exists in DB
-    
+
     if (recipes === undefined || recipes.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
