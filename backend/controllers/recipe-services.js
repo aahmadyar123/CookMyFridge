@@ -50,12 +50,29 @@ async function getRecipes(name) {
 }
 
 // create a new recipe
-async function createRecipe(recipe) {
-  const savedRecipe = await createDoc(recipeModel, recipe);
-  if (savedRecipe) {
+async function addRecipe(recipe) {
+  try {
+    const newRecipe = new recipeModel(recipe);
+    const savedRecipe = await newRecipe.save();
     return savedRecipe;
-  } else {
-    return false;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
+async function getRecipeByWebID(id) {
+  /*
+  Find recipe from spoonacular id
+  :param id: spoonacular id for recipe
+  :return:  JSON object representing recipe
+  */
+  try {
+    const result = await recipeModel.findOne({ id: id });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 }
 
@@ -111,7 +128,8 @@ async function findRecipeByName(name) {
 // --------------------------------------------------
 module.exports = {
   getRecipes,
-  createRecipe,
+  addRecipe,
   getRecipeById,
   updateRecipeRating,
+  getRecipeByWebID,
 };

@@ -14,6 +14,7 @@ import ReviewPage from "./pages/rating_form";
 import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
+import RecipeMenu from "./pages/recipes";
 
 function App() {
   return (
@@ -24,23 +25,12 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/About" element={<About />} />
-           
-        {/* 
-          <Route 
-            path="/Services" 
-              element={
-                  <ProtectedRoute> 
-                      <Services /> 
-                  </ProtectedRoute>
-              } 
-          /> */}
-
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Login" element={<LoginForm />} />
           <Route path="/Register" element={<RegisterForm />} />
 
           <Route
-            path="/services/recipes"
+            path="/services/saved_recipes"
               element={
                 <ProtectedRoute> 
                   <Services />
@@ -53,13 +43,26 @@ function App() {
             path="/services/ingredients"
             element={
               <>
-                <IngredientProvider>
-                  <Services />
-                  <SaveIngredient />
-                </IngredientProvider>
+                <ProtectedRoute>
+                  <IngredientProvider>
+                    <Services />
+                    <SaveIngredient />
+                  </IngredientProvider>
+                </ProtectedRoute>
               </>
             }
           />
+
+          <Route
+            path="/services/recipes"
+              element={
+                <ProtectedRoute> 
+                  <Services />
+                  <RecipeMenu />
+                </ProtectedRoute>
+              } 
+          />
+
 
           <Route path="/rating_form" element={<ReviewPage />} />
         </Routes>

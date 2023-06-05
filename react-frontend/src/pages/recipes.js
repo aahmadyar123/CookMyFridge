@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RecipeGrid from "../components/Services/recipe_widget2.js"
+import RecipeGrid from "../components/Services/recipe_cards.js"
 import { styled } from '@mui/material/styles';
 //import Typography from '@mui/material/Typography';
 
@@ -26,13 +26,11 @@ const RecipeMenu = () => {
   return (
     <PageContainer>
     <MainContent>
-      {/* Your existing RecipeGrid component */}
       <RecipeGrid />
     </MainContent>
     <Footer>
     </Footer>
   </PageContainer>
-    // <RecipeGrid />
   ); 
 }
 

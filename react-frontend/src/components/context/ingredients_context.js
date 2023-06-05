@@ -1,5 +1,5 @@
 import React from 'react'
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState} from "react";
 import axios from 'axios';
 
 const IngredientContext = createContext({});
@@ -8,22 +8,35 @@ export const IngredientProvider = ({ children }) => {
   const [ingredients, setIngredients] = useState([]);
   const [KCal, setKCal] = useState(null);
   const [cookTime, setCookTime] = useState(null);
-  const [sendRecipe, setRecipe] = useState(false);
   const [tolerances, setTolerance] = useState([]);
-
-  useEffect( (sendRecipe) => {
-    if (sendRecipe === true) {
-      //axois post to send request for a recipe
-      setRecipe(false); 
-    }
-  }, []);
+  const [recipes, setRecipe] = useState({});
 
   const add_tolerance = (tolerance) => {
     setTolerance(tolerance);
   }
 
-  const send_recipe = (send) => {
-    setRecipe(true);
+  const send_recipe = async (recipe, token) => {
+    console.log("SENDING RECIPE: ", recipe);
+    const tok = {headers: {'token': token}}
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
+      console.log("RESPONSE: ", response);
+      console.log("DATA: ", response.data);
+      setRecipe(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+
+  const get_recipe = async (token) => {
+    try {
+      const tok = {headers: {'token': token}}
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes`, tok);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const add_ingredient = async (ingredient, token) => {
@@ -81,7 +94,6 @@ export const IngredientProvider = ({ children }) => {
 		console.log("IN CONTEXT INGREDIENTs: ", ingredients);
     console.log("IN CONTEXT KCAL", KCal);
     console.log("IN CONTEXT COOKTIME", cookTime);
-    console.log("SEND RECIPE: ", sendRecipe);
 	}
 
   const value = {
@@ -89,12 +101,14 @@ export const IngredientProvider = ({ children }) => {
     KCal,
     cookTime,
     tolerances,
+    recipes,
 		onAdd: add_ingredient,
 		onDel: delete_ingredient,
     addKcal: add_KCal,
     addCookTime: add_CookTime,
     addTolerance: add_tolerance,
     recipe: send_recipe,
+    getRecipes: get_recipe,
     getIngredients: get_ingredients,
 		print: log
   };

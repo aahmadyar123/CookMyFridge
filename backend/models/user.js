@@ -36,6 +36,7 @@ const UserSchema = new mongoose.Schema(
       required: false,
       trim: true,
     },
+
     friends: {
       type: [mongoose.Schema.Types.ObjectId], // array of user ids (references)
       ref: "User",
