@@ -135,11 +135,13 @@ export default function IngredientAdd() {
 
 
     const handleKcalChange = (event) => {
-      setKcal(event.value);
+      console.log("KCAL: ", event.target.value);
+      setKcal(event.target.value);
     }
 
     const handleCookTimeChange = (event) => {
-      setCookTime(event.value);
+      console.log("COOKTIME: ", event.target.value);
+      setCookTime(event.target.value);
     }
 
     const handleSearchInputChange = (event) => {
@@ -155,8 +157,8 @@ export default function IngredientAdd() {
           );
       setTempData(newData);
       console.log(tempData);
-  };
-    
+    };
+
     const handleAddIngredient = async () => {
       if (searchQuery.trim() !== '') {
         setIngredientList((ingredientList) => [...ingredientList, searchQuery]);
@@ -173,11 +175,15 @@ export default function IngredientAdd() {
     };    
 
     const handleRecipeSearch = () => {
+      const recipe = {'includeIngredients': ingredientList, 'maxCal': kcal, 'maxReadyTime': cookTime, 'intolerances': value.tolerances};
       value.addKcal(kcal);
       value.addCookTime(cookTime);
-      value.recipe(true);
+      value.recipe(recipe, Auth.token);
     };
 
+    const get_recipe = () => {
+      value.getRecipes(Auth.token);
+    }
 
     return (
             <SearchNav>
@@ -213,7 +219,7 @@ export default function IngredientAdd() {
 
                 <TextField
                     className="kcal"
-                    helperText={"KCal"}
+                    helperText={"Max Calories"}
                     type="number"
                     label="Kcal" 
                     name="Kcal" 
@@ -224,7 +230,7 @@ export default function IngredientAdd() {
 
                 <TextField 
                     className="minutes"
-                    helperText={"Cook Time Minutes"}
+                    helperText={"Max time in min"}
                     type="number"
                     label="minutes" 
                     name="minutes" 
@@ -235,6 +241,10 @@ export default function IngredientAdd() {
                 
                 <ButtonBox className="SButton">
                     <Button onClick={handleRecipeSearch}> Search </Button>
+                </ButtonBox>
+
+                <ButtonBox>
+                    <Button onClick={get_recipe}> Test </Button>
                 </ButtonBox>
 
             </SearchNav>

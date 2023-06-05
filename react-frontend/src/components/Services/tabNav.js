@@ -48,11 +48,14 @@ const TabNav = () => {
     <>
       <Tnav>
         <NavMenu>
-          <NavLink id="Recipe" to='/services/recipes' >
+          <NavLink id="Saved_Recipe" to='/services/saved_recipes' >
             Saved Recipes
           </NavLink>
           <NavLink id="Ingredients" to='/services/ingredients' >
             Ingredients
+          </NavLink>
+          <NavLink id="Recipe" to='/services/recipes' >
+            Recipes
           </NavLink>
         </NavMenu>
       </Tnav>
