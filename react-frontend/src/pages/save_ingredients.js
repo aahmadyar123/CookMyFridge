@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import IngredientAdd from '../components/Services/ingredients/ingredients_input';
 import styled from 'styled-components'
 import IngredientTable from '../components/Services/ingredients/ingredient_table';
@@ -16,11 +16,7 @@ const SaveIngredients = () => {
   const {value} = useIngredients();
   const {Auth} = useAuth();
 
-  useEffect( ()=> {
-    const token = Auth.token; // Assuming you have a token available in the context
-    console.log("SAVE TOK: ", token);
-    value.getIngredients(token);
-  });
+  value.getIngredients(Auth.token);
 
   return (
     <Container>
