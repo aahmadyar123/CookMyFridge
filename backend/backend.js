@@ -326,7 +326,6 @@ app.post("/recipe/:id/ratings", async (req, res) => {
 // --------------------------------------------------
 // Get all ingredients endpoint:
 
-
 //return ingredients associated with user
 app.get("/ingredients", async (req, res) => {
   try {
