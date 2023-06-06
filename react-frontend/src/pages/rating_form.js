@@ -336,7 +336,7 @@ const initialRatings = [
 function ReviewPage() {
   const classes = useStyles();
 
-  const [ratings, setRatings] = useState(initialRatings);
+  const [ratings] = useState(initialRatings);
   const [newRating, setNewRating] = useState({ user: "", rating: null, comment: "" });
   const [showAllReviews, setShowAllReviews] = useState(false);
 
