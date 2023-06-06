@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { Typography, Box, Stack, IconButton } from "@mui/material";
+import { Typography, Box, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
     AccessTimeOutlined,
@@ -11,7 +10,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useIngredients } from "../components/context/ingredients_context";
 import { Markup } from 'interweave';
 import ReviewForm from "./rating_form";
+import Grid from '@mui/material/Grid';
+import styled from "styled-components";
 
+const centeredListIngredients = styled.ol`
+  list-style-position: inside;
+  list-style-type: disc;
+`;
+
+const centeredListSteps = styled.ol`
+  list-style-position: inside;
+  list-style-type: decimal;
+`;
 
 function ShowRecipe() {
 
@@ -28,6 +38,8 @@ function ShowRecipe() {
 
     return (
         <Box borderRadius="15px" p="20px" bgcolor="#fcfcfc" width="100%">
+           <Grid container spacing={2} alignItems="center" justifyContent="center" direction="column">
+
             <Typography fontSize={25} fontWeight={700} color="#11142d">
                 {targetRecipe.name}
             </Typography>
@@ -119,20 +131,21 @@ function ShowRecipe() {
                         </Typography>
                         <Stack direction="column">
 
-                                    <Stack
-                                        direction="row"
-                                        gap="10px"
-                                    >
-                                        <Typography>
-                                        <ol style={{ padding: 0, margin: 0 }}>
-                                            {targetRecipe.ingredients.map((step, index) => (
-                                            <li key={index} >{step}</li>
-                                            ))}
-                                        </ol>
-                                        </Typography>
-                                    </Stack>
+                            <Stack
+                                direction="row"
+                                gap="10px"
+                            >
+                                <Typography paragraph no wrap>
+                                <centeredListIngredients>
+                                    {targetRecipe.ingredients.map((step, index) => (
+                                        <li key={index} >{step}</li>
+                                    ))}
+                                </centeredListIngredients>
+                                </Typography>
+                            </Stack>
                         </Stack>
                     </Box>
+                    {/* Steps */}
                     <Box mt="15px">
                         <Typography
                             sx={{
@@ -148,19 +161,20 @@ function ShowRecipe() {
                             style={{ whiteSpace: "pre-wrap" }}
                         >
                             <Typography paragraph no wrap>
-                            <ol style={{ padding: 0, margin: 0 }}>
+                            <centeredListSteps>
                                 {targetRecipe.steps.map((step, index) => (
-                                <li key={index} >{step}</li>
+                                    <li key={index} >{step}</li>
                                 ))}
-                            </ol>
+                            </centeredListSteps>
                             </Typography>
                         </Typography>
                     </Box>
                 </Box>
             </Box>
-            <Box>
-                <ReviewForm />
-            </Box>
+        </Grid>
+        <Box>
+            <ReviewForm />
+        </Box>
         </Box>
 
     );
