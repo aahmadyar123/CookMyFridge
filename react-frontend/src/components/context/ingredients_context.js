@@ -44,7 +44,7 @@ export const IngredientProvider = ({ children }) => {
         const new_ingredient = {'ingredients': ingredient}
         const tok = {headers: {'token': token}}
         console.log("SENT INGREDIENTS: ", new_ingredient);
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
+        const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
         console.log("GOT BACK RESPONSE");
 
         if (response.status === 201) {
@@ -67,7 +67,7 @@ export const IngredientProvider = ({ children }) => {
 	const delete_ingredient = async (ingredient, token) => {
     const new_ingredient = {'ingredients': ingredient }
     const tok = {headers: {'token': token}}
-    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
+    const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
     if (response.status === 201) {
       setIngredients(ingredient);
     }
