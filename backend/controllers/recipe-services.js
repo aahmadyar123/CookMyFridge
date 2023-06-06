@@ -2,14 +2,6 @@ const mongoose = require("mongoose");
 const recipeModel = require("../models/recipe");
 const dotenv = require("dotenv");
 
-// utility functions
-const {
-  findDocByName,
-  findDocByField,
-  populateField,
-  createDoc,
-} = require("../utility/utility");
-
 dotenv.config();
 
 mongoose.set("debug", process.env.DEBUG);
@@ -50,35 +42,31 @@ async function getRecipes(name) {
 }
 
 // create a new recipe
-async function createRecipe(recipe) {
-  const savedRecipe = await createDoc(recipeModel, recipe);
-  if (savedRecipe) {
+async function addRecipe(recipe) {
+  try {
+    const newRecipe = new recipeModel(recipe);
+    const savedRecipe = await newRecipe.save();
     return savedRecipe;
-  } else {
-    return false;
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 }
-
 
 async function getRecipeByWebID(id) {
   /*
-  Find recipe from spoonacular id
+  Find recipe from spoonacular id (used to check DB if recipe already added as to not add duplicates)
   :param id: spoonacular id for recipe
-  :return:  JSON object representing recipe
+  :return: JSON object representing recipe
   */
   try {
-    const result = await recipeModel.findOne({id : id});
+    const result = await recipeModel.findOne({ id: id });
     return result;
-
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
-  catch (error) {
-    console.log(error)
-    return undefined
-  }
-
-
 }
-
 
 // find a recipe by ID
 async function getRecipeById(id) {
@@ -95,27 +83,69 @@ async function getRecipeById(id) {
   }
 }
 
-// update recipe rating
-// - this function updates the recipe rating by taking the average of the current rating and the new rating
-// - this function also increments the number of ratings by 1
-async function updateRecipeRating(recipeId, rating) {
-  const recipe = await getRecipeById(recipeId);
-  if (recipe) {
-    recipe.rating = recipe.rating || 0;
-    recipe.no_ratings = recipe.no_ratings || 0;
-
+async function updateAverageRating(recipe, rating) {
+  /*
+  Updates average rating of a recipe
+  :param recipe: recipeModel object
+  :param: rating: integer represnting rating
+  :return: boolean specifying if rating successfully updated
+  */
+  try {
+    //check for valid rating
     if (rating < 0 || rating > 5) {
-      console.log("Invalid rating");
       return false;
     }
+    //get current rating and total number of ratings
+    let curRating = recipe.rating;
+    let numRatings = recipe.ratings.length;
 
-    const newRating =
-      (recipe.rating * recipe.no_ratings + rating) / (recipe.no_ratings + 1);
-    recipe.rating = newRating;
-    recipe.no_ratings += 1;
-    await recipe.save();
-    return recipe;
-  } else {
+    //average previous rating and new rating and weight them based on how many previous ratings
+    recipe.rating =
+      curRating * (numRatings / (numRatings + 1)) +
+      rating * (1 / (numRatings + 1));
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getRatings(recipeID) {
+  /*
+  Returns ratings associated with recipe
+  :param recipeID: databse id of recipe
+  :return: list(JSON) - ratings for a recipe
+  */
+  try {
+    const recipe = findByID(recipeID);
+    return recipe.ratings;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
+async function addRating(recipeID, rating) {
+  /*
+  Adds rating to recipe
+  :param recipeID: recipe database id
+  :param rating: JSON containing recipe review
+  :return: boolean specifying if rating added
+  */
+  try {
+    //find recipe then update average rating and push new rating
+    const recipe = findByID(recipeID);
+
+    //check if score updated successfully
+    if (updateAverageRating(recipe, rating.score)) {
+      recipe.ratings.push(rating);
+      await recipe.save(); //save updated recipe to DB
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
     return false;
   }
 }
@@ -132,7 +162,10 @@ async function findRecipeByName(name) {
 // --------------------------------------------------
 module.exports = {
   getRecipes,
-  createRecipe,
+  addRecipe,
   getRecipeById,
-  updateRecipeRating,
+  updateAverageRating,
+  getRecipeByWebID,
+  getRatings,
+  addRating,
 };

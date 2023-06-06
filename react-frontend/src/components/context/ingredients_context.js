@@ -29,6 +29,16 @@ export const IngredientProvider = ({ children }) => {
     
   }
 
+  const get_recipe = async (token) => {
+    try {
+      const tok = {headers: {'token': token}}
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes`, tok);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const add_ingredient = async (ingredient, token) => {
 	  if (check(ingredient.slice(-1)[0]) === false) {
         const new_ingredient = {'ingredients': ingredient}
@@ -98,6 +108,7 @@ export const IngredientProvider = ({ children }) => {
     addCookTime: add_CookTime,
     addTolerance: add_tolerance,
     recipe: send_recipe,
+    getRecipes: get_recipe,
     getIngredients: get_ingredients,
 		print: log
   };

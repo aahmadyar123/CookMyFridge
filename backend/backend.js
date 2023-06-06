@@ -49,9 +49,7 @@ function generateAccessToken(id) {
 //app.get(..., authenticateToken, function (req, res) => ...);
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
-  console.log("In authenticate Token");
   token = req.headers["token"];
-  console.log("TOKEN: ", token);
 
   if (token == null) res.status(401);
 
@@ -61,7 +59,6 @@ async function authenticateToken(req, res, next) {
     if (err) res.status(403);
 
     req._id = user.id;
-    console.log("USER ID IN AUTH: ", user.id);
     next();
   });
 }
@@ -200,58 +197,26 @@ app.get("/users/:id/recipes", async (req, res) => {
 // });
 
 // -------------------------------------------------------
-// Services Endpoints (Protected Routes)
+// Recipes Endpoints (Protected Routes)
 // -------------------------------------------------------
 
-app.post("/recipes", async (req, res) => {
-  try {
-    const id = req._id;
-    const user = await userServices.findUserById(id);
-    parameters = req.body;
-    console.log("PARAMETERS: ", parameters);
-    recipes = await recipeAPI.getRecipe(parameters);
-    console.log("RECIPE: ", recipes);
-    res.status(201).send(recipes);
-
-  } catch (error) {
-    console.log("ERROR IN RECIPE POST");
-    console.log(error);
-    res.status(500).send("BAD AUTH /services/recipes");
-  }
-});
-
-// --------------------------------------------------
-// RECIPE ENDPOINTS
-// --------------------------------------------------
-// Get recipes
+//load in saved recipes
 app.get("/recipes", async (req, res) => {
-  const name = req.query["name"];
   try {
-    const result = await recipeServices.getRecipes(name);
-    res.send({ recipes_list: result }); // can be empty array (no error if nothing found)
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error.");
-  }
-});
-
-/*
-// Create recipe endpoint:
-app.post("/recipes", async (req, res) => {
-  const recipeToAdd = req.body;
-  try {
-    const savedRecipe = await recipeServices.createRecipe(recipeToAdd);
-    if (savedRecipe) {
-      res.status(201).send(savedRecipe).end();
+    //send back recipes associated with user
+    const id = req._id;
+    const recipes = await userServices.getRecipes(id);
+    if (recipes === undefined || recipes.length === 0) {
+      res.status(404).send("Recipes not Found for User");
     } else {
-      res.status(400).send("Bad Request.");
+      console.log(recipes);
+      res.status(201).send(recipes).end();
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server Error.");
+    res.status(505).send("Recipes not Found for User");
   }
 });
-*/
 
 // Get recipe by Id endpoint:
 app.get("/recipes/:id", async (req, res) => {
@@ -269,6 +234,85 @@ app.get("/recipes/:id", async (req, res) => {
   }
 });
 
+//search API for recipes
+app.post("/recipes", async (req, res) => {
+  try {
+    const id = req._id;
+    parameters = req.body;
+    recipes = await recipeAPI.getRecipes(parameters);
+
+    if (recipes === undefined || recipes.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      //check if recipe already exists in DB
+      for (let i = 0; i < recipes.length; i++) {
+        let recipe = await recipeServices.getRecipeByWebID(recipes[i].id);
+        if (recipe) {
+          recipes[i] = recipe;
+        } else {
+          //add recipe to database
+          recipeServices.addRecipe(recipes[i]);
+        }
+      }
+      res.status(201).send(recipes);
+    }
+  } catch (error) {
+    console.log("ERROR IN RECIPE POST");
+    console.log(error);
+    res.status(500).send("BAD AUTH /services/recipes");
+  }
+});
+
+//Favorite Recipe
+app.post("/recipes/:id", async (req, res) => {
+  try {
+    //data base id for user and recipe
+    const userID = req._id;
+    const recipeID = req.params["id"];
+    const result = await userServices.addRecipe(userID, recipeID);
+
+    if (!result) {
+      res.status(500).end();
+    } else {
+      res.status(201).end();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
+//Get ratings for recipe
+app.get("/recipe/:id/ratings", async (req, res) => {
+  try {
+    //get recipe ID
+    const recipeID = req.params["id"];
+    const ratings = await recipeServices(recipeID);
+
+    if (ratings === undefined) {
+      res.status(404).send("Resource not Found").end();
+    } else {
+      res.status(201).send(ratings).end();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
+//add rating to recipe
+app.post("/recipe/:id/ratings", async (req, res) => {
+  try {
+    const recipeID = req.params["id"];
+    const rating = req.body["rating"];
+
+    const result = await recipeServices.addRating(recipeID);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
 // Get recipes by user Id endpoint:
 
 // Create recipe endpoint:
@@ -281,16 +325,19 @@ app.get("/recipes/:id", async (req, res) => {
 // INGREDIENT ENDPOINTS
 // --------------------------------------------------
 // Get all ingredients endpoint:
-//  [X] get all ingredients from database filtering by name
-//  [ ] filter by recipeId (out of scope)
-//  [ ] filter by userId (out of scope)
+
+//return ingredients associated with user
 app.get("/ingredients", async (req, res) => {
   try {
     const id = req._id;
     const result = await userServices.getIngredients(id);
-    res.status(201).send({ ingredients_list: result }); // can be empty array (no error if nothing found)
+    if (result === undefined || result.length === 0) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.status(201).send({ ingredients_list: result }); // can be empty array (no error if nothing found)
+    }
   } catch (error) {
-    console.log("ERROR: ", error);
+    console.log(error);
     res.status(500).send("Internal Server Error.");
   }
 });
@@ -300,8 +347,6 @@ app.post("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
-    console.log("ID /ingred: ", id);
-    console.log("INGREDIENTS /ingred: ", data.ingredients);
     const updatedUser = await userServices.updateIngredients(id, data);
 
     if (updatedUser) {
@@ -323,8 +368,6 @@ app.listen(process.env.PORT || port, () => {
     );
   } else console.log(`REST API is listening on: http://localhost:${port}.`);
 });
-
-//*/
 
 /*
 https
