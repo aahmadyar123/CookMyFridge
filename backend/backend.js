@@ -57,6 +57,7 @@ async function authenticateToken(req, res, next) {
     console.log(err);
 
     if (err) res.status(403);
+    //data base id for user and recipe
 
     req._id = user.id;
     next();
@@ -323,6 +324,12 @@ app.patch("/recipe/:id/ratings", async (req, res) => {
     const rating = req.body["rating"];
 
     const result = await recipeServices.addRating(recipeID, rating);
+
+    if (!result) {
+      res.status(404).end();
+    } else {
+      res.status(201).end();
+    }
   } catch (error) {
     console.log(error);
     res.status(500);
