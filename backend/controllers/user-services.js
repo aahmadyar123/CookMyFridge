@@ -268,7 +268,7 @@ async function getFriends(user) {
   }
 }
 
-async function deleteRecipe(userID, recipeID) {
+async function removeRecipe(userID, recipeID) {
   try {
     const user = await findUserById(userID);
     user.recipes.splice(user.recipes.indexOf(recipeID), 1);
@@ -293,5 +293,5 @@ module.exports = {
   addFriend,
   getFriends,
   updateIngredients,
-  deleteRecipe,
+  removeRecipe,
 };

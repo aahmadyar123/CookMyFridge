@@ -164,7 +164,7 @@ app.delete("/recipes/:id", async (req, res) => {
   try {
     const recipe_id = req.params.id;
     const user_id = req._id;
-    const result = await recipeServices.deleteRecipe(user_id, recipe_id);
+    const result = await recipeServices.removeRecipe(user_id, recipe_id);
     if (!result) {
       res.status(404).send("Resource not found.");
     } else {
