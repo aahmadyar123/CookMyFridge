@@ -101,15 +101,15 @@ function RegisterForm() {
         confirm: ""
       }
     );
+    const [lenMsg, setLenMsg] = useState("Length Must be > 6");
+    const [len, setLen] = useState(false);
     const {Auth} = useAuth();
 
     const onSubmit = async (e) => {
       e.preventDefault();
       try {
         if (confirmed) {
-            console.log("SEND POST REQUST TO REGISTER");
             await Auth.onRegister(user);
-            // const response = await axios.post("http://localhost:8000/register", user);
         }
         
         else
@@ -131,11 +131,20 @@ function RegisterForm() {
 
       else if (name === "password") {
         setUser({email: user['email'], password: value, confirm: user['confirm']})
-        if (value === user.confirm)
-            setConfirmed(true);
+        if (value.length >= 6){
+          setLen(true);
+          setLenMsg("");
+          if (value === user.confirm)
+          setConfirmed(true);
+        }
         
-        else
-            setConfirmed(false);
+        else{
+          if (value.length < 6) {
+            setLen(false);
+            setLenMsg("Length Must be > 6");
+          }
+          setConfirmed(false);
+        }
       }
       
       else {
@@ -169,6 +178,8 @@ function RegisterForm() {
             <div className={classes.inputIcon}>
               <LockOutlinedIcon />
               <TextField 
+                error={!len}
+                helperText={lenMsg}
                 label="Password" 
                 name="password"
                 type="password" 

@@ -264,7 +264,7 @@ app.post("/recipes", async (req, res) => {
 });
 
 //Favorite Recipe
-app.post("/recipes/:id", async (req, res) => {
+app.patch("/recipes/:id", async (req, res) => {
   try {
     //data base id for user and recipe
     const userID = req._id;
@@ -301,12 +301,12 @@ app.get("/recipe/:id/ratings", async (req, res) => {
 });
 
 //add rating to recipe
-app.post("/recipe/:id/ratings", async (req, res) => {
+app.patch("/recipe/:id/ratings", async (req, res) => {
   try {
     const recipeID = req.params["id"];
     const rating = req.body["rating"];
 
-    const result = await recipeServices.addRating(recipeID);
+    const result = await recipeServices.addRating(recipeID, rating);
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -343,7 +343,7 @@ app.get("/ingredients", async (req, res) => {
 });
 
 // Create ingredient endpoint:
-app.post("/ingredients", async (req, res) => {
+app.put("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;

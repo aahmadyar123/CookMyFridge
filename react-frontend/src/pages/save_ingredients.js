@@ -11,12 +11,14 @@ const Container = styled.div`
   width: 100%;
 `;
 
-
 const SaveIngredients = () => {
   const {value} = useIngredients();
   const {Auth} = useAuth();
 
-  value.getIngredients(Auth.token);
+  if (Auth.token && Auth.load === 0) {
+    value.getIngredients(Auth.token);
+    Auth.setLoad();
+  } 
 
   return (
     <Container>
