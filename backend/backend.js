@@ -343,7 +343,7 @@ app.get("/ingredients", async (req, res) => {
 });
 
 // Create ingredient endpoint:
-app.post("/ingredients", async (req, res) => {
+app.put("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
