@@ -130,24 +130,46 @@ async function deleteUser(login) {
   }
 }
 
-async function addRecipe(userID, recipe) {
+async function addRecipe(userID, recipeID) {
   /*
   Adds recipe reference to user
   :param userID: id of user
-  :param recipe: recipe object
-  :return: boolean if added
+  :param recipeID: recipe id
+  :return: boolean if added successfully
   */
   try {
     // console.log("user: ", user);
 
     const user = await findUserById(userID);
-    user.recipes.push(recipe._id);
+    user.recipes.push(recipeID);
     await user.save();
     return true;
   } catch (error) {
     console.log(error);
     return false;
   }
+}
+
+async function removeRecipe(userID, recipeID) {
+  /*
+  Removes recipe reference from user
+  :param userID: id of user
+  :param recipeID: recipe id
+  :return: boolean if removed successfully
+  */
+ try {
+  //remove recipe reference from user.recipes
+  const user = await findUserByID(userID);
+  user.recipes.splice(user.recipes.indexOf(recipeID), 1);
+  await user.save();
+  return true;
+ }
+ catch (error) {
+  console.log(error);
+  return false;
+ }
+
+
 }
 
 async function getRecipes(userID) {
