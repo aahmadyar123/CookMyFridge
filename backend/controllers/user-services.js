@@ -268,6 +268,18 @@ async function getFriends(user) {
   }
 }
 
+async function deleteRecipe(userID, recipeID) {
+  try {
+    const user = await findUserById(userID);
+    user.recipes.splice(user.recipes.indexOf(recipeID), 1);
+    await user.save();
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -281,4 +293,5 @@ module.exports = {
   addFriend,
   getFriends,
   updateIngredients,
+  deleteRecipe,
 };

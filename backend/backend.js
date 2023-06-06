@@ -160,6 +160,22 @@ app.post("/users/:id/recipes", async (req, res) => {
   }
 });
 
+app.delete("/recipes/:id", async (req, res) => {
+  try {
+    const recipe_id = req.params.id;
+    const user_id = req._id;
+    const result = await recipeServices.deleteRecipe(user_id, recipe_id);
+    if (!result) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // Populate the Recipes for a specific User
 app.get("/users/:id/recipes", async (req, res) => {
   const user_id = req.params.id;
