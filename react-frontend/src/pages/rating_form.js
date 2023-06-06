@@ -340,13 +340,13 @@ function ReviewPage() {
   const [newRating, setNewRating] = useState({ user: "", rating: null, comment: "" });
   const [showAllReviews, setShowAllReviews] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newId = ratings.length + 1;
-    const ratingWithId = { ...newRating, id: newId };
-    setRatings([...ratings, ratingWithId]);
-    setNewRating({ user: "", rating: null, comment: "" });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const newId = ratings.length + 1;
+  //   const ratingWithId = { ...newRating, id: newId };
+  //   setRatings([...ratings, ratingWithId]);
+  //   setNewRating({ user: "", rating: null, comment: "" });
+  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
