@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import IngredientAdd from '../components/Services/ingredients/ingredients_input';
 import styled from 'styled-components'
 import IngredientTable from '../components/Services/ingredients/ingredient_table';
@@ -11,15 +11,14 @@ const Container = styled.div`
   width: 100%;
 `;
 
-
 const SaveIngredients = () => {
   const {value} = useIngredients();
   const {Auth} = useAuth();
-  
-  // value.getIngredients(Auth.token);
-  useEffect (() => {
+
+  if (Auth.token && Auth.load === 0) {
     value.getIngredients(Auth.token);
-  }, [Auth.token])
+    Auth.setLoad();
+  } 
 
   return (
     <Container>

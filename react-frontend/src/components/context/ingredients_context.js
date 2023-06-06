@@ -61,6 +61,7 @@ export const IngredientProvider = ({ children }) => {
       const new_ingredients = response.data.ingredients_list.ingredients
       console.log("INGREDIENTS FROM BACKEND: ", new_ingredients);
       setIngredients(new_ingredients);
+      return new_ingredients;
     }
   }
 
