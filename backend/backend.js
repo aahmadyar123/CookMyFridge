@@ -306,7 +306,7 @@ app.patch("/recipe/:id/ratings", async (req, res) => {
     const recipeID = req.params["id"];
     const rating = req.body["rating"];
 
-    const result = await recipeServices.addRating(recipeID);
+    const result = await recipeServices.addRating(recipeID, rating);
   } catch (error) {
     console.log(error);
     res.status(500);
