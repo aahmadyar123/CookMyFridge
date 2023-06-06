@@ -157,17 +157,16 @@ async function removeRecipe(userID, recipeID) {
   :param recipeID: recipe id
   :return: boolean if removed successfully
   */
- try {
-  //remove recipe reference from user.recipes
-  const user = await findUserByID(userID);
-  user.recipes.splice(user.recipes.indexOf(recipeID), 1);
-  await user.save();
-  return true;
- }
- catch (error) {
-  console.log(error);
-  return false;
- }
+  try {
+    //remove recipe reference from user.recipes
+    const user = await findUserByID(userID);
+    user.recipes.splice(user.recipes.indexOf(recipeID), 1);
+    await user.save();
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
 
 async function getRecipes(userID) {
