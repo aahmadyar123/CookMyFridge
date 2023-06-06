@@ -15,11 +15,13 @@ import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
 import RecipeMenu from "./pages/recipes";
+import ShowRecipe from "./pages/recipeExample";
 
 function App() {
   return (
     <Router>
         <AuthProvider>
+          <IngredientProvider>  
         <NavBar />
         
         <Routes>
@@ -44,28 +46,34 @@ function App() {
             element={
               <>
                 <ProtectedRoute>
-                  <IngredientProvider>
-                    <Services />
-                    <SaveIngredient />
-                  </IngredientProvider>
+                  <Services />
+                  <SaveIngredient />
                 </ProtectedRoute>
               </>
             }
-          />
+            />
 
           <Route
             path="/services/recipes"
-              element={
-                <ProtectedRoute> 
+            element={
+              <ProtectedRoute> 
                   <Services />
                   <RecipeMenu />
                 </ProtectedRoute>
               } 
           />
 
+          <Route
+            path="/services/recipes/:id"
+            element={
+                <ShowRecipe />
+            }
+          />  
+
 
           <Route path="/rating_form" element={<ReviewPage />} />
         </Routes>
+        </IngredientProvider>
       </AuthProvider>
     </Router>
   );
