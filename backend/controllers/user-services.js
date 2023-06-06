@@ -168,8 +168,6 @@ async function removeRecipe(userID, recipeID) {
   console.log(error);
   return false;
  }
-
-
 }
 
 async function getRecipes(userID) {
@@ -303,4 +301,5 @@ module.exports = {
   addFriend,
   getFriends,
   updateIngredients,
+  removeRecipe,
 };
