@@ -17,12 +17,12 @@ import IconButton from '@mui/material/IconButton';
 import {red, grey} from '@mui/material/colors'
 
 
-const centeredListIngredients = styled.ol`
+const CenteredListIngredients = styled.ol`
   list-style-position: inside;
   list-style-type: disc;
 `;
 
-const centeredListSteps = styled.ol`
+const CenteredListSteps = styled.ol`
   list-style-position: inside;
   list-style-type: decimal;
 `;
@@ -102,12 +102,14 @@ function ShowRecipe() {
                                 {targetRecipe.servings} servings
                             </Typography>
 
-                            <IconButton aria-label="add to favorites" onClick={() => handleFavorite(targetRecipe._id, targetRecipe)}>
+                            <IconButton aria-label="add to favorites" disabled={false} onClick={() => handleFavorite(targetRecipe._id, targetRecipe)}>
                                 <FavoriteIcon sx={{color: favorite ? red[500] : grey[500]}}/>
                             </IconButton>
+
                             <Typography fontSize={16} color="#808191">
                                 Click to Save 
                             </Typography>
+
                             <ElectricBoltIcon
                                 sx={{
                                     fontSize: 20,
@@ -155,11 +157,11 @@ function ShowRecipe() {
                                 gap="10px"
                             >
                                 <Typography paragraph no wrap>
-                                <centeredListIngredients>
+                                <CenteredListIngredients>
                                     {targetRecipe.ingredients.map((step, index) => (
                                         <li key={index} >{step}</li>
                                     ))}
-                                </centeredListIngredients>
+                                </CenteredListIngredients>
                                 </Typography>
                             </Stack>
                         </Stack>
@@ -180,11 +182,11 @@ function ShowRecipe() {
                             style={{ whiteSpace: "pre-wrap" }}
                         >
                             <Typography paragraph no wrap>
-                            <centeredListSteps>
+                            <CenteredListSteps>
                                 {targetRecipe.steps.map((step, index) => (
                                     <li key={index} >{step}</li>
                                 ))}
-                            </centeredListSteps>
+                            </CenteredListSteps>
                             </Typography>
                         </Typography>
                     </Box>
