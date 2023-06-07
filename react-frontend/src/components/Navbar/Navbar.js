@@ -34,13 +34,15 @@ const Navbar = () => {
           <NavLink id="link" to='/' >
             <Title>Home</Title>
           </NavLink>
+          
           <NavLink id="link" to='/About' >
             <Title>About</Title>
           </NavLink>
-          <NavLink id="link" to='/services/recipes'>
-            <Title>Services</Title>
 
+          <NavLink id="link" to='/services/ingredients'>
+            <Title>Services</Title>
           </NavLink>
+
           <NavLink id="link" to='/ContactUs' >
             <Title>Contact Us</Title>
           </NavLink>
