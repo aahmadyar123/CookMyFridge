@@ -228,7 +228,6 @@ async function addFriend(user, friendId) {
     boolean: true if added, false otherwise
   */
   try {
-
     user.friends.push(friendId);
     await user.save();
 
