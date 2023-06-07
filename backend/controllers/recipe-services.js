@@ -135,6 +135,12 @@ async function addRating(recipeID, rating) {
     //find recipe then update average rating and push new rating
     const recipe = findByID(recipeID);
 
+    //check if recipe has ratings/rating field
+    if (!recipe.hasOwnProperty("ratings"))
+      recipe.ratings = [];
+    if (!recipe.hasOwnProperty("rating"))
+    recipe.rating = 0;
+
     //check if score updated successfully
     if (updateAverageRating(recipe, rating.score)) {
       recipe.ratings.push(rating);
@@ -148,6 +154,8 @@ async function addRating(recipeID, rating) {
     return false;
   }
 }
+
+
 
 // --------------------------------------------------
 // HELPER FUNCTIONS
@@ -167,4 +175,5 @@ module.exports = {
   getRecipeByWebID,
   getRatings,
   addRating,
+  addRatingTest,
 };
