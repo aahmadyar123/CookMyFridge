@@ -46,14 +46,21 @@ export const IngredientProvider = ({ children }) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
       
+      
       const r = response.data['recipes_list'];
+      let favorites = []
+      if (response.data['favorites'] === undefined) {
+        favorites = [];
+      } else {
+        favorites = response.data['favorites'];
+      }
 
-      for (let fav of response.data['favorites']) {
+      for (let fav of favorites) {
         fav['favorite'] = true;
       }
 
-      setFavoriteList(response.data['favorites']);
-      const favorite_ids = response.data['favorites'].map(fav => fav.id);
+      setFavoriteList(favorites);
+      const favorite_ids = favorites.map(fav => fav.id);
       
       for (let recipe of r) {
         if (favorite_ids.includes(recipe.id)) {

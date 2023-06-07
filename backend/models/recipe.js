@@ -53,7 +53,6 @@ const RecipeSchema = new mongoose.Schema(
         },
         required: false,
         trim: true,
-        default: [],
       },
     ],
 

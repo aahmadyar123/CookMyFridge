@@ -164,7 +164,7 @@ app.delete("/recipes/:id", async (req, res) => {
   try {
     const recipe_id = req.params.id;
     const user_id = req._id;
-    const result = await recipeServices.removeRecipe(user_id, recipe_id);
+    const result = await userServices.removeRecipe(user_id, recipe_id);
     if (!result) {
       res.status(404).send("Resource not found.");
     } else {
@@ -192,29 +192,6 @@ app.get("/users/:id/recipes", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
-// Add an Ingredient to a User's Saved Ingredients endpoint:
-// - body of the request to this endpoint contains 1 field: ingredient_id
-// app.post("/ingredients", async (req, res) => {
-//   const user_id = req.params.id;
-//   const user = await userServices.findUserById(user_id);
-//   const ingredient_id = req.body.ingredient_id;
-//   try {
-//     const result = await userServices.addIngredient(user, ingredient_id);
-//     if (result === undefined || result.length === 0) {
-//       res.status(404).send("Resource not found.");
-//     } else {
-//       res.send({ users_list: result });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Internal Server Error.");
-//   }
-// });
-
-// -------------------------------------------------------
-// Recipes Endpoints (Protected Routes)
-// -------------------------------------------------------
 
 //load in saved recipes
 app.get("/recipes", async (req, res) => {
@@ -266,12 +243,13 @@ app.post("/recipes", async (req, res) => {
           recipes[i] = recipe;
         } else {
           //add recipe to database
-          recipes[i] = recipeServices.addRecipe(recipes[i]);
+          recipes[i] = await recipeServices.addRecipe(recipes[i]);
         }
       }
+      const favorites = await userServices.getRecipes(id);
       res.status(201).send({
-        favorites: await userServices.getRecipes(id),
-        recipes_list: recipes,
+        "favorites": favorites,
+        "recipes_list": recipes,
       });
     }
   } catch (error) {
