@@ -354,7 +354,10 @@ app.put("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
-    const updatedUser = await userServices.updateIngredients(id, data);
+    const updatedUser = await userServices.updateIngredients(
+      id,
+      data.ingredients
+    );
 
     if (updatedUser) {
       res.status(201).send(updatedUser).end();

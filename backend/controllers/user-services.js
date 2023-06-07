@@ -253,16 +253,17 @@ async function updateIngredients(id, userIngredients) {
   Updates user.ingredients field in database
   :param id: user id in database
   :param ingredients: updated list of ingredients for user
+  :return: user model
   */
   try {
     //update ingredients field for user with specified id
     const result = await userModel.updateOne(
       { _id: id },
-      { $set: { ingredients: userIngredients.ingredients } }
+      { $set: { ingredients: userIngredients } }
     );
 
-    r = await userModel.findById(id);
-    return result;
+    ret = await userModel.findById(id);
+    return ret;
   } catch (error) {
     console.log(error);
     return undefined;
@@ -271,11 +272,9 @@ async function updateIngredients(id, userIngredients) {
 
 async function getFriends(user) {
   /*
-  This function populates a user's list of friends
-  Args:
-    user: user to get recipes from
-  Return:
-    array of recipes
+  Populates and returns user friend list
+  :param user: user to get recipes from
+  :return: users populated friend list
   */
   try {
     // populate without using utility functions
