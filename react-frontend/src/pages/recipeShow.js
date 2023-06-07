@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Box, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
     AccessTimeOutlined,
     RestaurantOutlined,
 } from "@mui/icons-material";
+import { useAuth } from "../components/context/AuthProvider";
+import IconButton from '@mui/material/IconButton';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useIngredients } from "../components/context/ingredients_context";
@@ -12,26 +14,64 @@ import { Markup } from 'interweave';
 import ReviewForm from "./rating_form";
 import Grid from '@mui/material/Grid';
 import styled from "styled-components";
+import {red, grey} from '@mui/material/colors';
 
-
-const centeredListIngredients = styled.ol`
+const CenteredListIngredients = styled.ol`
   list-style-position: inside;
   list-style-type: disc;
 `;
 
 function ShowRecipe() {
-
     const targetId = useParams();
     const {value} = useIngredients();
+    const {Auth} = useAuth();
+
     let targetRecipe = null;
-    
+
     for (let i = 0; i < value.recipes.length; i++) {
-        if (Number(value.recipes[i].id) === Number(targetId.id)) {
+        if (value.recipes[i]._id === targetId.id) {
             targetRecipe = value.recipes[i];
             break;
         }
     }
+
+    if (targetRecipe === null) {
+        console.log("FAVS: ", value.favorite_list);
+        console.log("TARGET ID: ", targetId.id)
+        for (let i = 0; i < value.favorite_list.length; i++) {
+            if (value.favorite_list[i]._id === targetId.id) {
+                targetRecipe = value.favorite_list[i];
+                break;
+            }
+        }
+    }
+
+    console.log("TARGET RECIPE: ", targetRecipe);
+    // useEffect( () => {
+    //     async function getTargetRecipe(id) {
+    //         targetRecipe = await value.getRecipeId(id.id);
+    //     }
+    //     console.log("IN EFFECT");
+    //     getTargetRecipe(targetId.id);
+    // });
+    // console.log(targetRecipe);
+    
     const RecipeID = targetRecipe._id;
+    const [favorite, setFavorite] = React.useState(targetRecipe.favorite);
+
+    const handleFavorite = async (recipe_id, recipe) => {
+        if (recipe.favorite === false) {
+          value.addFavorite(recipe);
+          await value.favoriteRecipe(recipe_id, Auth.token);
+          recipe.favorite = true;
+        } else {
+          value.delFavorite(recipe.id);
+          await value.unfavoriteRecipe(recipe_id, Auth.token);
+          recipe.favorite = false;
+        }
+    
+        setFavorite(recipe.favorite);
+    }
     
     return (
         <>
@@ -77,12 +117,11 @@ function ShowRecipe() {
                                 <Typography fontSize={16} color="#808191">
                                     {targetRecipe.servings} servings
                                 </Typography>
-                                <FavoriteIcon
-                                    sx={{
-                                        fontSize: 20,
-                                        color: "#11142d",
-                                    }}
-                                />
+
+                                <IconButton aria-label="add to favorites" disabled={false} onClick={() => handleFavorite(targetRecipe._id, targetRecipe)}>
+                                    <FavoriteIcon sx={{color: favorite ? red[500] : grey[500]}}/>
+                                </IconButton>
+
                                 <Typography fontSize={16} color="#808191">
                                     Click to Save 
                                 </Typography>
@@ -133,11 +172,11 @@ function ShowRecipe() {
                                     gap="10px"
                                 >
                                     <Typography paragraph no wrap>
-                                    <centeredListIngredients>
+                                    <CenteredListIngredients>
                                         {targetRecipe.ingredients.map((step, index) => (
                                             <li key={index} >{step}</li>
                                         ))}
-                                    </centeredListIngredients>
+                                    </CenteredListIngredients>
                                     </Typography>
                                 </Stack>
                             </Stack>

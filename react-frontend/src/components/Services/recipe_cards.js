@@ -67,7 +67,7 @@ function RecipeReviewCard({recipe}) {
       />
       <Link
         to={{
-          pathname: `/services/recipes/${recipe.id}`,
+          pathname: `/services/recipes/${recipe._id}`,
           state: recipe ,
         }}
       >

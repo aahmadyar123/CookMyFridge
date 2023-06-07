@@ -22,8 +22,21 @@ export const IngredientProvider = ({ children }) => {
   const get_ratings = async (recipe_id, token) => {
     try {
       const tok = {headers: {'token': token}}
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, tok);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipe_id}/ratings`, tok);
       setRatings(response.data.ratings);
+      return response.data;
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const get_recipeById = async (recipe_id, token) => {
+    try {
+      const tok = {headers: {'token': token}};
+      console.log("ID: ", recipe_id);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipe_id}`, tok);
+      console.log("RECIPE GET: ", response.data);
       return response.data;
 
     } catch (error) {
@@ -34,7 +47,7 @@ export const IngredientProvider = ({ children }) => {
   const send_rating = async (recipe_id, rating, token) => {
     const tok = {headers: {'token': token}}
     try {
-      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, {'rating':rating}, tok);
+      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipe_id}/ratings`, {'rating':rating}, tok);
       setRatings(response.data['ratings']);
     } catch (error) {
       console.log(error);
@@ -199,6 +212,7 @@ export const IngredientProvider = ({ children }) => {
     addCookTime: add_CookTime,
     addTolerance: add_tolerance,
     recipe: send_recipe,
+    getRecipeId: get_recipeById,
     addFavorite: add_favorite,
     delFavorite: delete_favorite,
     favoriteRecipe: favorite_recipe,
