@@ -38,21 +38,22 @@ mongoose
 
 console.log("Connected to MongoDB.");
 
-async function register(user) {
+async function register(email, password) {
   /*
-  Registers user to database
-  :param user: JSON containing user account information
-  :return: JSON representing user added to DB
+  This function checks for valid login
+  :param email: user email
+  :param password: password for user
+  :return: user model
   */
   try {
     //check if duplicate email
-    duplicate = await userModel.findOne({ email: user.email });
+    duplicate = await userModel.findOne({ email: email });
     if (duplicate) {
       return undefined;
     }
 
     //create new user model and add to database
-    user.password = await bcrypt.hash(user.password, 10);
+    user.password = await bcrypt.hash(password, 10);
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();
     return savedUser;
@@ -62,21 +63,22 @@ async function register(user) {
   }
 }
 
-async function login(login) {
+async function login(email, password) {
   /*
   This function checks for valid login
-  Args:
-    login: JSON data representing user login information
+  :param email: user email
+  :param password: password for user
+  :return: user model
   */
   try {
     //get user
-    const user = await userModel.findOne({ email: login.email });
+    const user = await userModel.findOne({ email: email });
 
     //invalid email (user does not exist)
     if (!user) return undefined;
 
     //compare entered password to one retreieved from DB
-    const validPwd = await bcrypt.compare(login.password, user.password);
+    const validPwd = await bcrypt.compare(password, user.password);
     if (validPwd) return user;
     else return undefined;
   } catch (error) {
@@ -92,9 +94,9 @@ async function getUsers(name) {
 
 async function findUserById(id) {
   /*
-  This functions finds user by id
-  Args:
-    id: id for entry in DB
+  Finds user by id
+  :param id: user database ID
+  :return: user model with associated id
   */
   try {
     return await userModel.findById(id);
