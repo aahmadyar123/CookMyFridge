@@ -136,10 +136,8 @@ async function addRating(recipeID, rating) {
     const recipe = findByID(recipeID);
 
     //check if recipe has ratings/rating field
-    if (!recipe.hasOwnProperty("ratings"))
-      recipe.ratings = [];
-    if (!recipe.hasOwnProperty("rating"))
-    recipe.rating = 0;
+    if (!recipe.hasOwnProperty("ratings")) recipe.ratings = [];
+    if (!recipe.hasOwnProperty("rating")) recipe.rating = 0;
 
     //check if score updated successfully
     if (updateAverageRating(recipe, rating.score)) {
@@ -154,8 +152,6 @@ async function addRating(recipeID, rating) {
     return false;
   }
 }
-
-
 
 // --------------------------------------------------
 // HELPER FUNCTIONS

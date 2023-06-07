@@ -40,7 +40,7 @@ const RecipeSchema = new mongoose.Schema(
       type: Number,
       required: false,
       trim: true,
-      default: 0
+      default: 0,
     },
 
     //individual user ratings
@@ -53,7 +53,7 @@ const RecipeSchema = new mongoose.Schema(
         },
         required: false,
         trim: true,
-        default: []
+        default: [],
       },
     ],
 
