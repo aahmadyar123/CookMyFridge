@@ -107,7 +107,6 @@ function parseRecipe(recipe) {
     const regex = /(\d+)\s+calories/;
     const match = newDish.summary.match(regex);
     const calories = match ? parseInt(match[1]) : 0;
-    console.log(calories);
     newDish["kcal"] = calories;
   }
 

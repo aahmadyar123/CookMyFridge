@@ -211,7 +211,6 @@ async function getIngredients(id) {
   try {
     // populate without using utility functions
     const ingredients = await userModel.findById(id).select("ingredients");
-    console.log("GET INGREDIENTS: ", ingredients);
     return ingredients;
   } catch (error) {
     console.log(error);
@@ -229,7 +228,6 @@ async function addFriend(user, friendId) {
     boolean: true if added, false otherwise
   */
   try {
-    // console.log("user: ", user);
 
     user.friends.push(friendId);
     await user.save();

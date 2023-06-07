@@ -39,7 +39,6 @@ export default function ToleranceSelectCheckmarks() {
   const [tolerance, setTolerance] = React.useState([]);
 
   const handleChange = (event) => {
-    console.log("TOLERANCES: ", event.target.value);
     setTolerance(event.target.value);
     value.addTolerance(event.target.value);
   };

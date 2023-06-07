@@ -10,7 +10,8 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
-  const [load, setLoad] = useState(0);
+  const [loadIngred, setLoadIngred] = useState(0);
+  const [loadFav, setLoadFav] = useState(0);
   const navigate = useNavigate();
 
   const handleRegister = async (user) => {
@@ -18,17 +19,18 @@ export const AuthProvider = ({ children }) => {
     const token = response.data['token']
     setToken(token);
 
-    //backend sends back token
-    console.log('Submit TOKEN: ', token);
     
     //store in cookies
     document.cookie = `token=${token}`;
-    console.log("SET COOKIE ", document.cookie);
     navigate('/');
   };
 
-  const set_load = () => {
-    setLoad(1);
+  const set_loadIngred = () => {
+    setLoadIngred(1);
+  }
+
+  const set_loadFav = () => {
+    setLoadFav(1);
   }
 
   const handleLogin = async (user) => {
@@ -36,7 +38,6 @@ export const AuthProvider = ({ children }) => {
 
     try{
       console.log(`${process.env.REACT_APP_BACKEND_URL}/login`);
-      console.log("USER", user);
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, user);
       if (response.status === 201){
           const token = response.data['token'];
@@ -47,14 +48,12 @@ export const AuthProvider = ({ children }) => {
           
           //store in cookies
           document.cookie = `token=${token}`;
-          console.log("SET COOKIE ", document.cookie);
           navigate('/');
           return false;
       }
     }
 
     catch {
-      console.log("BAD PASSWORD IN LOGIN");
       return true;
     }
   }
@@ -65,8 +64,10 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     token,
-    load,
-    setLoad: set_load,
+    loadIngred,
+    loadFav,
+    setLoadIngred: set_loadIngred,
+    setLoadFav: set_loadFav,
     onLogin: handleLogin,
     onLogout: handleLogout,
     onRegister: handleRegister

@@ -116,7 +116,6 @@ async function getRatings(recipeID) {
   :return: recipe object
   */
   try {
-    console.log("GET RATING: ", recipeID);
     const recipe = await getRecipeByID(recipeID);
     return recipe;
   } catch (error) {

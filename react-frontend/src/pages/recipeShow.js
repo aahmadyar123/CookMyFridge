@@ -24,7 +24,6 @@ function ShowRecipe() {
     const targetId = useParams();
     const {value} = useIngredients();
     let targetRecipe = null;
-    console.log("SHOW RECIPE RENDER");
     
     for (let i = 0; i < value.recipes.length; i++) {
         if (Number(value.recipes[i].id) === Number(targetId.id)) {

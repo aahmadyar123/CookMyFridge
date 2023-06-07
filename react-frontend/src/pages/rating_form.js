@@ -182,7 +182,6 @@ function ReviewPage({recipeId}) {
   const renderUserReviews = () => {
     // store only the first two reviews in a variable
     const reviewsToShow = showAllReviews ? allRating : allRating.slice(0, 1);
-    console.log("Reviews to SHow: ", reviewsToShow);
     return (
       <Box className={classes.reviewSection}>
         <Typography variant="h6" gutterBottom>

@@ -22,7 +22,6 @@ export const IngredientProvider = ({ children }) => {
   const get_ratings = async (recipe_id, token) => {
     try {
       const tok = {headers: {'token': token}}
-      console.log("RECIPE_ID IN GET RATING: ", recipe_id);
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, tok);
       setRatings(response.data.ratings);
       return response.data;
@@ -35,8 +34,6 @@ export const IngredientProvider = ({ children }) => {
   const send_rating = async (recipe_id, rating, token) => {
     const tok = {headers: {'token': token}}
     try {
-      console.log("SENDING RATING: ", rating);
-      console.log("FOR RECIPE: ", recipe_id);
       const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, {'rating':rating}, tok);
       setRatings(response.data['ratings']);
     } catch (error) {
@@ -45,17 +42,17 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const send_recipe = async (recipe, token) => {
-    console.log("SENDING RECIPE: ", recipe);
     const tok = {headers: {'token': token}};
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
       
-      console.log("RESPONSE: ", response);
-      console.log("DATA: ", response.data);
-      console.log("FAVORITES: ", response.data['favorites'][0]);
-      setFavoriteList(response.data['favorites']);
-      
       const r = response.data['recipes_list'];
+
+      for (let fav of response.data['favorites']) {
+        fav['favorite'] = true;
+      }
+
+      setFavoriteList(response.data['favorites']);
       const favorite_ids = response.data['favorites'].map(fav => fav.id);
       
       for (let recipe of r) {
@@ -65,8 +62,7 @@ export const IngredientProvider = ({ children }) => {
           recipe['favorite'] = false;
         }
       }
-
-      console.log(response.data['recipes_list']);
+      
       setRecipe(response.data['recipes_list']);
       navigate('/services/recipes');
     } catch (error) {
@@ -76,11 +72,9 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const favorite_recipe = async (id, token) => {
-    console.log("FAVORITING ID: ", id);
-    console.log("In FAVORITE SENDING token: ", token);
     const tok = {headers: {'token': token}};
     try {
-      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipes/` + id, {'id': id}, tok);
+      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, {'id': id}, tok);
       if (response.status === 201) {
         console.log("FAVORITED RECIPE");
       } else {
@@ -89,14 +83,42 @@ export const IngredientProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-
   }
+
+  const unfavorite_recipe = async (id, token) => {
+    const tok = {headers: {'token': token}};
+    try {
+      console.log("Unfavorite token: ", token);
+      const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, tok);
+      if (response.status === 201) {
+        console.log("UNFAVORITED RECIPE");
+      } else {
+        console.log("FAILED UNFAVORITE");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const add_favorite = (recipe) => {
+    setFavoriteList((favorite_list) => [...favorite_list, recipe]);
+  }
+
+  const delete_favorite = (recipe_id) => {
+    const new_favs = favorite_list.filter((fav) => fav.id !== recipe_id);
+    setFavoriteList(new_favs);
+  }
+
 
   const get_recipe = async (token) => {
     try {
       const tok = {headers: {'token': token}}
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes`, tok);
-      console.log(response.data);
+      for (let fav of response.data) {
+        fav['favorite'] = true;
+      }
+      setFavoriteList(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -106,9 +128,7 @@ export const IngredientProvider = ({ children }) => {
 	  if (check(ingredient.slice(-1)[0]) === false) {
         const new_ingredient = {'ingredients': ingredient}
         const tok = {headers: {'token': token}}
-        console.log("SENT INGREDIENTS: ", new_ingredient);
         const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
-        console.log("GOT BACK RESPONSE");
 
         if (response.status === 201) {
           setIngredients(ingredient);
@@ -117,12 +137,10 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const get_ingredients = async (token) => {
-    console.log("SENDING TOKEN: ", {headers: {'token': token}});
     const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, {headers:{'token': token}});
     
     if (response.status === 201) {
       const new_ingredients = response.data.ingredients_list.ingredients
-      console.log("INGREDIENTS FROM BACKEND: ", new_ingredients);
       setIngredients(new_ingredients);
       return new_ingredients;
     }
@@ -174,7 +192,10 @@ export const IngredientProvider = ({ children }) => {
     addCookTime: add_CookTime,
     addTolerance: add_tolerance,
     recipe: send_recipe,
+    addFavorite: add_favorite,
+    delFavorite: delete_favorite,
     favoriteRecipe: favorite_recipe,
+    unfavoriteRecipe: unfavorite_recipe,
     getRecipes: get_recipe,
     getIngredients: get_ingredients,
 		print: log,

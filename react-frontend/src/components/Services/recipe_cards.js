@@ -43,10 +43,12 @@ function RecipeReviewCard({recipe}) {
   
   const handleFavorite = async (recipe_id, recipe) => {
     if (recipe.favorite === false) {
+      value.addFavorite(recipe);
       await value.favoriteRecipe(recipe_id, Auth.token);
       recipe.favorite = true;
     } else {
-      console.log("UNFAVORITE");
+      value.delFavorite(recipe.id);
+      await value.unfavoriteRecipe(recipe_id, Auth.token);
       recipe.favorite = false;
     }
 
@@ -130,9 +132,8 @@ function RecipeReviewCard({recipe}) {
 
 
 
-export default function RecipeGrid() {
-  const {value} = useIngredients();
-  const recipes = value.recipes; 
+export default function RecipeGrid({recipe}) {
+  const recipes = recipe; 
   const numColumns = 3;
   const numGridRows = Math.ceil(recipes.length / 3); // Calculate the number of grid rows needed
   
