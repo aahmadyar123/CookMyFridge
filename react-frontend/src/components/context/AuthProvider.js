@@ -10,7 +10,8 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
-  const [load, setLoad] = useState(0);
+  const [loadIngred, setLoadIngred] = useState(0);
+  const [loadFav, setLoadFav] = useState(0);
   const navigate = useNavigate();
 
   const handleRegister = async (user) => {
@@ -27,8 +28,12 @@ export const AuthProvider = ({ children }) => {
     navigate('/');
   };
 
-  const set_load = () => {
-    setLoad(1);
+  const set_loadIngred = () => {
+    setLoadIngred(1);
+  }
+
+  const set_loadFav = () => {
+    setLoadFav(1);
   }
 
   const handleLogin = async (user) => {
@@ -66,8 +71,10 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     token,
-    load,
-    setLoad: set_load,
+    loadIngred,
+    loadFav,
+    setLoadIngred: set_loadIngred,
+    setLoadFav: set_loadFav,
     onLogin: handleLogin,
     onLogout: handleLogout,
     onRegister: handleRegister
