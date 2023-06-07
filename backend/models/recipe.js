@@ -4,7 +4,7 @@ const RecipeSchema = new mongoose.Schema(
   {
     //recipe id from spoonacular
     id: {
-      type: String,
+      type: Number,
       required: true,
     },
     //recipe name

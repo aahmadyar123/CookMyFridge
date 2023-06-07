@@ -304,9 +304,12 @@ app.patch("/recipes/:id", async (req, res) => {
 //Get ratings for recipe
 app.get("/recipe/:id/ratings", async (req, res) => {
   try {
+    console.log("GET ratings 307");
     //get recipe ID
     const recipeID = req.params["id"];
-    const ratings = await recipeServices(recipeID);
+    console.log("310: ", recipeID);
+    const ratings = await recipeServices.getRatings(recipeID);
+    console.log(ratings);
 
     if (ratings === undefined) {
       res.status(404).send("Resource not Found").end();
@@ -322,15 +325,17 @@ app.get("/recipe/:id/ratings", async (req, res) => {
 //add rating to recipe
 app.patch("/recipe/:id/ratings", async (req, res) => {
   try {
+    //get recipeID and new rating to add to recipe
     const recipeID = req.params["id"];
-    const rating = req.body["rating"];
+    const rating = req.body['rating'];
 
+    //add rating to recipe
     const result = await recipeServices.addRating(recipeID, rating);
 
     if (!result) {
       res.status(404).end();
     } else {
-      res.status(201).end();
+      res.status(201).send(result).end();
     }
   } catch (error) {
     console.log(error);

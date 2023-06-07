@@ -69,7 +69,7 @@ async function getRecipeByWebID(id) {
 }
 
 // find a recipe by ID
-async function getRecipeById(id) {
+async function getRecipeByID(id) {
   /*
   Finds recipe by databse id
   :param id: id for entry in DB
@@ -113,11 +113,12 @@ async function getRatings(recipeID) {
   /*
   Returns ratings associated with recipe
   :param recipeID: databse id of recipe
-  :return: list(JSON) - ratings for a recipe
+  :return: recipe object
   */
   try {
-    const recipe = findByID(recipeID);
-    return recipe.ratings;
+    console.log("GET RATING: ", recipeID);
+    const recipe = await getRecipeByID(recipeID);
+    return recipe;
   } catch (error) {
     console.log(error);
     return undefined;
@@ -129,27 +130,23 @@ async function addRating(recipeID, rating) {
   Adds rating to recipe
   :param recipeID: recipe database id
   :param rating: JSON containing recipe review
-  :return: boolean specifying if rating added
+  :return: recipe object
   */
   try {
     //find recipe then update average rating and push new rating
-    const recipe = findByID(recipeID);
-
-    //check if recipe has ratings/rating field
-    if (!recipe.hasOwnProperty("ratings")) recipe.ratings = [];
-    if (!recipe.hasOwnProperty("rating")) recipe.rating = 0;
+    const recipe = await getRecipeByID(recipeID);
 
     //check if score updated successfully
     if (updateAverageRating(recipe, rating.score)) {
       recipe.ratings.push(rating);
       await recipe.save(); //save updated recipe to DB
-      return true;
+      return recipe;
     } else {
-      return false;
+      return undefined;
     }
   } catch (error) {
     console.log(error);
-    return false;
+    return undefined;
   }
 }
 
@@ -166,9 +163,9 @@ async function findRecipeByName(name) {
 module.exports = {
   getRecipes,
   addRecipe,
-  getRecipeById,
+  getRecipeByID,
   updateAverageRating,
   getRecipeByWebID,
   getRatings,
-  addRating,
+  addRating
 };
