@@ -41,6 +41,7 @@ const Middle = styled.div`
 const Profile = styled.div`
   background-image: url(${props => props.src});
   background-size: cover;
+  border: 1px solid black;
   border-radius: 50%;
   opacity: 1;
   display: block;
@@ -48,7 +49,6 @@ const Profile = styled.div`
   height: 225px;
   transition: .5s ease;
   backface-visibility: hidden;
-
 `;
 
 const ProfileContainer = styled.div`
