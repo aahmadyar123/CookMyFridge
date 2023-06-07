@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
@@ -9,8 +9,8 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { IngredientProvider, send_rating, get_ratings, useAuth } from "../components/context/ingredients_context";
-
+import { useIngredients } from '../components/context/ingredients_context';
+import { useAuth } from '../components/context/AuthProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fcfcfc',
     overflow: 'hidden',
   },
+
   container: {
     fontFamily: 'Abhaya Libre Bold, sans-serif',
     width: '100%',
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '0px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
   },
+
   form: {
     marginBottom: theme.spacing(3),
     height: '100%',
@@ -53,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
   reviewSection: {
     marginBottom: theme.spacing(1),
     display: 'flex',
@@ -72,63 +75,54 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
   reviewsContainer: {
     maxHeight: '250px', // Set the maximum height for scrollable behavior
     overflowY: 'scroll', // Enable vertical scrolling
     marginBottom: theme.spacing(1),
   },
+
   reviewItem: {
     marginBottom: theme.spacing(2),
   },
+
   loadMoreButton: {
     margin: theme.spacing(2, 0),
   },
+
   averageRating: {
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'nowrap',
     alignItems: 'center',
     textAlign: 'center', // Center align the text
-  },
+  }
 }));
 
-const initialRatings = [
-  { id: 1, user: "John Doe", rating: 4, comment: "Great product!" },
-  { id: 2, user: "Jane Smith", rating: 3, comment: "Good but could be better." },
-  { id: 3, user: "Bob Johnson", rating: 5, comment: "Excellent experience!" },
-  { id: 4, user: "Bob Johnson", rating: 5, comment: "Tight experience!" },
-];
-
-function ReviewPage() {
+function ReviewPage({recipeId}) {
   const classes = useStyles();
-
-  const [ratings, setRatings] = useState(initialRatings);
-  const [newRating, setNewRating] = useState({ user: "", rating: null, comment: "" });
+  const {Auth} = useAuth();
+  const {value} = useIngredients();
+  const [newRating, setNewRating] = useState({ score: null, name: '', comment: '' });
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [avgRating, setAvgRating] = useState(0);
 
-  const handleSubmit = (e) => {
+  useEffect(()=> {
+    async function getAvg(recipeId) {
+      const new_avg = await value.getRatings(recipeId, Auth.token);
+      setAvgRating(new_avg.rating.toFixed(2));
+    }
+    getAvg(recipeId);
+  }, [recipeId]);
+  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newId = ratings.length + 1;
-    const ratingWithId = { ...newRating, id: newId };
-
-    // get recipe id
-    const {value} = useIngredients();
-    value.
-
-
-    // get token
-    const {Auth} = useAuth();
-
-    send_rating(recipe_id, new_rating, Auth)
-
-    setRatings([...ratings, ratingWithId]);
-    setNewRating({ user: "", rating: null, comment: "" });
-  };
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewRating({ ...newRating, [name]: value });
+    console.log("1st HI"); 
+    await value.updateRatings(recipeId, newRating, Auth.token);
+    console.log("HOWDY");
+    setNewRating({ score: null, name: '', comment: '' });
+    console.log("SET NEW RATING");
   };
 
   // Shows the rest of reviews
@@ -136,19 +130,17 @@ function ReviewPage() {
     setShowAllReviews(true);
   };
 
-  const averageRating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
-
   const renderSubmitForm = () => {
     return (
-      <Box className={classes.form}>
+      <form className={classes.form}  onSubmit={handleSubmit}>
         <Typography variant="h6" gutterBottom>
           Submit Your Rating
         </Typography>
         <div>
           <Rating
             name="rating"
-            value={newRating.rating}
-            onChange={(event, value) => setNewRating({ ...newRating, rating: value })}
+            value={newRating.score}
+            onChange={(event, value) => setNewRating({ ...newRating, score: value })}
           />
         </div>
         <div>
@@ -156,8 +148,8 @@ function ReviewPage() {
             required
             label="Name"
             name="user"
-            value={newRating.user}
-            onChange={handleInputChange}
+            value={newRating.name}
+            onChange={(event) => setNewRating({ ...newRating, name: event.target.value })}
           />
         </div>
         <div>
@@ -168,6 +160,8 @@ function ReviewPage() {
             multiline
             rows={4}
             rowsMax={4}
+            value={newRating.comment}
+            onChange={(event) => setNewRating({ ...newRating, comment: event.target.value })}
             label="Recipe Review"
           />
         </div>
@@ -175,16 +169,17 @@ function ReviewPage() {
           type="submit" 
           variant="contained"
           color="primary"
-          onClick={handleSubmit}
         >
           Submit
         </Button>
-      </Box>
+      </form>
     );
   };
 
   const renderUserReviews = () => {
-    const reviewsToShow = showAllReviews ? ratings : ratings.slice(0, 1);
+    // store only the first two reviews in a variable
+    const reviewsToShow = showAllReviews ? value.ratings : (value.ratings).slice(0, 1);
+    console.log("Reviews to SHow: ", reviewsToShow);
     return (
       <Box className={classes.reviewSection}>
         <Typography variant="h6" gutterBottom>
@@ -199,7 +194,7 @@ function ReviewPage() {
                 <React.Fragment key={review.id}>
                   <ListItem alignItems="flex-start" className={classes.reviewItem}>
                     <ListItemText
-                      primary={`${review.rating}/5 by ${review.user}`}
+                      primary={`${review.score}/5 by ${review.name}`}
                       secondary={review.comment}
                     />
                   </ListItem>
@@ -209,7 +204,7 @@ function ReviewPage() {
             </List>
           )}
         </div>
-        {!showAllReviews && ratings.length > 2 && (
+        {!showAllReviews && value.ratings.length > 2 && (
           <Button
             variant="outlined"
             color="primary"
@@ -225,12 +220,13 @@ function ReviewPage() {
 
   return (
     <Box className={classes.container}>
+      <h1> Reviews </h1>
       <Box className={classes.averageRating}>
         <Typography variant="h5">
-          <Rating value={averageRating} readOnly />
+          <Rating value={avgRating} readOnly />
         </Typography>
         <Typography variant="h5">
-          Average Rating: {averageRating.toFixed(1)}/5
+          Average Rating: {avgRating}
         </Typography>
       </Box>
       <Box>

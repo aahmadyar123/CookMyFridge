@@ -24,14 +24,16 @@ function ShowRecipe() {
     const targetId = useParams();
     const {value} = useIngredients();
     let targetRecipe = null;
-
+    console.log("SHOW RECIPE RENDER");
+    
     for (let i = 0; i < value.recipes.length; i++) {
         if (Number(value.recipes[i].id) === Number(targetId.id)) {
             targetRecipe = value.recipes[i];
             break;
         }
     }
-
+    const RecipeID = targetRecipe._id;
+    
     return (
         <>
         <Box borderRadius="15px" p="20px" bgcolor="#fcfcfc" width="100%">
@@ -170,7 +172,7 @@ function ShowRecipe() {
         </Grid>
             {/* <ReviewForm /> */}
         </Box>
-        <ReviewForm />
+        <ReviewForm recipeId={RecipeID} />
         </>
 
     );

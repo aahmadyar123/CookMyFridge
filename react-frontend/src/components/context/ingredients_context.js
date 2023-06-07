@@ -13,16 +13,20 @@ export const IngredientProvider = ({ children }) => {
   const [tolerances, setTolerance] = useState([]);
   const [recipes, setRecipe] = useState([]);
   const [favorite_list, setFavoriteList] = useState([]);
+  const [ratings, setRatings] = useState([]);
 
   const add_tolerance = (tolerance) => {
     setTolerance(tolerance);
   }
 
-  const get_ratings = async (recipe_id) => {
+  const get_ratings = async (recipe_id, token) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`);
-      console.log("RESPONSE: ", response);
-      console.log("DATA: ", response.data);
+      const tok = {headers: {'token': token}}
+      console.log("RECIPE_ID IN GET RATING: ", recipe_id);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, tok);
+      setRatings(response.data.ratings);
+      return response.data;
+
     } catch (error) {
       console.log(error);
     }
@@ -33,10 +37,8 @@ export const IngredientProvider = ({ children }) => {
     try {
       console.log("SENDING RATING: ", rating);
       console.log("FOR RECIPE: ", recipe_id);
-      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, rating, tok);
-      console.log("RESPONSE: ", response);
-      console.log("DATA: ", response.data);
-      setRatings(response.data);
+      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, {'rating':rating}, tok);
+      setRatings(response.data['ratings']);
     } catch (error) {
       console.log(error);
     }
@@ -164,6 +166,7 @@ export const IngredientProvider = ({ children }) => {
     cookTime,
     tolerances,
     recipes,
+    ratings,
     favorite_list,
 		onAdd: add_ingredient,
 		onDel: delete_ingredient,
@@ -174,7 +177,9 @@ export const IngredientProvider = ({ children }) => {
     favoriteRecipe: favorite_recipe,
     getRecipes: get_recipe,
     getIngredients: get_ingredients,
-		print: log
+		print: log,
+    getRatings: get_ratings,
+    updateRatings: send_rating
   };
 
   return (
