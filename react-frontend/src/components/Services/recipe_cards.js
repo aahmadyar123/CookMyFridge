@@ -51,7 +51,6 @@ function RecipeReviewCard({recipe}) {
       await value.unfavoriteRecipe(recipe_id, Auth.token);
       recipe.favorite = false;
     }
-
     setFavorite(recipe.favorite);
   }
 

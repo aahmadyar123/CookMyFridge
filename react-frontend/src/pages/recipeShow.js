@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, Box, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
@@ -45,16 +45,6 @@ function ShowRecipe() {
             }
         }
     }
-
-    console.log("TARGET RECIPE: ", targetRecipe);
-    // useEffect( () => {
-    //     async function getTargetRecipe(id) {
-    //         targetRecipe = await value.getRecipeId(id.id);
-    //     }
-    //     console.log("IN EFFECT");
-    //     getTargetRecipe(targetId.id);
-    // });
-    // console.log(targetRecipe);
     
     const RecipeID = targetRecipe._id;
     const [favorite, setFavorite] = React.useState(targetRecipe.favorite);
