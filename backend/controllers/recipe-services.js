@@ -71,9 +71,8 @@ async function getRecipeByWebID(id) {
 // find a recipe by ID
 async function getRecipeById(id) {
   /*
-  This functions finds user by id
-  Args:
-    id: id for entry in DB
+  Finds recipe by databse id
+  :param id: id for entry in DB
   */
   try {
     return await recipeModel.findById(id);

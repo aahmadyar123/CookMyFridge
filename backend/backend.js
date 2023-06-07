@@ -74,7 +74,7 @@ async function authenticateToken(req, res, next) {
 app.post("/login", async (req, res) => {
   const user = req.body;
   try {
-    const result = await userServices.login(user);
+    const result = await userServices.login(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -96,7 +96,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const user = req.body;
-    const result = await userServices.register(user);
+    const result = await userServices.register(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -370,7 +370,10 @@ app.put("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
-    const updatedUser = await userServices.updateIngredients(id, data);
+    const updatedUser = await userServices.updateIngredients(
+      id,
+      data.ingredients
+    );
 
     if (updatedUser) {
       res.status(201).send(updatedUser).end();
