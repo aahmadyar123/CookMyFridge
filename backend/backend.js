@@ -248,8 +248,8 @@ app.post("/recipes", async (req, res) => {
       }
       const favorites = await userServices.getRecipes(id);
       res.status(201).send({
-        "favorites": favorites,
-        "recipes_list": recipes,
+        favorites: favorites,
+        recipes_list: recipes,
       });
     }
   } catch (error) {
