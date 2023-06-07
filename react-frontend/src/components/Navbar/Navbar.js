@@ -27,7 +27,7 @@ const Navbar = () => {
     <>
       <Nav>
         <NavLink to='/'>
-          <img src={require('../../images/logo.png')} id='logo' alt="logo" />
+          <img src={require('../../images/logohome.png')} id='logo' alt="logo" border="2px"/>
         </NavLink>
 
         <NavMenu>
@@ -39,7 +39,6 @@ const Navbar = () => {
           </NavLink>
           <NavLink id="link" to='/services/recipes'>
             <Title>Services</Title>
-
           </NavLink>
           <NavLink id="link" to='/ContactUs' >
             <Title>Contact Us</Title>

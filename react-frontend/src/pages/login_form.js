@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import backgroundImage from '../images/bowtiepasta.jpg';
-import logo from '../images/logo.png';
+import logo from '../images/logologin.png';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {NavLink} from '../components/Navbar/NavbarElements';
@@ -145,7 +145,7 @@ function LoginForm() {
       <form className={classes.form} onSubmit={onSubmit}> 
       
         <NavLink to="/">
-          <img className={classes.logo} src={logo} alt="Logo" />
+          <img className={classes.logo} src={logo} alt="Logo" border = "2px"/>
         </NavLink>
 
         <div>
