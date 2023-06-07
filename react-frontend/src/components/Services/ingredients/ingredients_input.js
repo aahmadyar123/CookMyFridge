@@ -135,19 +135,15 @@ export default function IngredientAdd() {
 
 
     const handleKcalChange = (event) => {
-      console.log("KCAL: ", event.target.value);
       setKcal(event.target.value);
     }
 
     const handleCookTimeChange = (event) => {
-      console.log("COOKTIME: ", event.target.value);
       setCookTime(event.target.value);
     }
 
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
-        // setShowDropdown(true);
-        console.log(event.target.value);
         onSearchChange(event.target.value);
     };
 
@@ -156,13 +152,11 @@ export default function IngredientAdd() {
           ing.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
           );
       setTempData(newData);
-      console.log(tempData);
     };
 
     const handleAddIngredient = async () => {
       if (searchQuery.trim() !== '') {
         setIngredientList((ingredientList) => [...ingredientList, searchQuery]);
-        console.log("TOKEN: ", Auth.token);
         await value.onAdd([...ingredientList, searchQuery], Auth.token);
         setSearchQuery('');
         // setShowDropdown(false);

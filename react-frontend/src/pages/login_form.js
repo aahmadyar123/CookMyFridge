@@ -108,7 +108,6 @@ function LoginForm() {
 
 
     const handleChange = event => {
-        console.log(user);
         const {name, value} = event.target;
         if (name === "email") {
           setUser({email: value, password: user['password']})
@@ -122,9 +121,7 @@ function LoginForm() {
     async function onSubmit(e) {
       e.preventDefault();
       try {
-          console.log("IN LOGIN: ", user);
           const c = await Auth.onLogin(user)
-          console.log("Confirmed: ", c);
           if (c) {
             setBad("BAD PASSWORD");
           } else {

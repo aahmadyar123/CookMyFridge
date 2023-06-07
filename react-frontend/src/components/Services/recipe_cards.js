@@ -47,7 +47,6 @@ function RecipeReviewCard({recipe}) {
       await value.favoriteRecipe(recipe_id, Auth.token);
       recipe.favorite = true;
     } else {
-      console.log("UNFAVORITE");
       value.delFavorite(recipe.id);
       await value.unfavoriteRecipe(recipe_id, Auth.token);
       recipe.favorite = false;

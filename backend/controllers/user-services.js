@@ -202,27 +202,6 @@ async function getRecipes(userID) {
   }
 }
 
-async function addIngredient(user, ingredientId) {
-  /*
-  Adds an ingredient to a user's list of ingredients
-  
-  :param ingredientId: id of ingredient to add
-  :param user: user to add ingredient to
-  :return: boolean - true if added, false otherwise
-  */
-  try {
-    // console.log("user: ", user);
-
-    user.ingredients.push(ingredientId);
-    await user.save();
-
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
 async function getIngredients(id) {
   /*
   Gets all ingredients associated with specified user
@@ -232,7 +211,6 @@ async function getIngredients(id) {
   try {
     // populate without using utility functions
     const ingredients = await userModel.findById(id).select("ingredients");
-    console.log("GET INGREDIENTS: ", ingredients);
     return ingredients;
   } catch (error) {
     console.log(error);
@@ -250,8 +228,6 @@ async function addFriend(user, friendId) {
     boolean: true if added, false otherwise
   */
   try {
-    // console.log("user: ", user);
-
     user.friends.push(friendId);
     await user.save();
 
@@ -322,7 +298,6 @@ module.exports = {
   deleteUser,
   addRecipe,
   getRecipes,
-  addIngredient,
   getIngredients,
   addFriend,
   getFriends,

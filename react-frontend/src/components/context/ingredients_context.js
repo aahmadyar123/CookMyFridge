@@ -13,13 +13,35 @@ export const IngredientProvider = ({ children }) => {
   const [tolerances, setTolerance] = useState([]);
   const [recipes, setRecipe] = useState([]);
   const [favorite_list, setFavoriteList] = useState([]);
+  const [ratings, setRatings] = useState([]);
 
   const add_tolerance = (tolerance) => {
     setTolerance(tolerance);
   }
 
+  const get_ratings = async (recipe_id, token) => {
+    try {
+      const tok = {headers: {'token': token}}
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, tok);
+      setRatings(response.data.ratings);
+      return response.data;
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const send_rating = async (recipe_id, rating, token) => {
+    const tok = {headers: {'token': token}}
+    try {
+      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, {'rating':rating}, tok);
+      setRatings(response.data['ratings']);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const send_recipe = async (recipe, token) => {
-    console.log("SENDING RECIPE: ", recipe);
     const tok = {headers: {'token': token}};
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
@@ -41,7 +63,6 @@ export const IngredientProvider = ({ children }) => {
         }
       }
       
-      console.log(response.data['recipes_list']);
       setRecipe(response.data['recipes_list']);
       navigate('/services/recipes');
     } catch (error) {
@@ -84,9 +105,7 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const delete_favorite = (recipe_id) => {
-    console.log("RECIPE ID: ", recipe_id);
     const new_favs = favorite_list.filter((fav) => fav.id !== recipe_id);
-    console.log("DELETED NEW: ", new_favs);
     setFavoriteList(new_favs);
   }
 
@@ -165,6 +184,7 @@ export const IngredientProvider = ({ children }) => {
     cookTime,
     tolerances,
     recipes,
+    ratings,
     favorite_list,
 		onAdd: add_ingredient,
 		onDel: delete_ingredient,
@@ -178,7 +198,9 @@ export const IngredientProvider = ({ children }) => {
     unfavoriteRecipe: unfavorite_recipe,
     getRecipes: get_recipe,
     getIngredients: get_ingredients,
-		print: log
+		print: log,
+    getRatings: get_ratings,
+    updateRatings: send_rating
   };
 
   return (

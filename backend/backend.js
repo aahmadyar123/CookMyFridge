@@ -50,7 +50,6 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   token = req.headers["token"];
-  console.log("GOT TOKEN: ", token);
   if (token == null) res.status(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
@@ -288,7 +287,6 @@ app.patch("/recipes/:id", async (req, res) => {
     //data base id for user and recipe
     const userID = req._id;
     const recipeID = req.params["id"];
-    console.log("RECIPEID: ", recipeID);
     const result = await userServices.addRecipe(userID, recipeID);
     if (!result) {
       res.status(500).end();
@@ -306,7 +304,7 @@ app.get("/recipe/:id/ratings", async (req, res) => {
   try {
     //get recipe ID
     const recipeID = req.params["id"];
-    const ratings = await recipeServices(recipeID);
+    const ratings = await recipeServices.getRatings(recipeID);
 
     if (ratings === undefined) {
       res.status(404).send("Resource not Found").end();
@@ -322,15 +320,17 @@ app.get("/recipe/:id/ratings", async (req, res) => {
 //add rating to recipe
 app.patch("/recipe/:id/ratings", async (req, res) => {
   try {
+    //get recipeID and new rating to add to recipe
     const recipeID = req.params["id"];
     const rating = req.body["rating"];
 
+    //add rating to recipe
     const result = await recipeServices.addRating(recipeID, rating);
 
     if (!result) {
       res.status(404).end();
     } else {
-      res.status(201).end();
+      res.status(201).send(result).end();
     }
   } catch (error) {
     console.log(error);
