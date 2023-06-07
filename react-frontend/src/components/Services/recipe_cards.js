@@ -12,9 +12,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useIngredients } from '../context/ingredients_context';
+import {red, grey} from '@mui/material/colors'
+
 import { Markup } from 'interweave';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
 
 
 const ExpandMore = styled((props) => {
@@ -29,11 +32,27 @@ const ExpandMore = styled((props) => {
 }))
 
 function RecipeReviewCard({recipe}) {
+  const {value} = useIngredients();
+  const {Auth} = useAuth();
   const [expanded, setExpanded] = React.useState(false);
+  const [favorite, setFavorite] = React.useState(recipe.favorite);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  
+  const handleFavorite = async (recipe_id, recipe) => {
+    if (recipe.favorite === false) {
+      await value.favoriteRecipe(recipe_id, Auth.token);
+      recipe.favorite = true;
+    } else {
+      console.log("UNFAVORITE");
+      recipe.favorite = false;
+    }
+
+    setFavorite(recipe.favorite);
+  }
+
 
   return (
     <Card sx={{ width: 345, minHeight: 440, borderRadius: '10px', boxShadow: 3 }}>
@@ -72,10 +91,10 @@ function RecipeReviewCard({recipe}) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={() => handleFavorite(recipe._id, recipe)}>
+          <FavoriteIcon sx={{color: favorite ? red[500] : grey[500]}}/>
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share"> 
           <ShareIcon />
         </IconButton>
         <ExpandMore
