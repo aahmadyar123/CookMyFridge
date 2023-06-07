@@ -171,5 +171,4 @@ module.exports = {
   getRecipeByWebID,
   getRatings,
   addRating,
-  addRatingTest,
 };

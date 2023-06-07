@@ -421,8 +421,3 @@ https
 //   "maxCal" :  1500
 // });
 
-recipeServices.addRatingTest("715497", {
-  name: "Aaron",
-  score: 4,
-  comment: "HELLO WORLD!",
-});
