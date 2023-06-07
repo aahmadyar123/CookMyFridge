@@ -144,8 +144,7 @@ async function addRecipe(userID, recipeID) {
 
     if (user.recipes.includes(recipeID)) {
       return true;
-    }
-    else {
+    } else {
       user.recipes.push(recipeID);
       await user.save();
       return true;
@@ -163,28 +162,25 @@ async function removeRecipe(userID, recipeID) {
   :param recipeID: recipe id
   :return: boolean if removed successfully
   */
- try {
-  //remove recipe reference from user.recipes
-  const user = await findUserByID(userID);
+  try {
+    //remove recipe reference from user.recipes
+    const user = await findUserByID(userID);
 
-  //check if recipe not favorited
-  const idx = user.recipes.indexOf(recipeID);
-  if (idx === -1) {
+    //check if recipe not favorited
+    const idx = user.recipes.indexOf(recipeID);
+    if (idx === -1) {
+      return false;
+    }
+    //remove recipe if favorited
+    else {
+      user.recipes.splice(idx, 1);
+      await user.save();
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
     return false;
   }
-  //remove recipe if favorited
-  else {
-    user.recipes.splice(idx, 1);
-    await user.save();
-    return true;
-  }
- }
- catch (error) {
-  console.log(error);
-  return false;
- }
-
-
 }
 
 async function getRecipes(userID) {

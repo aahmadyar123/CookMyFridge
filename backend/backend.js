@@ -226,7 +226,7 @@ app.get("/recipes/:id", async (req, res) => {
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
-      res.send({ "recipes_list": result });
+      res.send({ recipes_list: result });
     }
   } catch (error) {
     console.log(error);
@@ -251,11 +251,13 @@ app.post("/recipes", async (req, res) => {
           recipes[i] = recipe;
         } else {
           //add recipe to database
-           recipes[i] = recipeServices.addRecipe(recipes[i]);
+          recipes[i] = recipeServices.addRecipe(recipes[i]);
         }
       }
-      res.status(201).send({"favorites": await userServices.getRecipes(id),
-                            "recipes_list": recipes});
+      res.status(201).send({
+        favorites: await userServices.getRecipes(id),
+        recipes_list: recipes,
+      });
     }
   } catch (error) {
     console.log("ERROR IN RECIPE POST");

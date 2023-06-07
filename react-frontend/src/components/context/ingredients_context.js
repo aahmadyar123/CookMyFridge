@@ -140,6 +140,7 @@ export const IngredientProvider = ({ children }) => {
     cookTime,
     tolerances,
     recipes,
+    favorite_list,
 		onAdd: add_ingredient,
 		onDel: delete_ingredient,
     addKcal: add_KCal,
