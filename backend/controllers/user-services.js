@@ -318,4 +318,5 @@ module.exports = {
   addFriend,
   getFriends,
   updateIngredients,
+  removeRecipe,
 };
