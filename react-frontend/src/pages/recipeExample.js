@@ -12,6 +12,10 @@ import { Markup } from 'interweave';
 import ReviewForm from "./rating_form";
 import Grid from '@mui/material/Grid';
 import styled from "styled-components";
+import { useAuth } from "../components/context/AuthProvider";
+import IconButton from '@mui/material/IconButton';
+import {red, grey} from '@mui/material/colors'
+
 
 const centeredListIngredients = styled.ol`
   list-style-position: inside;
@@ -27,6 +31,7 @@ function ShowRecipe() {
 
     const targetId = useParams();
     const {value} = useIngredients();
+    const {Auth} = useAuth();
     let targetRecipe = null;
 
     for (let i = 0; i < value.recipes.length; i++) {
@@ -34,6 +39,23 @@ function ShowRecipe() {
             targetRecipe = value.recipes[i];
             break;
         }
+    }
+
+    const [favorite, setFavorite] = React.useState(targetRecipe.favorite);
+
+    const handleFavorite = async (recipe_id, recipe) => {
+        if (recipe.favorite === false) {
+          value.addFavorite(recipe);
+          await value.favoriteRecipe(recipe_id, Auth.token);
+          recipe.favorite = true;
+        } else {
+          console.log("UNFAVORITE");
+          value.delFavorite(recipe.id);
+          await value.unfavoriteRecipe(recipe_id, Auth.token);
+          recipe.favorite = false;
+        }
+    
+        setFavorite(recipe.favorite);
     }
 
     return (
@@ -80,12 +102,10 @@ function ShowRecipe() {
                             <Typography fontSize={16} color="#808191">
                                 {targetRecipe.servings} servings
                             </Typography>
-                            <FavoriteIcon
-                                sx={{
-                                    fontSize: 20,
-                                    color: "#11142d",
-                                }}
-                            />
+
+                            <IconButton aria-label="add to favorites" onClick={() => handleFavorite(targetRecipe._id, targetRecipe)}>
+                                <FavoriteIcon sx={{color: favorite ? red[500] : grey[500]}}/>
+                            </IconButton>
                             <Typography fontSize={16} color="#808191">
                                 Click to Save 
                             </Typography>
