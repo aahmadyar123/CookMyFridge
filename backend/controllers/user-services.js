@@ -53,8 +53,8 @@ async function register(email, password) {
     }
 
     //create new user model and add to database
-    user.password = await bcrypt.hash(password, 10);
-    const userToAdd = new userModel(user);
+    password = await bcrypt.hash(password, 10);
+    const userToAdd = new userModel({ email: email, password: password });
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {

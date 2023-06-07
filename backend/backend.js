@@ -214,11 +214,15 @@ app.get("/recipes", async (req, res) => {
 app.get("/recipes/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await recipeServices.getRecipeById(id);
+    console.log("GOT INTO RECIPE ID");
+    console.log("ID:", id);
+    const result = await recipeServices.getRecipeByID(id);
+    console.log("GOT RESULT: ", result);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
-      res.send({ recipes_list: result });
+      console.log("GET RECIPE ID: ", result);
+      res.send({ result });
     }
   } catch (error) {
     console.log(error);
@@ -278,7 +282,7 @@ app.patch("/recipes/:id", async (req, res) => {
 });
 
 //Get ratings for recipe
-app.get("/recipe/:id/ratings", async (req, res) => {
+app.get("/recipes/:id/ratings", async (req, res) => {
   try {
     //get recipe ID
     const recipeID = req.params["id"];
@@ -296,7 +300,7 @@ app.get("/recipe/:id/ratings", async (req, res) => {
 });
 
 //add rating to recipe
-app.patch("/recipe/:id/ratings", async (req, res) => {
+app.patch("/recipes/:id/ratings", async (req, res) => {
   try {
     //get recipeID and new rating to add to recipe
     const recipeID = req.params["id"];
