@@ -50,7 +50,7 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   token = req.headers["token"];
-
+  console.log("GOT TOKEN: ", token);
   if (token == null) res.status(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
@@ -74,7 +74,7 @@ async function authenticateToken(req, res, next) {
 app.post("/login", async (req, res) => {
   const user = req.body;
   try {
-    const result = await userServices.login(user);
+    const result = await userServices.login(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -96,7 +96,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const user = req.body;
-    const result = await userServices.register(user);
+    const result = await userServices.register(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -226,7 +226,6 @@ app.get("/recipes", async (req, res) => {
     if (recipes === undefined || recipes.length === 0) {
       res.status(404).send("Recipes not Found for User");
     } else {
-      console.log(recipes);
       res.status(201).send(recipes).end();
     }
   } catch (error) {
@@ -268,10 +267,13 @@ app.post("/recipes", async (req, res) => {
           recipes[i] = recipe;
         } else {
           //add recipe to database
-          recipeServices.addRecipe(recipes[i]);
+          recipes[i] = recipeServices.addRecipe(recipes[i]);
         }
       }
-      res.status(201).send(recipes);
+      res.status(201).send({
+        favorites: await userServices.getRecipes(id),
+        recipes_list: recipes,
+      });
     }
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
@@ -286,8 +288,8 @@ app.patch("/recipes/:id", async (req, res) => {
     //data base id for user and recipe
     const userID = req._id;
     const recipeID = req.params["id"];
+    console.log("RECIPEID: ", recipeID);
     const result = await userServices.addRecipe(userID, recipeID);
-
     if (!result) {
       res.status(500).end();
     } else {
@@ -370,7 +372,10 @@ app.put("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
-    const updatedUser = await userServices.updateIngredients(id, data);
+    const updatedUser = await userServices.updateIngredients(
+      id,
+      data.ingredients
+    );
 
     if (updatedUser) {
       res.status(201).send(updatedUser).end();
@@ -415,3 +420,9 @@ https
 //   "ingredients" : ["banana", "milk"],
 //   "maxCal" :  1500
 // });
+
+recipeServices.addRatingTest("715497", {
+  name: "Aaron",
+  score: 4,
+  comment: "HELLO WORLD!",
+});

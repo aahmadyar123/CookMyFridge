@@ -40,18 +40,20 @@ const RecipeSchema = new mongoose.Schema(
       type: Number,
       required: false,
       trim: true,
+      default: 0,
     },
 
     //individual user ratings
     ratings: [
       {
         type: {
-          stars: Number,
+          score: Number,
           name: String,
           comment: String,
         },
         required: false,
         trim: true,
+        default: [],
       },
     ],
 

@@ -18,7 +18,6 @@ async function getRecipes(params) {
   //valid seach parameters
   const arrayParams = new Set(["includeIngredients", "intolerances"]);
   const varParams = new Set(["maxCal", "maxReadyTime"]);
-  console.log("PARAMS: ", params);
 
   //parse search paramters and too to url query
   for (let field in params) {
@@ -50,7 +49,6 @@ async function getRecipes(params) {
     ret.push(parseRecipe(recipes.results[i]));
   }
 
-  console.log("RECIPES", ret);
   return ret;
 }
 

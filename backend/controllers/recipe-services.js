@@ -71,9 +71,8 @@ async function getRecipeByWebID(id) {
 // find a recipe by ID
 async function getRecipeById(id) {
   /*
-  This functions finds user by id
-  Args:
-    id: id for entry in DB
+  Finds recipe by databse id
+  :param id: id for entry in DB
   */
   try {
     return await recipeModel.findById(id);
@@ -136,6 +135,10 @@ async function addRating(recipeID, rating) {
     //find recipe then update average rating and push new rating
     const recipe = findByID(recipeID);
 
+    //check if recipe has ratings/rating field
+    if (!recipe.hasOwnProperty("ratings")) recipe.ratings = [];
+    if (!recipe.hasOwnProperty("rating")) recipe.rating = 0;
+
     //check if score updated successfully
     if (updateAverageRating(recipe, rating.score)) {
       recipe.ratings.push(rating);
@@ -168,4 +171,5 @@ module.exports = {
   getRecipeByWebID,
   getRatings,
   addRating,
+  addRatingTest,
 };
