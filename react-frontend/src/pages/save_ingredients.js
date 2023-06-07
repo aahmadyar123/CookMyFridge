@@ -15,9 +15,10 @@ const SaveIngredients = () => {
   const {value} = useIngredients();
   const {Auth} = useAuth();
 
-  if (Auth.token && Auth.load === 0) {
+  if (Auth.token && Auth.loadIngred === 0) {
     value.getIngredients(Auth.token);
-    Auth.setLoad();
+    value.getRecipes(Auth.token);
+    Auth.setLoadIngred();
   } 
 
   return (
