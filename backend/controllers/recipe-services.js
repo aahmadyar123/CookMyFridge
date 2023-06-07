@@ -167,5 +167,5 @@ module.exports = {
   updateAverageRating,
   getRecipeByWebID,
   getRatings,
-  addRating
+  addRating,
 };

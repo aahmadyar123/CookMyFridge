@@ -327,7 +327,7 @@ app.patch("/recipe/:id/ratings", async (req, res) => {
   try {
     //get recipeID and new rating to add to recipe
     const recipeID = req.params["id"];
-    const rating = req.body['rating'];
+    const rating = req.body["rating"];
 
     //add rating to recipe
     const result = await recipeServices.addRating(recipeID, rating);
@@ -425,4 +425,3 @@ https
 //   "ingredients" : ["banana", "milk"],
 //   "maxCal" :  1500
 // });
-

@@ -143,7 +143,7 @@ async function addRecipe(userID, recipeID) {
     // console.log("user: ", user);
 
     const user = await findUserById(userID);
-    
+
     if (user.recipes.includes(recipeID)) {
       return true;
     } else {
@@ -201,7 +201,6 @@ async function getRecipes(userID) {
     return undefined;
   }
 }
-
 
 async function getIngredients(id) {
   /*

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
@@ -106,23 +106,26 @@ function ReviewPage({recipeId}) {
   const [newRating, setNewRating] = useState({ score: null, name: '', comment: '' });
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [avgRating, setAvgRating] = useState(0);
+  const [allRating, setAllRating] = useState([]);
 
   useEffect(()=> {
     async function getAvg(recipeId) {
       const new_avg = await value.getRatings(recipeId, Auth.token);
       setAvgRating(new_avg.rating.toFixed(2));
+      setAllRating(new_avg.ratings);
     }
+
     getAvg(recipeId);
-  }, [recipeId]);
-  
+    // eslint-disable-next-line
+  }, [recipeId, Auth.token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("1st HI"); 
     await value.updateRatings(recipeId, newRating, Auth.token);
-    console.log("HOWDY");
     setNewRating({ score: null, name: '', comment: '' });
-    console.log("SET NEW RATING");
+    const new_avg = await value.getRatings(recipeId, Auth.token);
+    setAvgRating(new_avg.rating.toFixed(2));
+    setAllRating(new_avg.ratings);
   };
 
   // Shows the rest of reviews
@@ -178,7 +181,7 @@ function ReviewPage({recipeId}) {
 
   const renderUserReviews = () => {
     // store only the first two reviews in a variable
-    const reviewsToShow = showAllReviews ? value.ratings : (value.ratings).slice(0, 1);
+    const reviewsToShow = showAllReviews ? allRating : allRating.slice(0, 1);
     console.log("Reviews to SHow: ", reviewsToShow);
     return (
       <Box className={classes.reviewSection}>
@@ -204,7 +207,7 @@ function ReviewPage({recipeId}) {
             </List>
           )}
         </div>
-        {!showAllReviews && value.ratings.length > 2 && (
+        {!showAllReviews && allRating.length > 1 && (
           <Button
             variant="outlined"
             color="primary"

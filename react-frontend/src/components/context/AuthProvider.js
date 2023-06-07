@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }) => {
     catch {
       console.log("BAD PASSWORD IN LOGIN");
       return true;
-
     }
   }
 

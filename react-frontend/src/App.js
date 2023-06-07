@@ -10,7 +10,6 @@ import SaveRecipe from "./pages/save_recipe";
 import SaveIngredient from "./pages/save_ingredients";
 import LoginForm from "./pages/login_form";
 import RegisterForm from "./pages/register_form";
-import ReviewPage from "./pages/rating_form";
 import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
