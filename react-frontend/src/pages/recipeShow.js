@@ -13,6 +13,7 @@ import ReviewForm from "./rating_form";
 import Grid from '@mui/material/Grid';
 import styled from "styled-components";
 
+
 const centeredListIngredients = styled.ol`
   list-style-position: inside;
   list-style-type: disc;

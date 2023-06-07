@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { IngredientProvider, send_rating, get_ratings, useAuth } from "../components/context/ingredients_context";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,23 +102,36 @@ const initialRatings = [
 function ReviewPage() {
   const classes = useStyles();
 
-  const [ratings] = useState(initialRatings);
+  const [ratings, setRatings] = useState(initialRatings);
   const [newRating, setNewRating] = useState({ user: "", rating: null, comment: "" });
   const [showAllReviews, setShowAllReviews] = useState(false);
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const newId = ratings.length + 1;
-  //   const ratingWithId = { ...newRating, id: newId };
-  //   setRatings([...ratings, ratingWithId]);
-  //   setNewRating({ user: "", rating: null, comment: "" });
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newId = ratings.length + 1;
+    const ratingWithId = { ...newRating, id: newId };
+
+    // get recipe id
+    const {value} = useIngredients();
+    value.
+
+
+    // get token
+    const {Auth} = useAuth();
+
+    send_rating(recipe_id, new_rating, Auth)
+
+    setRatings([...ratings, ratingWithId]);
+    setNewRating({ user: "", rating: null, comment: "" });
+  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewRating({ ...newRating, [name]: value });
   };
 
+  // Shows the rest of reviews
   const handleLoadMoreReviews = () => {
     setShowAllReviews(true);
   };
@@ -160,6 +175,7 @@ function ReviewPage() {
           type="submit" 
           variant="contained"
           color="primary"
+          onClick={handleSubmit}
         >
           Submit
         </Button>

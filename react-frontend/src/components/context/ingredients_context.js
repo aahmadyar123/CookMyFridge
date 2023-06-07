@@ -10,9 +10,34 @@ export const IngredientProvider = ({ children }) => {
   const [cookTime, setCookTime] = useState(null);
   const [tolerances, setTolerance] = useState([]);
   const [recipes, setRecipe] = useState({});
+  const [ratings, setRatings] = useState([]);
 
   const add_tolerance = (tolerance) => {
     setTolerance(tolerance);
+  }
+
+  const get_ratings = async (recipe_id) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`);
+      console.log("RESPONSE: ", response);
+      console.log("DATA: ", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const send_rating = async (recipe_id, rating, token) => {
+    const tok = {headers: {'token': token}}
+    try {
+      console.log("SENDING RATING: ", rating);
+      console.log("FOR RECIPE: ", recipe_id);
+      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipe/${recipe_id}/ratings`, rating, tok);
+      console.log("RESPONSE: ", response);
+      console.log("DATA: ", response.data);
+      setRatings(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const send_recipe = async (recipe, token) => {
