@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import RecipeGrid from '../components/Services/recipe_cards.js';
 import { styled } from '@mui/material/styles';
 import { useIngredients } from '../components/context/ingredients_context';
+import { useAuth } from '../components/context/AuthProvider.js';
 
 const PageContainer = styled('div')(({ theme }) => ({
     minHeight: '100vh',
@@ -23,9 +24,14 @@ height: '100px', // Adjust the height to make the footer larger
 
 const SaveRecipe = () => {
   const { value } = useIngredients();
+  const {Auth} = useAuth();
   
   useEffect( () => {
-
+    async function load (){
+      await value.getRecipes(Auth.token);
+    }
+    load();
+    // eslint-disable-next-line
   }, [value.favorite_list]);
 
   return (
