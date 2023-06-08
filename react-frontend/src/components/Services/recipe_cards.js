@@ -41,20 +41,19 @@ function RecipeReviewCard({recipe}) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  
+
   const handleFavorite = async (recipe_id, recipe) => {
     if (recipe.favorite === false) {
+      recipe.favorite = true;
       value.addFavorite(recipe);
       await value.favoriteRecipe(recipe_id, Auth.token);
-      recipe.favorite = true;
     } else {
+      recipe.favorite = false;
       value.delFavorite(recipe.id);
       await value.unfavoriteRecipe(recipe_id, Auth.token);
-      recipe.favorite = false;
     }
     setFavorite(recipe.favorite);
   }
-
 
   return (
     <Card sx={{ width: 345, minHeight: 440, borderRadius: '10px', boxShadow: 3 }}>
@@ -65,6 +64,7 @@ function RecipeReviewCard({recipe}) {
           </Typography>
         }
       />
+
       <Link
         to={{
           pathname: `/services/recipes/${recipe._id}`,

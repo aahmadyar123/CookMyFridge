@@ -133,7 +133,6 @@ export default function IngredientAdd() {
       setIngredientList(value.ingredients);
     }, [value.ingredients]);
 
-
     const handleKcalChange = (event) => {
       setKcal(event.target.value);
     }

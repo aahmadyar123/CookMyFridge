@@ -33,6 +33,16 @@ export const AuthProvider = ({ children }) => {
     setLoadFav(1);
   }
 
+  const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );  
+
+  const to_save = async () => {
+    navigate('/services/ingredients');
+    await delay(100);
+    navigate('/services/saved_recipes');
+  }
+
   const handleLogin = async (user) => {
     console.log("In Login");
 
@@ -66,6 +76,7 @@ export const AuthProvider = ({ children }) => {
     token,
     loadIngred,
     loadFav,
+    toSave: to_save,
     setLoadIngred: set_loadIngred,
     setLoadFav: set_loadFav,
     onLogin: handleLogin,

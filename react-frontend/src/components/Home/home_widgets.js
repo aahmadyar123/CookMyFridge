@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
 
 // import { StyledLink, NavBtn } from  "../Navbar/NavbarElements";
 
@@ -103,13 +104,15 @@ const BigWrapper = styled.section`
 `;
 
 export default function HomeWidgets() {
+    const {Auth} = useAuth();
+
     return (
     <>
         <WidgetBox>
             <ToastImg>
-                <StyledLink id="link" to="/services/saved_recipes">
-                    <Button id="Button"> My Favorites </Button>
-                </StyledLink>
+                {/* <StyledLink id="link" onClikc> */}
+                    <Button id="Button" onClick={Auth.toSave}> My Favorites </Button>
+                {/* </StyledLink> */}
             </ToastImg>
             <SoupImg>
                 <StyledLink id="link" to="/services/ingredients">

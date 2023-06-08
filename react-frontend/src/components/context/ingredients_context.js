@@ -134,6 +134,7 @@ export const IngredientProvider = ({ children }) => {
       for (let fav of response.data) {
         fav['favorite'] = true;
       }
+
       setFavoriteList(response.data);
       return response.data;
     } catch (error) {
