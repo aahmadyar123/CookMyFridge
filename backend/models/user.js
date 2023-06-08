@@ -15,22 +15,20 @@ const UserSchema = new mongoose.Schema(
           throw new Error("Invalid password, must be at least 8 characters.");
       }, // would throw database exception with pword length < 8, needs to be caught in try/catch
     },
-    ingredients: [
-      {
-        type: String, // array of ingredient ids (references)
-        required: false,
-        trim: true,
-      },
-    ],
+    ingredients: {
+      type: [String], // array of ingredient ids (references)
+      required: false,
+      default: [],
+      trim: true,
+    },
 
-    recipes: [
-      {
-        type: mongoose.Schema.Types.ObjectId, // array of recipe ids (references)
-        ref: "Recipe",
-        required: false,
-        trim: true,
-      },
-    ],
+    recipes: {
+      type: [mongoose.Schema.Types.ObjectId], // array of recipe ids (references)
+      ref: "Recipe",
+      required: false,
+      default: [],
+      trim: true,
+    },
     last_login: {
       type: Date,
       required: false,
