@@ -135,6 +135,8 @@ async function addRating(recipeID, rating) {
     //find recipe then update average rating and push new rating
     const recipe = await getRecipeByID(recipeID);
 
+    if (!rating.score) rating.score = 0;
+
     //check if score updated successfully
     if (updateAverageRating(recipe, rating.score)) {
       recipe.ratings.push(rating);

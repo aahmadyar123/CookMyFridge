@@ -36,8 +36,6 @@ function ShowRecipe() {
     }
 
     if (targetRecipe === null) {
-        console.log("FAVS: ", value.favorite_list);
-        console.log("TARGET ID: ", targetId.id)
         for (let i = 0; i < value.favorite_list.length; i++) {
             if (value.favorite_list[i]._id === targetId.id) {
                 targetRecipe = value.favorite_list[i];
