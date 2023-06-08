@@ -130,12 +130,19 @@ function RecipeReviewCard({recipe}) {
 }
 
 
+export default function RecipeGrid({ recipe }) {
+  if (!recipe) {
+    return (
+      <Grid container justifyContent="center">
+        <Typography variant="h6">Recipe not found</Typography>
+      </Grid>
+    );
+  }
 
-export default function RecipeGrid({recipe}) {
-  const recipes = recipe; 
+  const recipes = recipe;
   const numColumns = 3;
   const numGridRows = Math.ceil(recipes.length / 3); // Calculate the number of grid rows needed
-  
+
   return (
     <Grid sx={{ flexGrow: 1, marginTop: 1 }} container spacing={4}>
       {Array.from({ length: numGridRows }, (_, rowIndex) => (
@@ -150,6 +157,5 @@ export default function RecipeGrid({recipe}) {
         </Grid>
       ))}
     </Grid>
-
   );
 }

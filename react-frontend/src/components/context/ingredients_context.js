@@ -58,8 +58,6 @@ export const IngredientProvider = ({ children }) => {
     const tok = {headers: {'token': token}};
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
-      
-      
       const r = response.data['recipes_list'];
       let favorites = []
       if (response.data['favorites'] === undefined) {
@@ -82,7 +80,6 @@ export const IngredientProvider = ({ children }) => {
           recipe['favorite'] = false;
         }
       }
-      
       setRecipe(response.data['recipes_list']);
       navigate('/services/recipes');
     } catch (error) {
