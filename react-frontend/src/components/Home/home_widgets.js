@@ -1,5 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
+import { NavLink as Link } from 'react-router-dom';
+
+// import { StyledLink, NavBtn } from  "../Navbar/NavbarElements";
 
 export const WidgetBox = styled.div`
     padding-top: 3em;;
@@ -86,7 +89,7 @@ export const Button = styled.button`
     }
 `;
 
-export const StyledLink = styled.a`
+export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   margin: auto;  
@@ -104,17 +107,18 @@ export default function HomeWidgets() {
     <>
         <WidgetBox>
             <ToastImg>
-                <StyledLink href="/services/recipes">
+                <StyledLink href="/services/saved_recipes">
                     <Button id="Button"> My Favorites </Button>
                 </StyledLink>
             </ToastImg>
             <SoupImg>
-                <StyledLink href="/services/recipes">
+                <StyledLink href="/services/ingredients">
                     <Button id="Button"> Find Recipes </Button>
                 </StyledLink>
             </SoupImg>
             <BrownieImg>
                 <StyledLink href="/ContactUs">
+
                     <Button id="Button"> Contact Us </Button>
                 </StyledLink>
             </BrownieImg>

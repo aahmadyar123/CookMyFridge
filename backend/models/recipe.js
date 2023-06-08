@@ -4,7 +4,7 @@ const RecipeSchema = new mongoose.Schema(
   {
     //recipe id from spoonacular
     id: {
-      type: String,
+      type: Number,
       required: true,
     },
     //recipe name
@@ -40,18 +40,21 @@ const RecipeSchema = new mongoose.Schema(
       type: Number,
       required: false,
       trim: true,
+      default: 0,
     },
 
     //individual user ratings
-    ratings: {
-      type: {
-        stars: Number,
-        name: String,
-        comment: String,
+    ratings: [
+      {
+        type: {
+          score: Number,
+          name: String,
+          comment: String,
+        },
+        required: false,
+        trim: true,
       },
-      required: false,
-      trim: true,
-    },
+    ],
 
     //ingredients required in recipe
     ingredients: [

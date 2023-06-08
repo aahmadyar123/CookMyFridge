@@ -50,13 +50,13 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   token = req.headers["token"];
-
   if (token == null) res.status(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     console.log(err);
 
     if (err) res.status(403);
+    //data base id for user and recipe
 
     req._id = user.id;
     next();
@@ -73,7 +73,7 @@ async function authenticateToken(req, res, next) {
 app.post("/login", async (req, res) => {
   const user = req.body;
   try {
-    const result = await userServices.login(user);
+    const result = await userServices.login(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -95,7 +95,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const user = req.body;
-    const result = await userServices.register(user);
+    const result = await userServices.register(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -160,6 +160,22 @@ app.post("/users/:id/recipes", async (req, res) => {
   }
 });
 
+app.delete("/recipes/:id", async (req, res) => {
+  try {
+    const recipe_id = req.params.id;
+    const user_id = req._id;
+    const result = await userServices.removeRecipe(user_id, recipe_id);
+    if (!result) {
+      res.status(404).send("Resource not found.");
+    } else {
+      res.send({ users_list: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error.");
+  }
+});
+
 // Populate the Recipes for a specific User
 app.get("/users/:id/recipes", async (req, res) => {
   const user_id = req.params.id;
@@ -177,29 +193,7 @@ app.get("/users/:id/recipes", async (req, res) => {
   }
 });
 
-// Add an Ingredient to a User's Saved Ingredients endpoint:
-// - body of the request to this endpoint contains 1 field: ingredient_id
-// app.post("/ingredients", async (req, res) => {
-//   const user_id = req.params.id;
-//   const user = await userServices.findUserById(user_id);
-//   const ingredient_id = req.body.ingredient_id;
-//   try {
-//     const result = await userServices.addIngredient(user, ingredient_id);
-//     if (result === undefined || result.length === 0) {
-//       res.status(404).send("Resource not found.");
-//     } else {
-//       res.send({ users_list: result });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Internal Server Error.");
-//   }
-// });
-
-// -------------------------------------------------------
-// Recipes Endpoints (Protected Routes)
-// -------------------------------------------------------
-
+//load in saved recipes
 app.get("/recipes", async (req, res) => {
   try {
     //send back recipes associated with user
@@ -208,7 +202,6 @@ app.get("/recipes", async (req, res) => {
     if (recipes === undefined || recipes.length === 0) {
       res.status(404).send("Recipes not Found for User");
     } else {
-      console.log(recipes);
       res.status(201).send(recipes).end();
     }
   } catch (error) {
@@ -221,11 +214,15 @@ app.get("/recipes", async (req, res) => {
 app.get("/recipes/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await recipeServices.getRecipeById(id);
+    console.log("GOT INTO RECIPE ID");
+    console.log("ID:", id);
+    const result = await recipeServices.getRecipeByID(id);
+    console.log("GOT RESULT: ", result);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
-      res.send({ recipes_list: result });
+      console.log("GET RECIPE ID: ", result);
+      res.send({ result });
     }
   } catch (error) {
     console.log(error);
@@ -233,28 +230,31 @@ app.get("/recipes/:id", async (req, res) => {
   }
 });
 
+//search API for recipes
 app.post("/recipes", async (req, res) => {
   try {
     const id = req._id;
-    //const user = await userServices.findUserById(id);
     parameters = req.body;
     recipes = await recipeAPI.getRecipes(parameters);
-    console.log("PARAMETERS: ", parameters);
-    //check if recipe already exists in DB
-    for (let i = 0; i < recipes.length; i++) {
-      let recipe = await recipeServices.getRecipeByWebID(recipes[i].id);
-      if (recipe) {
-        recipes[i] = recipe;
-      } else {
-        //add recipe to database
-        recipeServices.addRecipe(recipes[i]);
-      }
-    }
 
     if (recipes === undefined || recipes.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
-      res.status(201).send(recipes);
+      //check if recipe already exists in DB
+      for (let i = 0; i < recipes.length; i++) {
+        let recipe = await recipeServices.getRecipeByWebID(recipes[i].id);
+        if (recipe) {
+          recipes[i] = recipe;
+        } else {
+          //add recipe to database
+          recipes[i] = await recipeServices.addRecipe(recipes[i]);
+        }
+      }
+      const favorites = await userServices.getRecipes(id);
+      res.status(201).send({
+        favorites: favorites,
+        recipes_list: recipes,
+      });
     }
   } catch (error) {
     console.log("ERROR IN RECIPE POST");
@@ -263,17 +263,56 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
-app.post("/recipes/:id", async (req, res) => {
+//Favorite Recipe
+app.patch("/recipes/:id", async (req, res) => {
   try {
     //data base id for user and recipe
     const userID = req._id;
     const recipeID = req.params["id"];
     const result = await userServices.addRecipe(userID, recipeID);
-
     if (!result) {
       res.status(500).end();
     } else {
       res.status(201).end();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
+//Get ratings for recipe
+app.get("/recipes/:id/ratings", async (req, res) => {
+  try {
+    //get recipe ID
+    const recipeID = req.params["id"];
+    const ratings = await recipeServices.getRatings(recipeID);
+
+    if (ratings === undefined) {
+      res.status(404).send("Resource not Found").end();
+    } else {
+      res.status(201).send(ratings).end();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+});
+
+//add rating to recipe
+app.patch("/recipes/:id/ratings", async (req, res) => {
+  try {
+    //get recipeID and new rating to add to recipe
+    const recipeID = req.params["id"];
+    const rating = req.body["rating"];
+
+    //add rating to recipe
+    const result = await recipeServices.addRating(recipeID, rating);
+
+    if (!result) {
+      res.status(404).end();
+    } else {
+      res.status(201).send(result).end();
     }
   } catch (error) {
     console.log(error);
@@ -293,9 +332,8 @@ app.post("/recipes/:id", async (req, res) => {
 // INGREDIENT ENDPOINTS
 // --------------------------------------------------
 // Get all ingredients endpoint:
-//  [X] get all ingredients from database filtering by name
-//  [ ] filter by recipeId (out of scope)
-//  [ ] filter by userId (out of scope)
+
+//return ingredients associated with user
 app.get("/ingredients", async (req, res) => {
   try {
     const id = req._id;
@@ -312,11 +350,14 @@ app.get("/ingredients", async (req, res) => {
 });
 
 // Create ingredient endpoint:
-app.post("/ingredients", async (req, res) => {
+app.put("/ingredients", async (req, res) => {
   const data = req.body;
   try {
     const id = req._id;
-    const updatedUser = await userServices.updateIngredients(id, data);
+    const updatedUser = await userServices.updateIngredients(
+      id,
+      data.ingredients
+    );
 
     if (updatedUser) {
       res.status(201).send(updatedUser).end();

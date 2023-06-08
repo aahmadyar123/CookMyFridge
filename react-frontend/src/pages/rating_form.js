@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import backgroundImage from '../images/bowtiepasta.jpg';
-import "../css/login.css"
+import { useIngredients } from '../components/context/ingredients_context';
+import { useAuth } from '../components/context/AuthProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,28 +19,21 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100vh',
     fontFamily: 'Abhaya Libre Bold, sans-serif',
-    backgroundColor: '#f2f2f2',
-    background: `url(${backgroundImage}) no-repeat center center fixed`,
-    backgroundSize: 'cover',
-    backgroundAttachment: 'fixed',
-    backgroundPosition: 'absolute',
+    backgroundColor: '#fcfcfc',
     overflow: 'hidden',
   },
+
   container: {
     fontFamily: 'Abhaya Libre Bold, sans-serif',
-    maxWidth: '500px',
     width: '100%',
-    maxHeight: '800px',
     padding: theme.spacing(4),
-    backgroundColor: '#fff',
-    borderRadius: '20px',
+    backgroundColor: '#fcfcfc',
+    borderRadius: '0px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-    position: 'aboslute',
   },
+
   form: {
     marginBottom: theme.spacing(3),
-    position: 'aboslute',
-    maxHeight: '450px',
     height: '100%',
     alignItems: 'center',
     fontFamily: 'Abhaya Libre, sans-serif',
@@ -51,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
-    position: 'aboslute',
       margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
       width: "100%",
       borderRadius: '70px',
@@ -62,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
   reviewSection: {
-    position: 'aboslute',
     marginBottom: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
@@ -73,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
       width: "100%", // Set the width to 100% to occupy the entire space
     },
     "& .MuiButton-root": {
-      position: 'aboslute',
       margin: theme.spacing(2, 0), // Adjust the margins to create space between elements
       borderRadius: '70px',
       color: 'white',
@@ -83,70 +75,75 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
   reviewsContainer: {
     maxHeight: '250px', // Set the maximum height for scrollable behavior
     overflowY: 'scroll', // Enable vertical scrolling
     marginBottom: theme.spacing(1),
   },
+
   reviewItem: {
     marginBottom: theme.spacing(2),
   },
+
   loadMoreButton: {
     margin: theme.spacing(2, 0),
   },
+
   averageRating: {
-    marginBottom: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
+    flexWrap: 'nowrap',
     alignItems: 'center',
     textAlign: 'center', // Center align the text
-  },
+  }
 }));
 
-const initialRatings = [
-  { id: 1, user: "John Doe", rating: 4, comment: "Great product!" },
-  { id: 2, user: "Jane Smith", rating: 3, comment: "Good but could be better." },
-  { id: 3, user: "Bob Johnson", rating: 5, comment: "Excellent experience!" },
-  { id: 4, user: "Bob Johnson", rating: 5, comment: "Tight experience!" },
-];
-
-function ReviewPage() {
+function ReviewPage({recipeId}) {
   const classes = useStyles();
-
-  const [ratings, setRatings] = useState(initialRatings);
-  const [newRating, setNewRating] = useState({ user: "", rating: null, comment: "" });
+  const {Auth} = useAuth();
+  const {value} = useIngredients();
+  const [newRating, setNewRating] = useState({ score: null, name: '', comment: '' });
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [avgRating, setAvgRating] = useState(0);
+  const [allRating, setAllRating] = useState([]);
 
-  const handleSubmit = (e) => {
+  useEffect(()=> {
+    async function getAvg(recipeId) {
+      const new_avg = await value.getRatings(recipeId, Auth.token);
+      setAvgRating(new_avg.rating.toFixed(2));
+      setAllRating(new_avg.ratings);
+    }
+
+    getAvg(recipeId);
+    // eslint-disable-next-line
+  }, [recipeId, Auth.token]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newId = ratings.length + 1;
-    const ratingWithId = { ...newRating, id: newId };
-    setRatings([...ratings, ratingWithId]);
-    setNewRating({ user: "", rating: null, comment: "" });
+    await value.updateRatings(recipeId, newRating, Auth.token);
+    setNewRating({ score: null, name: '', comment: '' });
+    const new_avg = await value.getRatings(recipeId, Auth.token);
+    setAvgRating(new_avg.rating.toFixed(2));
+    setAllRating(new_avg.ratings);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewRating({ ...newRating, [name]: value });
-  };
-
+  // Shows the rest of reviews
   const handleLoadMoreReviews = () => {
     setShowAllReviews(true);
   };
 
-  const averageRating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
-
   const renderSubmitForm = () => {
     return (
-      <form onSubmit={handleSubmit} className={classes.form}>
+      <form className={classes.form}  onSubmit={handleSubmit}>
         <Typography variant="h6" gutterBottom>
           Submit Your Rating
         </Typography>
         <div>
           <Rating
             name="rating"
-            value={newRating.rating}
-            onChange={(event, value) => setNewRating({ ...newRating, rating: value })}
+            value={newRating.score}
+            onChange={(event, value) => setNewRating({ ...newRating, score: value })}
           />
         </div>
         <div>
@@ -154,8 +151,8 @@ function ReviewPage() {
             required
             label="Name"
             name="user"
-            value={newRating.user}
-            onChange={handleInputChange}
+            value={newRating.name}
+            onChange={(event) => setNewRating({ ...newRating, name: event.target.value })}
           />
         </div>
         <div>
@@ -166,7 +163,9 @@ function ReviewPage() {
             multiline
             rows={4}
             rowsMax={4}
-            label="Reciepe Review"
+            value={newRating.comment}
+            onChange={(event) => setNewRating({ ...newRating, comment: event.target.value })}
+            label="Recipe Review"
           />
         </div>
         <Button 
@@ -181,9 +180,10 @@ function ReviewPage() {
   };
 
   const renderUserReviews = () => {
-    const reviewsToShow = showAllReviews ? ratings : ratings.slice(0, 1);
+    // store only the first two reviews in a variable
+    const reviewsToShow = showAllReviews ? allRating : allRating.slice(0, 1);
     return (
-      <div className={classes.reviewSection}>
+      <Box className={classes.reviewSection}>
         <Typography variant="h6" gutterBottom>
           User Reviews
         </Typography>
@@ -196,7 +196,7 @@ function ReviewPage() {
                 <React.Fragment key={review.id}>
                   <ListItem alignItems="flex-start" className={classes.reviewItem}>
                     <ListItemText
-                      primary={`${review.rating}/5 by ${review.user}`}
+                      primary={`${review.score}/5 by ${review.name}`}
                       secondary={review.comment}
                     />
                   </ListItem>
@@ -206,7 +206,7 @@ function ReviewPage() {
             </List>
           )}
         </div>
-        {!showAllReviews && ratings.length > 2 && (
+        {!showAllReviews && allRating.length > 1 && (
           <Button
             variant="outlined"
             color="primary"
@@ -216,23 +216,26 @@ function ReviewPage() {
             Load More
           </Button>
         )}
-      </div>
+      </Box>
     );
-  }
+  };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.container}>
-        <div className={classes.averageRating}>
-          <Typography variant="h5" gutterBottom>
-            Average Rating: {averageRating.toFixed(1)}/5
-          </Typography>
-          <Rating value={averageRating} readOnly />
-        </div>
+    <Box className={classes.container}>
+      <h1> Reviews </h1>
+      <Box className={classes.averageRating}>
+        <Typography variant="h5">
+          <Rating value={avgRating} readOnly />
+        </Typography>
+        <Typography variant="h5">
+          Average Rating: {avgRating}
+        </Typography>
+      </Box>
+      <Box>
         {renderSubmitForm()}
-        {renderUserReviews()}
-      </div>
-    </div>
+      </Box>
+      {renderUserReviews()}
+    </Box>
   );
 }
 

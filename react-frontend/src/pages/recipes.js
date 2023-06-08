@@ -1,8 +1,7 @@
 import * as React from 'react';
 import RecipeGrid from "../components/Services/recipe_cards.js"
 import { styled } from '@mui/material/styles';
-//import Typography from '@mui/material/Typography';
-
+import { useIngredients } from '../components/context/ingredients_context.js';
 
 const PageContainer = styled('div')(({ theme }) => ({
   minHeight: '100vh',
@@ -23,14 +22,15 @@ const Footer = styled('footer')(({ theme }) => ({
 }));
 
 const RecipeMenu = () => {
+  const {value} = useIngredients();
   return (
-    <PageContainer>
-    <MainContent>
-      <RecipeGrid />
-    </MainContent>
-    <Footer>
-    </Footer>
-  </PageContainer>
+     <PageContainer>
+     <MainContent>
+       <RecipeGrid recipe={value.recipes}/>
+     </MainContent>
+     <Footer>
+     </Footer>
+   </PageContainer>
   ); 
 }
 

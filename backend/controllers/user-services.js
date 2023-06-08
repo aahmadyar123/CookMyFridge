@@ -38,22 +38,23 @@ mongoose
 
 console.log("Connected to MongoDB.");
 
-async function register(user) {
+async function register(email, password) {
   /*
-  Registers user to database
-  :param user: JSON containing user account information
-  :return: JSON representing user added to DB
+  This function checks for valid login
+  :param email: user email
+  :param password: password for user
+  :return: user model
   */
   try {
     //check if duplicate email
-    duplicate = await userModel.findOne({ email: user.email });
+    duplicate = await userModel.findOne({ email: email });
     if (duplicate) {
       return undefined;
     }
 
     //create new user model and add to database
-    user.password = await bcrypt.hash(user.password, 10);
-    const userToAdd = new userModel(user);
+    password = await bcrypt.hash(password, 10);
+    const userToAdd = new userModel({ email: email, password: password });
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {
@@ -62,21 +63,22 @@ async function register(user) {
   }
 }
 
-async function login(login) {
+async function login(email, password) {
   /*
   This function checks for valid login
-  Args:
-    login: JSON data representing user login information
+  :param email: user email
+  :param password: password for user
+  :return: user model
   */
   try {
     //get user
-    const user = await userModel.findOne({ email: login.email });
+    const user = await userModel.findOne({ email: email });
 
     //invalid email (user does not exist)
     if (!user) return undefined;
 
     //compare entered password to one retreieved from DB
-    const validPwd = await bcrypt.compare(login.password, user.password);
+    const validPwd = await bcrypt.compare(password, user.password);
     if (validPwd) return user;
     else return undefined;
   } catch (error) {
@@ -92,9 +94,9 @@ async function getUsers(name) {
 
 async function findUserById(id) {
   /*
-  This functions finds user by id
-  Args:
-    id: id for entry in DB
+  Finds user by id
+  :param id: user database ID
+  :return: user model with associated id
   */
   try {
     return await userModel.findById(id);
@@ -130,20 +132,53 @@ async function deleteUser(login) {
   }
 }
 
-async function addRecipe(userID, recipe) {
+async function addRecipe(userID, recipeID) {
   /*
   Adds recipe reference to user
   :param userID: id of user
-  :param recipe: recipe object
-  :return: boolean if added
+  :param recipeID: recipe id
+  :return: boolean if added successfully
   */
   try {
     // console.log("user: ", user);
 
     const user = await findUserById(userID);
-    user.recipes.push(recipe._id);
-    await user.save();
-    return true;
+
+    if (user.recipes.includes(recipeID)) {
+      return true;
+    } else {
+      user.recipes.push(recipeID);
+      await user.save();
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function removeRecipe(userID, recipeID) {
+  /*
+  Removes recipe reference from user
+  :param userID: id of user
+  :param recipeID: recipe id
+  :return: boolean if removed successfully
+  */
+  try {
+    //remove recipe reference from user.recipes
+    const user = await findUserByID(userID);
+
+    //check if recipe not favorited
+    const idx = user.recipes.indexOf(recipeID);
+    if (idx === -1) {
+      return false;
+    }
+    //remove recipe if favorited
+    else {
+      user.recipes.splice(idx, 1);
+      await user.save();
+      return true;
+    }
   } catch (error) {
     console.log(error);
     return false;
@@ -160,31 +195,10 @@ async function getRecipes(userID) {
     //find user and populate recipes from doucment references
     let user = await findUserById(userID);
     let populatedUser = await userModel.populate(user, "recipes");
-    return populatedUser["recipes"];
+    return populatedUser.recipes;
   } catch (error) {
     console.log(error);
     return undefined;
-  }
-}
-
-async function addIngredient(user, ingredientId) {
-  /*
-  Adds an ingredient to a user's list of ingredients
-  
-  :param ingredientId: id of ingredient to add
-  :param user: user to add ingredient to
-  :return: boolean - true if added, false otherwise
-  */
-  try {
-    // console.log("user: ", user);
-
-    user.ingredients.push(ingredientId);
-    await user.save();
-
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
   }
 }
 
@@ -197,7 +211,6 @@ async function getIngredients(id) {
   try {
     // populate without using utility functions
     const ingredients = await userModel.findById(id).select("ingredients");
-    console.log("GET INGREDIENTS: ", ingredients);
     return ingredients;
   } catch (error) {
     console.log(error);
@@ -215,8 +228,6 @@ async function addFriend(user, friendId) {
     boolean: true if added, false otherwise
   */
   try {
-    // console.log("user: ", user);
-
     user.friends.push(friendId);
     await user.save();
 
@@ -232,16 +243,17 @@ async function updateIngredients(id, userIngredients) {
   Updates user.ingredients field in database
   :param id: user id in database
   :param ingredients: updated list of ingredients for user
+  :return: user model
   */
   try {
     //update ingredients field for user with specified id
     const result = await userModel.updateOne(
       { _id: id },
-      { $set: { ingredients: userIngredients.ingredients } }
+      { $set: { ingredients: userIngredients } }
     );
 
-    r = await userModel.findById(id);
-    return result;
+    ret = await userModel.findById(id);
+    return ret;
   } catch (error) {
     console.log(error);
     return undefined;
@@ -250,11 +262,9 @@ async function updateIngredients(id, userIngredients) {
 
 async function getFriends(user) {
   /*
-  This function populates a user's list of friends
-  Args:
-    user: user to get recipes from
-  Return:
-    array of recipes
+  Populates and returns user friend list
+  :param user: user to get recipes from
+  :return: users populated friend list
   */
   try {
     // populate without using utility functions
@@ -268,6 +278,18 @@ async function getFriends(user) {
   }
 }
 
+async function removeRecipe(userID, recipeID) {
+  try {
+    const user = await findUserById(userID);
+    user.recipes.splice(user.recipes.indexOf(recipeID), 1);
+    await user.save();
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -276,9 +298,9 @@ module.exports = {
   deleteUser,
   addRecipe,
   getRecipes,
-  addIngredient,
   getIngredients,
   addFriend,
   getFriends,
   updateIngredients,
+  removeRecipe,
 };
