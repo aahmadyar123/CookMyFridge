@@ -214,14 +214,11 @@ app.get("/recipes", async (req, res) => {
 app.get("/recipes/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    console.log("GOT INTO RECIPE ID");
-    console.log("ID:", id);
     const result = await recipeServices.getRecipeByID(id);
     console.log("GOT RESULT: ", result);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
-      console.log("GET RECIPE ID: ", result);
       res.send({ result });
     }
   } catch (error) {
