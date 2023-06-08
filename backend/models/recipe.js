@@ -44,26 +44,25 @@ const RecipeSchema = new mongoose.Schema(
     },
 
     //individual user ratings
-    ratings: [
-      {
-        type: {
+    ratings: {
+      type: [
+        {
           score: Number,
           name: String,
           comment: String,
         },
-        required: false,
-        trim: true,
-      },
-    ],
+      ],
+      required: false,
+      trim: true,
+    },
 
     //ingredients required in recipe
-    ingredients: [
-      {
-        type: String,
-        required: false,
-        trim: true,
-      },
-    ],
+    ingredients: {
+      type: [String],
+      required: false,
+      default: [],
+      trim: true,
+    },
 
     //kcals in recipe
     kcal: {
@@ -86,13 +85,12 @@ const RecipeSchema = new mongoose.Schema(
       trim: false,
     },
 
-    steps: [
-      {
-        type: String,
-        required: false,
-        trim: true,
-      },
-    ],
+    steps: {
+      type: [String],
+      required: false,
+      defaut: [],
+      trim: true,
+    },
   },
 
   { collection: "recipes" }

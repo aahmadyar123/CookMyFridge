@@ -48,7 +48,6 @@ async function getRecipes(params) {
   for (let i = 0; i < recipes.results.length; i++) {
     ret.push(parseRecipe(recipes.results[i]));
   }
-
   return ret;
 }
 
