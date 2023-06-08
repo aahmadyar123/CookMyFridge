@@ -35,6 +35,7 @@ function RecipeReviewCard({recipe}) {
   const {value} = useIngredients();
   const {Auth} = useAuth();
   const [expanded, setExpanded] = React.useState(false);
+  // eslint-disable-next-line
   const [favorite, setFavorite] = React.useState(recipe.favorite);
 
   const handleExpandClick = () => {
