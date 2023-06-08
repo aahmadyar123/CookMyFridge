@@ -116,7 +116,8 @@ When interacting with Git/GitHub, feel free to use the command line, VSCode exte
 ## Documents and Artifacts
 
 - [UI Prototype on Figma](https://www.figma.com/file/aiMV0RDdwZRwe6ndwtWHBT/CookMyFridge-StoryBoard?node-id=0-1&t=QBe2OVX9WKU5nJmk-0) _Last updated 05/02/23_
-- [Class Diagram](https://drive.google.com/file/d/1b9TPzRBATNbwP3GYv5hafMv3em1Qn5tf/view?usp=share_link) _Last updated 05/10/23_
+- [Class Diagram](https://drive.google.com/file/d/1iqZiNevEnAf7zqDmcD-88IeJArNjcI-k/view?usp=sharing) _Last updated 06/08/23_
+  - [Old Class Diagram](https://drive.google.com/file/d/1b9TPzRBATNbwP3GYv5hafMv3em1Qn5tf/view?usp=share_link) _Last updated 05/10/23_
 - [Project Board](https://github.com/users/luisdavidgarcia/projects/1/views/1) _Last updated 05/23/23_
 - [Deployed Backend](Paste Link Here)
 
