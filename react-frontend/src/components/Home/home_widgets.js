@@ -107,18 +107,17 @@ export default function HomeWidgets() {
     <>
         <WidgetBox>
             <ToastImg>
-                <StyledLink href="/services/saved_recipes">
+                <StyledLink id="link" to="/services/saved_recipes">
                     <Button id="Button"> My Favorites </Button>
                 </StyledLink>
             </ToastImg>
             <SoupImg>
-                <StyledLink href="/services/ingredients">
+                <StyledLink id="link" to="/services/ingredients">
                     <Button id="Button"> Find Recipes </Button>
                 </StyledLink>
             </SoupImg>
             <BrownieImg>
-                <StyledLink href="/ContactUs">
-
+                <StyledLink id="link" to="/ContactUs">
                     <Button id="Button"> Contact Us </Button>
                 </StyledLink>
             </BrownieImg>
