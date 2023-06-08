@@ -9,7 +9,7 @@ import {
 } from './NavbarElements';
 
 import { useAuth } from "../context/AuthProvider";
-import Searchbar from './Searchbar';
+// import Searchbar from './Searchbar';
 import '../../css/Nav.css'
 
 const Navbar = () => {
@@ -45,7 +45,7 @@ const Navbar = () => {
           </NavLink>
         </NavMenu>
 
-        <Searchbar id="Search"/>
+        {/* <Searchbar id="Search"/> */}
 
          <NavBtn>
            {button}
