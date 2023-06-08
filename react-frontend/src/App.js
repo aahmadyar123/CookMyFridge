@@ -14,6 +14,7 @@ import {ProtectedRoute} from "./components/Utils/ProtectedRoute"
 import {AuthProvider} from "./components/context/AuthProvider";
 import { IngredientProvider } from "./components/context/ingredients_context";
 import RecipeMenu from "./pages/recipes";
+import TAC from "./pages/tac";
 import ShowRecipe from "./pages/recipeShow";
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
           {/* <Route path="/ContactUs" element={<ReviewPage />} /> */}
           <Route path="/Login" element={<LoginForm />} />
           <Route path="/Register" element={<RegisterForm />} />
-
+          <Route path="/tac" element={<TAC/>} />
           <Route
             path="/services/saved_recipes"
               element={

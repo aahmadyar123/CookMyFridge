@@ -9,7 +9,7 @@ import {
 } from './NavbarElements';
 
 import { useAuth } from "../context/AuthProvider";
-import Searchbar from './Searchbar';
+// import Searchbar from './Searchbar';
 import '../../css/Nav.css'
 
 const Navbar = () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
     <>
       <Nav>
         <NavLink to='/'>
-          <img src={require('../../images/logo.png')} id='logo' alt="logo" />
+          <img src={require('../../images/logohome.png')} id='logo' alt="logo" border="2px"/>
         </NavLink>
 
         <NavMenu>
@@ -38,7 +38,6 @@ const Navbar = () => {
           <NavLink id="link" to='/About' >
             <Title>About</Title>
           </NavLink>
-
           <NavLink id="link" to='/services/ingredients'>
             <Title>Services</Title>
           </NavLink>
@@ -48,7 +47,7 @@ const Navbar = () => {
           </NavLink>
         </NavMenu>
 
-        <Searchbar id="Search"/>
+        {/* <Searchbar id="Search"/> */}
 
          <NavBtn>
            {button}

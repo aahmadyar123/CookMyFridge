@@ -13,6 +13,65 @@ const Grid = styled.div`
   padding-top: ${props => props.paddingTop}em;
 `;
 
+const Team = styled.div`
+  display: grid;
+  grid-template-area: 
+    "image image image image image"
+    "name name name name name"
+    "caption caption caption caption caption";
+
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1px 1px;
+  padding-left: 8em;
+  padding-right: 8em;
+  gap: 2em;
+  padding-top: 0;
+`;
+
+const Middle = styled.div`
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%)
+`;
+
+const Profile = styled.div`
+  background-image: url(${props => props.src});
+  background-size: cover;
+  border: 1px solid black;
+  border-radius: 50%;
+  opacity: 1;
+  display: block;
+  width: 225px;
+  height: 225px;
+  transition: .5s ease;
+  backface-visibility: hidden;
+`;
+
+const ProfileContainer = styled.div`
+  position: relative;
+  width: 100%;
+  border-radius: 50%;
+  &:hover {
+    ${Middle} {
+      opacity: 1;
+    }
+    ${Profile} {
+      opacity: 0.3;
+    }
+  }
+`;
+
+const Github = styled.text`
+  background-color: #2b3137;
+  color: #fafbfc;
+  font-size: 16px;
+  padding: 16px 32px;
+`;
+
 const Caption = styled.caption`
   caption-side: bottom;
   padding-left: ${props => props.paddingLeft};
@@ -97,16 +156,8 @@ const About = () => {
           </Wrapper>
     </BigWrapper>
 
-      {/* <Body>
-        Aaron Ahmadyar
-        Killian Brait
-        Luis D. Garcia
-        Junseo Lee
-        Wesley Luu
-      </Body> */}
-
       <Title fontSize = "2.5"> 
-      Welcome to CookMyFridge!
+      Welcome to CookMyFridge
       </Title>
 
       <Body 
@@ -163,12 +214,64 @@ const About = () => {
       By utilizing technology and leveraging our expertise in computer engineering and computer science, we aim to empower individuals to make the most of the ingredients they already have, thereby reducing food waste and promoting sustainability. We envision a future where cooking becomes effortless and enjoyable, while also contributing to a more environmentally conscious society.
       </Body>
 
-      <BigWrapper height = "100px"></BigWrapper>
+      <BigWrapper height = "50px"></BigWrapper>
 
       <Title fontSize = "2.5"> 
       Meet the team!
       </Title>
+      <BigWrapper height = "25px"></BigWrapper>
+      <Team>
 
+        <ProfileContainer>        
+        <Profile src="https://avatars.githubusercontent.com/u/87344382?v=4" alt="luisdavidgarcia"></Profile>
+        <Middle>
+        <a href="https://github.com/luisdavidgarcia" target="-blank"><Github>Github</Github></a>
+        </Middle>
+        </ProfileContainer>
+
+        <ProfileContainer>        
+        <Profile src="https://avatars.githubusercontent.com/u/73966214?v=4" alt="junseolee"></Profile>
+        <Middle>
+        <a href="https://github.com/junseo-lee-git" target="-blank"><Github>Github</Github></a>
+        </Middle>
+        </ProfileContainer>
+
+        <ProfileContainer>        
+        <Profile src="https://avatars.githubusercontent.com/u/76977316?v=4" alt="wesleyluu"></Profile>
+        <Middle>
+        <a href="https://github.com/Westluu" target="-blank"><Github>Github</Github></a>
+        </Middle>
+        </ProfileContainer>
+
+        <ProfileContainer>        
+        <Profile src="https://avatars.githubusercontent.com/u/99124944?v=4" alt="aaronahmadyar"></Profile>
+        <Middle>
+        <a href="https://github.com/aahmadyar123" target="-blank"><Github>Github</Github></a>
+        </Middle>
+        </ProfileContainer>
+
+        <ProfileContainer>        
+        <Profile src="https://avatars.githubusercontent.com/u/23425894?v=4" alt="killianbrait"></Profile>
+        <Middle>
+        <a href="https://github.com/killian-brait" target="-blank"><Github>Github</Github></a>
+        </Middle>
+        </ProfileContainer>
+
+        <Title fontSize="1.25">Luis Garcia</Title>
+        <Title fontSize="1.25">Junseo Lee</Title>
+        <Title fontSize="1.25">Wesley Luu</Title>
+        <Title fontSize="1.25">Aaron Ahmadyar</Title>
+        <Title fontSize="1.25">Killian Brait</Title>
+
+        <Caption>Front-End Developer</Caption>
+        <Caption>Front-End Developer</Caption>
+        <Caption>Full Stack Developer</Caption>
+        <Caption>Back-End Developer</Caption>
+        <Caption>Back-End Developer</Caption>
+
+      </Team>
+
+      <BigWrapper height="100px"></BigWrapper>
 
     </>
   );
