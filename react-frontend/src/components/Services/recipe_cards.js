@@ -93,7 +93,7 @@ function RecipeReviewCard({recipe}) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={() => handleFavorite(recipe._id, recipe)}>
-          <FavoriteIcon sx={{color: favorite ? red[500] : grey[500]}}/>
+          <FavoriteIcon sx={{color: recipe.favorite ? red[500] : grey[500]}}/>
         </IconButton>
         <IconButton aria-label="share"> 
           <ShareIcon />

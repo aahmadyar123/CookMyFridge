@@ -30,9 +30,10 @@ const SaveRecipe = () => {
     async function load (){
       await value.getRecipes(Auth.token);
     }
+
     load();
     // eslint-disable-next-line
-  }, [value.favorite_list]);
+  }, [Auth.token]);
 
   return (
     <PageContainer>

@@ -168,7 +168,7 @@ app.delete("/recipes/:id", async (req, res) => {
     if (!result) {
       res.status(404).send("Resource not found.");
     } else {
-      res.send({ users_list: result });
+      res.status(201).send({ users_list: result });
     }
   } catch (error) {
     console.log(error);
