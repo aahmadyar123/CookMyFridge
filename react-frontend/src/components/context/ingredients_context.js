@@ -123,14 +123,16 @@ export const IngredientProvider = ({ children }) => {
 
   const delete_favorite = (recipe_id) => {
     const new_favs = favorite_list.filter((fav) => fav.id !== recipe_id);
-    for (let fav of new_favs) {
-      for (let r of recipes) {
-        if (r.id === fav.id) {
-          r.favorite = false;
-        }
-      }
-    }
-    setRecipe(recipes);
+    // for (let fav of new_favs) {
+    //   for (let r of recipes) {
+    //     if (r.id === fav.id) {
+    //       r.favorite = true;
+    //     } else {
+    //       r.favortie = false;
+    //     }
+    //   }
+    // }
+    // setRecipe(recipes);
     setFavoriteList(new_favs);
   }
 
