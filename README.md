@@ -106,8 +106,8 @@ When interacting with Git/GitHub, feel free to use the command line, VSCode exte
 
 ### Making Pull Requests
 
-1. Go to the Pull Requests tab on [github.com](https://github.com/luisdavidgarcia/CookMyFridge/pulls)
-2. Find your PR, and provide a description of your change, steps to test it, and any other notes.
+1. Go to the Pull Requests tab on [this repo](https://github.com/luisdavidgarcia/CookMyFridge/pulls)
+2. Find your PR, and provide a description of your change, steps to test it, and any other notes
 3. Link your PR to the corresponding **Issue**
 4. Request a reviewer to check your code
 5. Once approved, your code is ready to be merged in 🎉
