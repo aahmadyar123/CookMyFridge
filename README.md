@@ -34,8 +34,7 @@ Key Features:
 
 ### Demo Video 
 
-[In development]
-[Video on Youtube](url_to_paste_here)
+[Video on Youtube](https://youtu.be/v0hSx1CVdYk)
 
 ### Team
 
@@ -119,7 +118,7 @@ When interacting with Git/GitHub, feel free to use the command line, VSCode exte
 - [Class Diagram](https://drive.google.com/file/d/1iqZiNevEnAf7zqDmcD-88IeJArNjcI-k/view?usp=sharing) _Last updated 06/08/23_
   - [Old Class Diagram](https://drive.google.com/file/d/1b9TPzRBATNbwP3GYv5hafMv3em1Qn5tf/view?usp=share_link) _Last updated 05/10/23_
 - [Project Board](https://github.com/users/luisdavidgarcia/projects/1/views/1) _Last updated 05/23/23_
-- [Deployed Backend](Paste Link Here)
+- [Deployed Backend](https://cookmyfridge-backend.azurewebsites.net/) _Last updated 06/08/23_
 
 ### Code Coverage
 
