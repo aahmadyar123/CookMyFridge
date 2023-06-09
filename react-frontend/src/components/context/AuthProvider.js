@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     navigate('/services/ingredients');
     await delay(100);
     navigate('/services/saved_recipes');
-  }
+  } 
 
   const handleLogin = async (user) => {
     console.log("In Login");
