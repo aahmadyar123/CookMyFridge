@@ -29,7 +29,13 @@ A website designed to automate cooking reciepes for ingredients the user has in 
 This project was developed as part of CSC 307 Intro to Software Engineering instructed by Professor BJ Klingenberg. Technologies used in this project are React on the frontend, Node.js and Express on the backend, and MongoDB for the database. Development took place over three sprints (two weeks each). We went through the entire software development lifecycle from planning and design to implementation and deployment. We also implemented CI/CD with Github Actions and Azure.
 
 Key Features:
-[In development]
+1. CI/CD Pipelines
+2. Ability to register accounts
+3. Ability to save recipes you like
+6. Ability to search for recipes based on inputted ingredients and dietary restrictions
+7. Hashed passwords with Bcrypt
+8. Recipe cards with drop down menus of steps and summary of recipe
+9. Ability to rate recipes and review other user reviews.
 
 
 ### Demo Video 
