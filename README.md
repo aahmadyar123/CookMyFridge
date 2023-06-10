@@ -122,3 +122,4 @@ When interacting with Git/GitHub, feel free to use the command line, VSCode exte
 
 ### Code Coverage
 ![Code Coverage](backend/codeCoverage.png)
+![Code Tests](backend/codeTests.png)
