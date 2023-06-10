@@ -112,7 +112,7 @@ async function removeRecipe(userID, recipeID) {
 
     //remove recipe reference from user.recipes
     //const user = await userModel.find({ _id: userID });
-    const user = await findUserByID(userID);
+    const user = await findUserById(userID);
 
     //check if recipe not favorited
     const idx = user.recipes.indexOf(recipeID);

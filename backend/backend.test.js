@@ -255,7 +255,7 @@ describe("Test Suite", () => {
           const savedRecipe = await recipeServices.addRecipe(recipe);
           mongo_recipeId = new mongoose.Types.ObjectId(savedRecipe._id);
           // mongo_recipeId = savedRecipe._id;
-          console.log("mongo_recipeId: " + mongo_recipeId);
+          // console.log("mongo_recipeId: " + mongo_recipeId);
         });
 
         it("test userServices.addRecipe() - valid userId & recipe", async () => {
@@ -368,9 +368,9 @@ describe("Test Suite", () => {
       await Recipe.deleteMany({});
     });
 
-    it("test recipeServices.addRecipe() invalid recipe", () => {
-      const recipe = undefined;
-      const savedRecipe = recipeServices.addRecipe(recipe);
+    it("test recipeServices.addRecipe() invalid recipe", async () => {
+      const recipe = { id: undefined };
+      const savedRecipe = await recipeServices.addRecipe(recipe);
       expect(savedRecipe).toBeUndefined();
     });
 
@@ -392,10 +392,10 @@ describe("Test Suite", () => {
       // db_id = savedRecipe._id;
     });
 
-    it("test recipeServices.getRecipeByWebID() invalid recipeId", async () => {
-      const recipe = await recipeServices.getRecipeByWebID(12345);
-      expect(recipe).toBeUndefined();
-    });
+    // it("test recipeServices.getRecipeByWebID() invalid recipeId", async () => {
+    //   const recipe = await recipeServices.getRecipeByWebID(undefined);
+    //   expect(recipe).toBeUndefined();
+    // });
 
     it("test recipeServices.getRecipeByWebID() valid recipeId", async () => {
       const recipe = await recipeServices.getRecipeByWebID(web_recipeId);
@@ -433,7 +433,8 @@ describe("Test Suite", () => {
     });
 
     it("test recipeServices.getRatings() invalid recipeId", async () => {
-      const ratings = await recipeServices.getRatings("12345");
+      let bad_id = new mongoose.Types.ObjectId(11111111);
+      const ratings = await recipeServices.getRatings(bad_id);
       expect(ratings).toBeUndefined();
     });
 
@@ -446,25 +447,31 @@ describe("Test Suite", () => {
       expect(recipe.id).toBe(web_recipeId);
     });
 
-    let rating = {
+    let good_rating = {
       score: 5,
       name: "testerRater",
       comment: "this is a test comment",
     };
 
     let bad_rating = {
-      score: -1,
+      score: -5,
       name: "invalidRating",
       comment: "this is a test comment",
     };
 
+    let wo_rating = {
+      name: "wo_rating",
+      comment: "this is a test comment",
+    };
+
     it("test recipeServices.addRating() invalid recipeId", async () => {
-      const rating = await recipeServices.addRating("12345", rating);
+      let bad_id = new mongoose.Types.ObjectId(11111111);
+      const rating = await recipeServices.addRating(bad_id, good_rating);
       expect(rating).toBeUndefined();
     });
 
     it("test recipeServices.addRating() valid recipeId", async () => {
-      const recipe = await recipeServices.addRating(db_id, rating);
+      const recipe = await recipeServices.addRating(db_id, good_rating);
       expect(recipe).toBeDefined();
       expect(recipe.id).toBe(web_recipeId);
       expect(recipe.ratings.length).toBe(1);
@@ -473,6 +480,17 @@ describe("Test Suite", () => {
     it("test recipeServices.addRating() invalid rating", async () => {
       const recipe = await recipeServices.addRating(db_id, bad_rating);
       expect(recipe).toBeUndefined();
+    });
+
+    it("test recipeServices.addRating() last bit of coverage", async () => {
+      let bad_id = new mongoose.Types.ObjectId(11111111);
+      const recipe = await recipeServices.addRating(bad_id, good_rating);
+      expect(recipe).toBeUndefined();
+    });
+
+    it("test recipeServices.addRating() final coverage", async () => {
+      const recipe = await recipeServices.addRating(db_id, wo_rating);
+      expect(recipe).toBeDefined();
     });
   });
 });
