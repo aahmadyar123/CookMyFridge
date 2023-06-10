@@ -8,6 +8,8 @@ dotenv.config();
 const recipeServices = require("./controllers/recipe-services");
 const userServices = require("./controllers/user-services");
 
+jest.setTimeout(30000); // 30 second timeout for all tests
+
 describe("Test Suite", () => {
   beforeAll(async () => {
     // if there is an existing mongoose connection, end it
