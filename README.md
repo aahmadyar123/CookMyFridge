@@ -121,4 +121,4 @@ When interacting with Git/GitHub, feel free to use the command line, VSCode exte
 - [Deployed Backend](https://cookmyfridge-backend.azurewebsites.net/) _Last updated 06/08/23_
 
 ### Code Coverage
-
+![Code Coverage](backend/codeCoverage.png)
