@@ -22,7 +22,7 @@ export const IngredientProvider = ({ children }) => {
   const get_ratings = async (recipe_id, token) => {
     try {
       const tok = {headers: {'token': token}}
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipe_id}/ratings`, tok);
+      const response = await axios.get(`https://cookmyfridge-backend.azurewebsites.net/recipes/${recipe_id}/ratings`, tok);
       setRatings(response.data.ratings);
       return response.data;
 
@@ -34,9 +34,7 @@ export const IngredientProvider = ({ children }) => {
   const get_recipeById = async (recipe_id, token) => {
     try {
       const tok = {headers: {'token': token}};
-      console.log("ID: ", recipe_id);
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipe_id}`, tok);
-      console.log("RECIPE GET: ", response.data);
+      const response = await axios.get(`https://cookmyfridge-backend.azurewebsites.net/recipes/${recipe_id}`, tok);
       return response.data;
 
     } catch (error) {
@@ -47,7 +45,7 @@ export const IngredientProvider = ({ children }) => {
   const send_rating = async (recipe_id, rating, token) => {
     const tok = {headers: {'token': token}}
     try {
-      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipe_id}/ratings`, {'rating':rating}, tok);
+      const response = await axios.patch(`https://cookmyfridge-backend.azurewebsites.net/recipes/${recipe_id}/ratings`, {'rating':rating}, tok);
       setRatings(response.data['ratings']);
     } catch (error) {
       console.log(error);
@@ -57,7 +55,7 @@ export const IngredientProvider = ({ children }) => {
   const send_recipe = async (recipe, token) => {
     const tok = {headers: {'token': token}};
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/recipes`, recipe, tok);
+      const response = await axios.post(`https://cookmyfridge-backend.azurewebsites.net/recipes`, recipe, tok);
       const r = response.data['recipes_list'];
       let favorites = []
       if (response.data['favorites'] === undefined) {
@@ -91,7 +89,7 @@ export const IngredientProvider = ({ children }) => {
   const favorite_recipe = async (id, token) => {
     const tok = {headers: {'token': token}};
     try {
-      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, {'id': id}, tok);
+      const response = await axios.patch(`https://cookmyfridge-backend.azurewebsites.net/recipes/${id}`, {'id': id}, tok);
       if (response.status === 201) {
         console.log("FAVORITED RECIPE");
       } else {
@@ -105,8 +103,7 @@ export const IngredientProvider = ({ children }) => {
   const unfavorite_recipe = async (id, token) => {
     const tok = {headers: {'token': token}};
     try {
-      console.log("Unfavorite token: ", token);
-      const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, tok);
+      const response = await axios.delete(`https://cookmyfridge-backend.azurewebsites.net/recipes/${id}`, tok);
       if (response.status === 201) {
         console.log("UNFAVORITED RECIPE");
       } else {
@@ -130,7 +127,7 @@ export const IngredientProvider = ({ children }) => {
   const get_recipe = async (token) => {
     try {
       const tok = {headers: {'token': token}}
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes`, tok);
+      const response = await axios.get(`https://cookmyfridge-backend.azurewebsites.net/recipes`, tok);
       for (let fav of response.data) {
         fav['favorite'] = true;
       }
@@ -146,7 +143,7 @@ export const IngredientProvider = ({ children }) => {
 	  if (check(ingredient.slice(-1)[0]) === false) {
         const new_ingredient = {'ingredients': ingredient}
         const tok = {headers: {'token': token}}
-        const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
+        const response = await axios.put(`https://cookmyfridge-backend.azurewebsites.net/ingredients`, new_ingredient, tok);
 
         if (response.status === 201) {
           setIngredients(ingredient);
@@ -155,7 +152,7 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const get_ingredients = async (token) => {
-    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, {headers:{'token': token}});
+    const response = await axios.get(`https://cookmyfridge-backend.azurewebsites.net/ingredients`, {headers:{'token': token}});
     
     if (response.status === 201) {
       const new_ingredients = response.data.ingredients_list.ingredients
@@ -167,7 +164,7 @@ export const IngredientProvider = ({ children }) => {
 	const delete_ingredient = async (ingredient, token) => {
     const new_ingredient = {'ingredients': ingredient }
     const tok = {headers: {'token': token}}
-    const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/ingredients`, new_ingredient, tok);
+    const response = await axios.put(`https://cookmyfridge-backend.azurewebsites.net/ingredients`, new_ingredient, tok);
     if (response.status === 201) {
       setIngredients(ingredient);
     }

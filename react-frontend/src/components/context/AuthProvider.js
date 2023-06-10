@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleRegister = async (user) => {
-    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, user);
+    const response = await axios.post(`https://cookmyfridge-backend.azurewebsites.net/register`, user);
     const token = response.data['token']
     setToken(token);
 
@@ -47,16 +47,10 @@ export const AuthProvider = ({ children }) => {
     console.log("In Login");
 
     try{
-      console.log("BACKEND URL: ", `${process.env.REACT_APP_BACKEND_URL}/login`);
-      console.log(`${process.env.REACT_APP_BACKEND_URL}/login`);
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, user);
+      const response = await axios.post(`https://cookmyfridge-backend.azurewebsites.net/login`, user);
       if (response.status === 201){
           const token = response.data['token'];
           setToken(token);
-      
-          //backend sends back token
-          console.log('Submit TOKEN: ', token);
-          
           //store in cookies
           document.cookie = `token=${token}`;
           navigate('/');
