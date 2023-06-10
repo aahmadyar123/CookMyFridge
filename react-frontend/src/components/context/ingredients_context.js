@@ -55,7 +55,7 @@ export const IngredientProvider = ({ children }) => {
   const send_recipe = async (recipe, token) => {
     const tok = {headers: {'token': token}};
     try {
-      const response = await axios.post(`https://cookmyfridge-backend.azurewebsites.net/recipes`, recipe, tok);
+      const response = await axios.post("https://cookmyfridge-backend.azurewebsites.net/recipes", recipe, tok);
       const r = response.data['recipes_list'];
       let favorites = []
       if (response.data['favorites'] === undefined) {
@@ -127,7 +127,7 @@ export const IngredientProvider = ({ children }) => {
   const get_recipe = async (token) => {
     try {
       const tok = {headers: {'token': token}}
-      const response = await axios.get(`https://cookmyfridge-backend.azurewebsites.net/recipes`, tok);
+      const response = await axios.get("https://cookmyfridge-backend.azurewebsites.net/recipes", tok);
       for (let fav of response.data) {
         fav['favorite'] = true;
       }
@@ -136,6 +136,7 @@ export const IngredientProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.log(error);
+      console.log(error.response.data);
     }
   }
 
@@ -143,7 +144,7 @@ export const IngredientProvider = ({ children }) => {
 	  if (check(ingredient.slice(-1)[0]) === false) {
         const new_ingredient = {'ingredients': ingredient}
         const tok = {headers: {'token': token}}
-        const response = await axios.put(`https://cookmyfridge-backend.azurewebsites.net/ingredients`, new_ingredient, tok);
+        const response = await axios.put('https://cookmyfridge-backend.azurewebsites.net/ingredients', new_ingredient, tok);
 
         if (response.status === 201) {
           setIngredients(ingredient);
@@ -152,7 +153,7 @@ export const IngredientProvider = ({ children }) => {
   }
 
   const get_ingredients = async (token) => {
-    const response = await axios.get(`https://cookmyfridge-backend.azurewebsites.net/ingredients`, {headers:{'token': token}});
+    const response = await axios.get('https://cookmyfridge-backend.azurewebsites.net/ingredients', {headers:{'token': token}});
     
     if (response.status === 201) {
       const new_ingredients = response.data.ingredients_list.ingredients
