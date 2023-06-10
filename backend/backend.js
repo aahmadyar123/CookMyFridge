@@ -2,26 +2,52 @@
 const https = require("https");
 const fs = require("fs");
 
-//methods to interact with recipe API
-const recipeAPI = require("./recipeAPI.js");
-
-//express js
+// express js & cors middleware
 const express = require("express");
-
-//configure .env file
-const dotenv = require("dotenv");
-dotenv.config();
-
-//use cors for
 const cors = require("cors");
-
-// Add mongodb collection services
-const userServices = require("./controllers/user-services");
-const recipeServices = require("./controllers/recipe-services");
 
 //web token for user auth
 const jwt = require("jsonwebtoken");
-// const { create } = require("./models/user");
+
+// Using .env file for environment variables (DB connection)
+const dotenv = require("dotenv");
+dotenv.config();
+
+// require mongoose
+const mongoose = require("mongoose");
+
+mongoose.set("debug", process.env.DEBUG);
+
+mongoose
+  .connect(
+    "mongodb+srv://" +
+      process.env.MONGO_USER +
+      ":" +
+      process.env.MONGO_PWD +
+      "@" +
+      process.env.MONGO_CLUSTER +
+      "/" +
+      process.env.MONGO_DB +
+      "?retryWrites=true&w=majority&authSource=" +
+      process.env.MONGO_AUTH_DB,
+    // "mongodb://localhost:27017/users",
+    {
+      useNewUrlParser: true, //useFindAndModify: false,
+      useUnifiedTopology: true,
+    }
+  )
+  .catch((error) => console.log(error));
+
+console.log("Connected to MongoDB.");
+
+// --------------------------------------
+//  Services
+// --------------------------------------
+// Spoonacular API
+const recipeAPI = require("./recipeAPI.js");
+// MongoDB / Mongoose
+const userServices = require("./controllers/user-services");
+const recipeServices = require("./controllers/recipe-services");
 
 const app = express();
 const port = 8000;
@@ -33,14 +59,13 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-//authenticate JWT for protected routes
+// designate protected routes
 app.use("/recipes", authenticateToken);
 app.use("/ingredients", authenticateToken);
 
 // --------------------------------------
 //  Token
 // --------------------------------------
-
 function generateAccessToken(id) {
   return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h" });
 }
@@ -50,17 +75,17 @@ function generateAccessToken(id) {
 //middleware to authenticate token, used for /services and all nested paths
 async function authenticateToken(req, res, next) {
   token = req.headers["token"];
-  if (token == null) res.status(401);
-
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err);
-
-    if (err) res.status(403);
-    //data base id for user and recipe
-
-    req._id = user.id;
-    next();
-  });
+  // if token is null return a response with status 401 and end the request
+  if (token == null) res.status(401).send("Unauthorized");
+  else {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      if (err) res.status(403).send("Forbidden");
+      else {
+        req._id = user.id;
+        next();
+      }
+    });
+  }
 }
 
 // --------------------------------------------------
@@ -279,6 +304,8 @@ app.patch("/recipes/:id", async (req, res) => {
 });
 
 //Get ratings for recipe
+// - most of this functionality is handled in the frontend,
+//   this endpoint sends a json object of a recipe
 app.get("/recipes/:id/ratings", async (req, res) => {
   try {
     //get recipe ID
@@ -316,14 +343,6 @@ app.patch("/recipes/:id/ratings", async (req, res) => {
     res.status(500);
   }
 });
-
-// Get recipes by user Id endpoint:
-
-// Create recipe endpoint:
-
-// Update recipe endpoint:
-
-// Delete recipe endpoint:
 
 // --------------------------------------------------
 // INGREDIENT ENDPOINTS
@@ -367,7 +386,10 @@ app.put("/ingredients", async (req, res) => {
   }
 });
 
-///*
+// export mongoose connection
+module.exports = mongoose;
+
+// defaults to port 8000 if no port is specified in .env file
 app.listen(process.env.PORT || port, () => {
   if (process.env.PORT) {
     console.log(

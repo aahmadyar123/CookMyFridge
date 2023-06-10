@@ -15,10 +15,12 @@
     "prettier": "^2.8.8"
   },
   "scripts": {
-    "test": "prettier --check . && jest  --passWithNoTests",
+    "test": "jest  --passWithNoTests",
+    "style": "prettier --check .",
     "dev": "nodemon backend.js",
     "start": "node backend.js",
-    "beautify": "npx prettier --write ."
+    "beautify": "npx prettier --write .",
+    "coverage": "jest --coverage"
   },
   "author": "",
   "license": "ISC",

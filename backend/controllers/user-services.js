@@ -1,42 +1,7 @@
-const mongoose = require("mongoose");
 const userModel = require("../models/user");
+const mongoose = require("mongoose");
 
-const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
-
-// utility functions
-const {
-  findDocs,
-  findDocByField,
-  populateField,
-  createDoc,
-} = require("../utility/utility");
-
-dotenv.config();
-
-mongoose.set("debug", process.env.DEBUG);
-
-mongoose
-  .connect(
-    "mongodb+srv://" +
-      process.env.MONGO_USER +
-      ":" +
-      process.env.MONGO_PWD +
-      "@" +
-      process.env.MONGO_CLUSTER +
-      "/" +
-      process.env.MONGO_DB +
-      "?retryWrites=true&w=majority&authSource=" +
-      process.env.MONGO_AUTH_DB,
-    // "mongodb://localhost:27017/users",
-    {
-      useNewUrlParser: true, //useFindAndModify: false,
-      useUnifiedTopology: true,
-    }
-  )
-  .catch((error) => console.log(error));
-
-console.log("Connected to MongoDB.");
 
 async function register(email, password) {
   /*
@@ -53,8 +18,13 @@ async function register(email, password) {
     }
 
     //create new user model and add to database
-    password = await bcrypt.hash(password, 10);
-    const userToAdd = new userModel({ email: email, password: password });
+    if (password.length < 6)
+      throw new Error(
+        "Invalid password. Length must be at least 6 characters."
+      );
+
+    const hashedPword = await bcrypt.hash(password, 10);
+    const userToAdd = new userModel({ email: email, password: hashedPword });
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {
@@ -75,7 +45,7 @@ async function login(email, password) {
     const user = await userModel.findOne({ email: email });
 
     //invalid email (user does not exist)
-    if (!user) return undefined;
+    if (!user) throw new Error("Invalid email.");
 
     //compare entered password to one retreieved from DB
     const validPwd = await bcrypt.compare(password, user.password);
@@ -88,7 +58,8 @@ async function login(email, password) {
 }
 
 async function getUsers(name) {
-  let result = await findDocs(userModel, name);
+  // use mongoose to find all users that match this name
+  let result = await userModel.find({ name: name });
   return result;
 }
 
@@ -106,32 +77,6 @@ async function findUserById(id) {
   }
 }
 
-async function deleteUser(login) {
-  /*
-  This function deletes a user from the database
-  Args:
-    login(JSON): login information to confirm deletion of account
-  Return:
-    boolean: true if deleted, false otherwise
-  */
-  try {
-    //get user
-    const user = await userModel.findOne({ email: login.email });
-
-    //invalid email (user does not exist)
-    if (!user) return false;
-
-    //compare entered password to one retreieved from DB
-    const validPwd = await bcrypt.compare(login.password, user.password);
-    if (validPwd) {
-      return (await userModel.findByIdAndDelete(user.id)) !== null;
-    } else return false;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
 async function addRecipe(userID, recipeID) {
   /*
   Adds recipe reference to user
@@ -140,8 +85,6 @@ async function addRecipe(userID, recipeID) {
   :return: boolean if added successfully
   */
   try {
-    // console.log("user: ", user);
-
     const user = await findUserById(userID);
 
     if (user.recipes.includes(recipeID)) {
@@ -165,7 +108,10 @@ async function removeRecipe(userID, recipeID) {
   :return: boolean if removed successfully
   */
   try {
+    // mongoRecipeId = mongoose.Types.ObjectId(recipeID);
+
     //remove recipe reference from user.recipes
+    //const user = await userModel.find({ _id: userID });
     const user = await findUserByID(userID);
 
     //check if recipe not favorited
@@ -218,26 +164,6 @@ async function getIngredients(id) {
   }
 }
 
-async function addFriend(user, friendId) {
-  /*
-  This function adds a friend to a user's list of friends
-  Args:
-    friendId: id of friend to add
-    user: user to add friend to
-  Return:
-    boolean: true if added, false otherwise
-  */
-  try {
-    user.friends.push(friendId);
-    await user.save();
-
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
 async function updateIngredients(id, userIngredients) {
   /*
   Updates user.ingredients field in database
@@ -260,47 +186,80 @@ async function updateIngredients(id, userIngredients) {
   }
 }
 
-async function getFriends(user) {
-  /*
-  Populates and returns user friend list
-  :param user: user to get recipes from
-  :return: users populated friend list
-  */
-  try {
-    // populate without using utility functions
-    let populatedUser = await user.populate("friends");
-
-    // const recipes = await populateField(user, "recipes");
-    return populatedUser;
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function removeRecipe(userID, recipeID) {
-  try {
-    const user = await findUserById(userID);
-    user.recipes.splice(user.recipes.indexOf(recipeID), 1);
-    await user.save();
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
 module.exports = {
   register,
   login,
   getUsers,
   findUserById,
-  deleteUser,
+  // deleteUser,
   addRecipe,
   getRecipes,
   getIngredients,
-  addFriend,
-  getFriends,
   updateIngredients,
   removeRecipe,
 };
+
+// ----------------- UNIMPLEMENTED -----------------
+// async function deleteUser(login) {
+//   /*
+//   This function deletes a user from the database
+//   Args:
+//     login(JSON): login information to confirm deletion of account
+//   Return:
+//     boolean: true if deleted, false otherwise
+//   */
+//   try {
+//     //get user
+//     const user = await userModel.findOne({ email: login.email });
+
+//     //invalid email (user does not exist)
+//     if (!user) return false;
+
+//     //compare entered password to one retreieved from DB
+//     const validPwd = await bcrypt.compare(login.password, user.password);
+//     if (validPwd) {
+//       return (await userModel.findByIdAndDelete(user.id)) !== null;
+//     } else return false;
+//   } catch (error) {
+//     console.log(error);
+//     return false;
+//   }
+// }
+
+// async function addFriend(user, friendId) {
+//   /*
+//   This function adds a friend to a user's list of friends
+//   Args:
+//     friendId: id of friend to add
+//     user: user to add friend to
+//   Return:
+//     boolean: true if added, false otherwise
+//   */
+//   try {
+//     user.friends.push(friendId);
+//     await user.save();
+
+//     return true;
+//   } catch (error) {
+//     console.log(error);
+//     return false;
+//   }
+// }
+
+// async function getFriends(user) {
+//   /*
+//   Populates and returns user friend list
+//   :param user: user to get recipes from
+//   :return: users populated friend list
+//   */
+//   try {
+//     // populate without using utility functions
+//     let populatedUser = await user.populate("friends");
+
+//     // const recipes = await populateField(user, "recipes");
+//     return populatedUser;
+//   } catch (error) {
+//     console.log(error);
+//     return undefined;
+//   }
+// }
