@@ -363,6 +363,11 @@ describe("Test Suite", () => {
       await Recipe.deleteMany({});
     });
 
+    afterAll(async () => {
+      // clear the database of recipes
+      await Recipe.deleteMany({});
+    });
+
     it("test recipeServices.addRecipe() invalid recipe", () => {
       const recipe = undefined;
       const savedRecipe = recipeServices.addRecipe(recipe);
