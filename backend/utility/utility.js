@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 // Find a document by name or all documents if name is undefined
 async function findDocs(model, name) {
   let result;

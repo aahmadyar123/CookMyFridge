@@ -3,15 +3,13 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const recipeServices = require("./controllers/recipe-services");
-
 async function getRecipes(params) {
   /*
   Get recipe from spponacular API via GET request
   :param: params: JSON containing information for search query on recipe
   :return: list of JSON representing diferent dishes with parsed information
   */
-  //
+
   let queries = "";
   const ret = [];
 
@@ -38,6 +36,8 @@ async function getRecipes(params) {
       queries += "&" + field + "=" + params[field];
     }
   }
+
+  console.log(queries);
 
   //send request to API to get recipes
   let url = `https://api.spoonacular.com/recipes/complexSearch?number=3${queries}&addRecipeInformation=true&instructionsRequired=true&apiKey=${process.env.API_KEY}`;
