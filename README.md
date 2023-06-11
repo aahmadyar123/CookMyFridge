@@ -75,11 +75,11 @@ Here is all you need to know to setup this repo on your local machine to start d
 
 ### Project Structure
 
-- [.github](./github/) Github Actions CI/CD
+- [.github](./.github/) Github Actions CI/CD
 - [backend](./backend/) Root folder for backend API - `index.js` Top level file
   - [models](./backend/models/) Schema definitions for data
-  - [routes](./backend/routes/) Express endpoint definitions and controllers
-  - [tests](./backend/tests/) All test cases for functions
+  - [controllers](./backend/controllers/) Express endpoint definitions and controllers
+  - [tests](./backend/) All test cases for functions
 - [react-frontend](./react-frontend/) Root folder for React app
   - [public](./react-frontend/public/) Assets for frontend
   - [src](./react-frontend/src/) Frontend code - `App.js` Top level React component
@@ -108,7 +108,7 @@ When interacting with Git/GitHub, feel free to use the command line, VSCode exte
 3. `git commit -m " <description>"` or
    `git commit` to get a message prompt
 4. `git push -u origin <name-of-branch>`
-5. Check the [Github Actions](https://github.com/bbmcmann/307MovieProject/actions) page to ensure all workflows are successful
+5. Check the [Github Actions](https://github.com/luisdavidgarcia/CookMyFridge/actions) page to ensure all workflows are successful
 
 ### Making Pull Requests
 
