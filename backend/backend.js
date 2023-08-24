@@ -77,9 +77,7 @@ app.use("/", authRoutes);
 // --------------------------------------
 //  Token
 // --------------------------------------
-function generateAccessToken(id) {
-  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h" });
-}
+
 
 //use case
 //app.get(..., authenticateToken, function (req, res) => ...);

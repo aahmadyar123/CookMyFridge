@@ -3,6 +3,16 @@ const router = express.Router();
 
 
 
+
+function generateAccessToken(id) {
+  /*
+  Generates JWT
+  :param id: user DB ._id
+  :return: JWT token
+  */
+  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1h" });
+}
+
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
 // --------------------------------------------------
