@@ -16,8 +16,8 @@ dotenv.config();
 // require mongoose
 const mongoose = require("mongoose");
 
+//connect to remote DB
 mongoose.set("debug", process.env.DEBUG);
-
 mongoose
   .connect(
     "mongodb+srv://" +
@@ -38,7 +38,6 @@ mongoose
   )
   .catch((error) => console.log(error));
 
-console.log("Connected to MongoDB.");
 
 // --------------------------------------
 //  Services
