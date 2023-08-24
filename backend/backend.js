@@ -77,14 +77,13 @@ app.use("/users", userRoutes);
 app.use("/recipes", recipeRoutes);
 app.use("/ingredients", ingredientRoutes);
 
+
 // --------------------------------------
 //  Token
 // --------------------------------------
-
-
 //use case
 //app.get(..., authenticateToken, function (req, res) => ...);
-//middleware to authenticate token, used for /services and all nested paths
+//middleware to authenticate token, used for protected routes
 async function authenticateToken(req, res, next) {
   token = req.headers["token"];
   // if token is null return a response with status 401 and end the request

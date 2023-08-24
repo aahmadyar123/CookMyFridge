@@ -41,7 +41,6 @@ router.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const result = await recipeServices.getRecipeByID(id);
-    console.log("GOT RESULT: ", result);
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
     } else {
