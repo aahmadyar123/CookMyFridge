@@ -85,11 +85,11 @@ app.use("/ingredients", ingredientRoutes);
 //app.get(..., authenticateToken, function (req, res) => ...);
 //middleware to authenticate token, used for protected routes
 async function authenticateToken(req, res, next) {
-  token = req.headers["token"];
+  token = req.headers.Authorization;
   // if token is null return a response with status 401 and end the request
   if (token == null) res.status(401).send("Unauthorized");
   else {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    jwt.verify(token.split(' ')[1], process.env.TOKEN_SECRET, (err, user) => {
       if (err) res.status(403).send("Forbidden");
       else {
         req._id = user.id;
