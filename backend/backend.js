@@ -39,11 +39,19 @@ mongoose
   .catch((error) => console.log(error));
 
 
+//import routes
+const authRoutes = require("./routes/authRoutes")
+const userRoutes = require("./routes/authRoutes")
+const ingredientRoutes = require("./routes/authRoutes")
+const recipeRoutes = require("./routes/authRoutes")
+
+
 // --------------------------------------
 //  Services
 // --------------------------------------
 // Spoonacular API
 const recipeAPI = require("./recipeAPI.js");
+
 // MongoDB / Mongoose
 const userServices = require("./controllers/user-services");
 const recipeServices = require("./controllers/recipe-services");
@@ -58,9 +66,13 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// designate protected routes
+// auth middleware for protected routes
 app.use("/recipes", authenticateToken);
 app.use("/ingredients", authenticateToken);
+
+
+//imported routes
+app.use("/", authRoutes);
 
 // --------------------------------------
 //  Token

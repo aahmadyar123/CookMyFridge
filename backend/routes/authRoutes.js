@@ -3,7 +3,6 @@ const router = express.Router();
 
 
 
-
 // --------------------------------------------------
 // AUTHENTICATION ENDPOINTS
 // --------------------------------------------------
@@ -51,3 +50,5 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
+module.exports = router;
