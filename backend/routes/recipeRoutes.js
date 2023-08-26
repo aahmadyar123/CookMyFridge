@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+router.use(express.json())
+
 //DB models
 const userServices = require("../controllers/user-services");
 const recipeServices = require("../controllers/recipe-services");

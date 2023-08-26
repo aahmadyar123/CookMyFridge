@@ -4,6 +4,7 @@ const router = express.Router();
 //DB models
 const userServices = require("../controllers/user-services");
 
+const jwt = require("jsonwebtoken");
 
 function generateAccessToken(id) {
   /*
@@ -23,7 +24,6 @@ function generateAccessToken(id) {
 //    the database
 router.post("/login", async (req, res) => {
   const user = req.body;
-    console.log(user);
   try {
     const result = await userServices.login(user.email, user.password);
 

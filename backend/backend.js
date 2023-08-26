@@ -12,10 +12,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 //import routes
-const authRoutes = require("./routes/authRoutes")
-const userRoutes = require("./routes/authRoutes")
-const ingredientRoutes = require("./routes/authRoutes")
-const recipeRoutes = require("./routes/authRoutes")
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const ingredientRoutes = require("./routes/ingredientRoutes");
+const recipeRoutes = require("./routes/recipeRoutes");
 
 // Spoonacular API methods
 const recipeAPI = require("./recipeAPI.js");
@@ -54,7 +54,7 @@ const port = 8000;
 
 app.use(cors());
 app.use(express.json());
-//app.use(cookieParser());
+app.use(cookieParser());
 
 // auth middleware for protected routes
 app.use("/recipes", authenticateToken);

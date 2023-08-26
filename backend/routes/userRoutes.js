@@ -4,6 +4,7 @@ const router = express.Router();
 
 //DB models
 const userServices = require("../controllers/user-services");
+const { model } = require("mongoose");
 
 
 // --------------------------------------------------
@@ -75,3 +76,5 @@ router.post("/:id/recipes", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
+
+module.exports = router;
