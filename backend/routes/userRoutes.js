@@ -1,5 +1,11 @@
+//express router
 const express = require("express");
 const router = express.Router();
+
+//DB models
+const userServices = require("../controllers/user-services");
+
+
 // --------------------------------------------------
 // USER ENDPOINTS
 // --------------------------------------------------

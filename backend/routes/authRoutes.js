@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-
+//DB models
+const userServices = require("../controllers/user-services");
 
 
 function generateAccessToken(id) {
@@ -22,6 +23,7 @@ function generateAccessToken(id) {
 //    the database
 router.post("/login", async (req, res) => {
   const user = req.body;
+    console.log(user);
   try {
     const result = await userServices.login(user.email, user.password);
 
@@ -45,6 +47,7 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const user = req.body;
+    console.log(user);
     const result = await userServices.register(user.email, user.password);
 
     if (result === undefined || result.length === 0) {
@@ -60,5 +63,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.get("/login", async (req, res) => {
+  res.send("<h1>test<h1>");
+})
 
 module.exports = router;
