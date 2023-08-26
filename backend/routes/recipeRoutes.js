@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-router.use(express.json())
+// Spoonacular API methods
+const recipeAPI = require("../recipeAPI.js");
 
 //DB models
 const userServices = require("../controllers/user-services");
@@ -22,7 +23,6 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send("Internal Server Error.");
   }
 });
-
 
 //load in saved recipes
 router.get("/", async (req, res) => {
@@ -148,6 +148,5 @@ router.patch("/:id/ratings", async (req, res) => {
     res.status(500);
   }
 });
-
 
 module.exports = router;

@@ -4,6 +4,7 @@ const router = express.Router();
 //DB models
 const userServices = require("../controllers/user-services");
 
+//JWT module
 const jwt = require("jsonwebtoken");
 
 function generateAccessToken(id) {
@@ -26,6 +27,7 @@ router.post("/login", async (req, res) => {
   const user = req.body;
   try {
     const result = await userServices.login(user.email, user.password);
+    console.log(result);
 
     if (result === undefined || result.length === 0) {
       res.status(404).send("Resource not found.");
@@ -65,6 +67,6 @@ router.post("/register", async (req, res) => {
 
 router.get("/login", async (req, res) => {
   res.send("<h1>test<h1>");
-})
+});
 
 module.exports = router;
