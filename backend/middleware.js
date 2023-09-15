@@ -1,5 +1,9 @@
 const jwt = require("jsonwebtoken");
 
+//env for JWT token secret
+const dotenv = require("dotenv");
+dotenv.config();
+
 //middleware to authenticate token, used for protected routes
 async function authenticateToken(req, res, next) {
   //let token = req.headers.Authorization.split(" ")[1];

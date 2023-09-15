@@ -7,6 +7,10 @@ const userServices = require("../controllers/user-services");
 //JWT module
 const jwt = require("jsonwebtoken");
 
+//env for JWT token secret
+const dotenv = require("dotenv");
+dotenv.config();
+
 function generateAccessToken(id) {
   /*
   Generates JWT
