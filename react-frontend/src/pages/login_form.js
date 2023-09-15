@@ -121,7 +121,6 @@ function LoginForm() {
     async function onSubmit(e) {
       e.preventDefault();
       try {
-        console.log("USER", user);
           const c = await Auth.onLogin(user)
           if (c) {
             setBad("BAD PASSWORD");
